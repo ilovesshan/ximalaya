@@ -4,10 +4,30 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <net.lucode.hackware.magicindicator.MagicIndicator
-        android:id="@+id/tab_indicator"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="49dp" />
+        android:layout_height="49dp"
+        android:background="@color/app_primary">
+
+        <net.lucode.hackware.magicindicator.MagicIndicator
+            android:id="@+id/tab_indicator"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_baseline_search_24" />
+        </RelativeLayout>
+
+    </LinearLayout>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/tab_view_pager"

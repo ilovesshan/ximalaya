@@ -58,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
         // 创建公共导航器和设置适配器
         CommonNavigator commonNavigator = new CommonNavigator(this);
         commonNavigator.setBackgroundColor(getResources().getColor(R.color.app_primary));
+
+        // indicator宽度自适应
+        commonNavigator.setAdjustMode(true);
         TabIndicatorAdapter tabIndicatorAdapter = new TabIndicatorAdapter(Arrays.asList(mTabIndicators));
         commonNavigator.setAdapter(tabIndicatorAdapter);
         // TabIndicator 被点击的回调
