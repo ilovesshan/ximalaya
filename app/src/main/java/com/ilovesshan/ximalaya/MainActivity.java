@@ -29,16 +29,13 @@ public class MainActivity extends AppCompatActivity {
         CommonRequest.getCategories(map1, new IDataCallBack<CategoryList>() {
             @Override
             public void onSuccess(CategoryList object) {
-                Log.d(TAG, "onSuccess: " + object);
+                Log.d(TAG, "onSuccess: " + object.toString());
             }
-
             @Override
             public void onError(int code, String message) {
                 Log.d(TAG, "onSuccess: " + "code= " + code + "  message=" + "message");
             }
         });
-
-
         // 获取直播省市列表
         Map<String, String> map2 = new HashMap<String, String>();
         CommonRequest.getProvinces(map2, new IDataCallBack<ProvinceList>() {

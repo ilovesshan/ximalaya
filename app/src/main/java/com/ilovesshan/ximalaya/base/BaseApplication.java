@@ -3,6 +3,7 @@ package com.ilovesshan.ximalaya.base;
 import android.app.Application;
 import android.content.Context;
 
+import com.ilovesshan.ximalaya.utils.LogUtil;
 import com.ximalaya.ting.android.opensdk.constants.DTransferConstants;
 import com.ximalaya.ting.android.opensdk.datatrasfer.CommonRequest;
 import com.ximalaya.ting.android.opensdk.datatrasfer.DeviceInfoProviderDefault;
@@ -17,11 +18,26 @@ import com.ximalaya.ting.android.opensdk.util.SharedPreferencesUtil;
  * @description:
  */
 public class BaseApplication extends Application {
+    private static final String TAG = "BaseApplication";
+
     private static final String KEY_LAST_OAID = "last_oaid";
+    private static final boolean IS_RELEASE = false;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        // 初始化日志输出工具
+        LogUtil.init(this.getPackageName(), IS_RELEASE);
+
+        initXimalayaConfig();
+
+    }
+
+
+    /**
+     * 初始化喜马拉雅配置
+     */
+    private void initXimalayaConfig() {
         CommonRequest mXimalaya = CommonRequest.getInstanse();
         if (DTransferConstants.isRelease) {
             String mAppSecret = "8646d66d6abe2efd14f2891f9fd1c8af";
