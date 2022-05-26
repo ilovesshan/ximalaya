@@ -14,4 +14,6 @@ public class Constants {
     // TabBar title
     public static final String[] TAB_INDICATORS = {"推荐", "订阅", "历史"};
 
+    // 获取推荐列表数据条数
+    public static final int RECOMMEND_LIST_SIZE = 10;
 }

@@ -34,7 +34,7 @@ public class LogUtil {
      */
     public static void d(String TAG, String methodName, String content) {
         if (!mIsRelease) {
-            Log.d("[" + mBaseTag + "]" + " [" + TAG + " | " + methodName + "] ==> ", content);
+            Log.d("[" + mBaseTag + "]" + " [" + TAG + " | " + methodName + "]", "==> " + content);
         }
     }
 
@@ -47,7 +47,7 @@ public class LogUtil {
      */
     public static void v(String TAG, String methodName, String content) {
         if (!mIsRelease) {
-            Log.v("[" + mBaseTag + "]" + " [" + TAG + " | " + methodName + "] ==> ", content);
+            Log.v("[" + mBaseTag + "]" + " [" + TAG + " | " + methodName + "]", "==> " + content);
         }
     }
 
@@ -60,7 +60,7 @@ public class LogUtil {
      */
     public static void i(String TAG, String methodName, String content) {
         if (!mIsRelease) {
-            Log.i("[" + mBaseTag + "]" + " [" + TAG + " | " + methodName + "] ==> ", content);
+            Log.i("[" + mBaseTag + "]" + " [" + TAG + " | " + methodName + "]", "==> " + content);
         }
     }
 
@@ -73,7 +73,7 @@ public class LogUtil {
      */
     public static void w(String TAG, String methodName, String content) {
         if (!mIsRelease) {
-            Log.w("[" + mBaseTag + "]" + " [" + TAG + " | " + methodName + "] ==> ", content);
+            Log.w("[" + mBaseTag + "]" + " [" + TAG + " | " + methodName + "]", "==> " + content);
         }
     }
 
@@ -86,7 +86,7 @@ public class LogUtil {
      */
     public static void e(String TAG, String methodName, String content) {
         if (!mIsRelease) {
-            Log.e("[" + mBaseTag + "]" + " [" + TAG + " | " + methodName + "] ==> ", content);
+            Log.e("[" + mBaseTag + "]" + " [" + TAG + " | " + methodName + "]", "==> " + content);
         }
     }
 }
