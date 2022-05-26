@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ilovesshan.ximalaya">
-
-    <!--连接网络-->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <!--用于管理监听网络状态的变化-->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!--用于管理监听网络状态的变化-->
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <!--获取电话的状态,在打电话的时候暂停播放-->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <!--target >=28 需要设置此权限 -->
+    <!-- 连接网络 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 用于管理监听网络状态的变化 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 用于管理监听网络状态的变化 -->
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" /> <!-- 获取电话的状态,在打电话的时候暂停播放 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- target >=28 需要设置此权限 -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-
 
     <application
         android:name=".base.BaseApplication"
@@ -23,14 +17,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Ximalaya">
         <activity
-            android:name=".MainActivity"
+            android:name=".views.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
