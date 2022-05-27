@@ -59,7 +59,7 @@ public class RecommendFragment extends BaseFragment implements IRecommendViewCon
         }
 
         // 实例化逻辑层控制器
-        mRecommendPresenter = new RecommendPresenter();
+        mRecommendPresenter = RecommendPresenter.getInstance();
         // 请求数据
         mRecommendPresenter.loadedData();
         // 设置回调 监听数据

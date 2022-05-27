@@ -29,6 +29,28 @@ public class RecommendPresenter implements IRecommend {
 
     List<IRecommendViewController> mViewControllers = new ArrayList<>();
 
+    private RecommendPresenter() {
+    }
+
+    public static RecommendPresenter sRecommendPresenter = null;
+
+    /**
+     * 单例模式
+     *
+     * @return RecommendPresenter
+     */
+    public static RecommendPresenter getInstance() {
+        if (sRecommendPresenter == null) {
+            synchronized (RecommendPresenter.class) {
+                if (sRecommendPresenter == null) {
+                    sRecommendPresenter = new RecommendPresenter();
+                }
+            }
+        }
+        return sRecommendPresenter;
+    }
+
+
     @Override
     public void loadedData() {
         requestRecommendList();
@@ -36,7 +58,7 @@ public class RecommendPresenter implements IRecommend {
 
     @Override
     public void registerViewController(IRecommendViewController viewController) {
-        if (!mViewControllers.contains(viewController)) {
+        if (mViewControllers != null && !mViewControllers.contains(viewController)) {
             mViewControllers.add(viewController);
         }
     }
@@ -71,6 +93,7 @@ public class RecommendPresenter implements IRecommend {
                     LogUtil.d(TAG, "onSuccess", "albumList" + albumList.size());
                 }
             }
+
             @Override
             public void onError(int i, String s) {
                 LogUtil.d(TAG, "onSuccess", "3.10.6 获取猜你喜欢专辑 数据获取失败");
