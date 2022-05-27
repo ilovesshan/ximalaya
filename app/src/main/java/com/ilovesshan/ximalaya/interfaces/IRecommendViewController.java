@@ -15,6 +15,22 @@ public interface IRecommendViewController {
     /**
      * 请求数据完成
      */
-    public void onDataLoaded( List<Album> albumList);
+    public void onDataLoaded(List<Album> albumList);
 
+    /**
+     * 加载失败
+     */
+    public void onLoadError();
+
+
+    /**
+     * 无数据
+     */
+    public void onLoadEmpty();
+
+
+    /**
+     * 加载中
+     */
+    public void onLoading();
 }

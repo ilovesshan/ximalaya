@@ -10,6 +10,8 @@ import com.ximalaya.ting.android.opensdk.datatrasfer.DeviceInfoProviderDefault;
 import com.ximalaya.ting.android.opensdk.datatrasfer.IDeviceInfoProvider;
 import com.ximalaya.ting.android.opensdk.util.SharedPreferencesUtil;
 
+import android.os.Handler;
+
 /**
  * Created with IntelliJ IDEA.
  *
@@ -23,16 +25,29 @@ public class BaseApplication extends Application {
     private static final String KEY_LAST_OAID = "last_oaid";
     private static final boolean IS_RELEASE = false;
 
+    private static Handler mHandler = null;
+
     @Override
     public void onCreate() {
         super.onCreate();
         // 初始化日志输出工具
         LogUtil.init(this.getPackageName(), IS_RELEASE);
-
+        // 初始化喜马拉雅配置
         initXimalayaConfig();
-
+        // 初始化mHandler
+        mHandler = new Handler();
     }
 
+
+    /**
+     * 获取 Handler对象
+     *
+     * @return Handler
+     */
+
+    public static Handler getHandler() {
+        return mHandler;
+    }
 
     /**
      * 初始化喜马拉雅配置

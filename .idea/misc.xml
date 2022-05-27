@@ -8,6 +8,9 @@
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/drawable/ic_baseline_headset_24.xml" value="0.111" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/drawable/ic_baseline_play_arrow_24.xml" value="0.111" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/drawable/ic_baseline_star_24.xml" value="0.111" />
+        <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/activity_load_empty.xml" value="0.2171875" />
+        <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/activity_load_error.xml" value="0.2171875" />
+        <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/activity_loading.xml" value="0.2171875" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/activity_main.xml" value="0.22821203953279426" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/activity_splash.xml" value="0.24739583333333334" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/fragment_history.xml" value="0.2171875" />

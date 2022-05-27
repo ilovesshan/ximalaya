@@ -76,6 +76,10 @@ public class RecommendPresenter implements IRecommend {
      * 获取推荐列数据
      */
     private void requestRecommendList() {
+        for (IRecommendViewController viewController : mViewControllers) {
+            viewController.onLoading();
+        }
+
         Map<String, String> map = new HashMap<>();
         map.put(DTransferConstants.LIKE_COUNT, Constants.RECOMMEND_LIST_SIZE + "");
         CommonRequest.getGuessLikeAlbum(map, new IDataCallBack<GussLikeAlbumList>() {
@@ -85,12 +89,18 @@ public class RecommendPresenter implements IRecommend {
                 if (gussLikeAlbumList != null) {
                     List<Album> albumList = gussLikeAlbumList.getAlbumList();
                     // 通知UI 更新界面
+                    LogUtil.d(TAG, "onSuccess", "albumList" + albumList.size());
                     if (mViewControllers != null) {
-                        for (IRecommendViewController viewController : mViewControllers) {
-                            viewController.onDataLoaded(albumList);
+                        if (albumList.size() == 0) {
+                            for (IRecommendViewController viewController : mViewControllers) {
+                                viewController.onLoadEmpty();
+                            }
+                        } else {
+                            for (IRecommendViewController viewController : mViewControllers) {
+                                viewController.onDataLoaded(albumList);
+                            }
                         }
                     }
-                    LogUtil.d(TAG, "onSuccess", "albumList" + albumList.size());
                 }
             }
 
@@ -98,6 +108,10 @@ public class RecommendPresenter implements IRecommend {
             public void onError(int i, String s) {
                 LogUtil.d(TAG, "onSuccess", "3.10.6 获取猜你喜欢专辑 数据获取失败");
                 LogUtil.d(TAG, "onError", "code = " + i + " message = " + s);
+
+                for (IRecommendViewController viewController : mViewControllers) {
+                    viewController.onLoadError();
+                }
             }
         });
     }
