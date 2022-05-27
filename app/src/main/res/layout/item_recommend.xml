@@ -2,15 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="100dp"
+    android:layout_marginBottom="5dp"
+    android:background="@drawable/radius_item_recommend"
     android:orientation="horizontal"
-    android:padding="10dp">
+    android:padding="5dp">
 
     <ImageView
         android:id="@+id/iv_recommend_item_cover_url_small"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@drawable/border_cover" />
+        android:background="@drawable/radius_item_recommend" />
 
     <LinearLayout
         android:layout_width="0dp"

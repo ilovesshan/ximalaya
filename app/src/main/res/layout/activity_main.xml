@@ -33,7 +33,8 @@
         android:id="@+id/tab_view_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:background="@color/recommend_background" />
 
 
 </LinearLayout>
