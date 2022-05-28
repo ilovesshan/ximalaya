@@ -2,10 +2,7 @@
 <resources>
     <!--App 主题色-->
     <color name="app_primary">#fa2800</color>
-    <color name="recommend_background">#dee2e6</color>
-
-
-
+    <color name="recommend_background">#f1f3f5</color>
 
 
     <color name="purple_200">#FFBB86FC</color>
