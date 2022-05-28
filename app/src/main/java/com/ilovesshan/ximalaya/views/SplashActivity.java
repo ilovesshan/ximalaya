@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 
 import com.ilovesshan.ximalaya.MainActivity;
 import com.ilovesshan.ximalaya.R;
+import com.ilovesshan.ximalaya.utils.ViewUtils;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -18,6 +19,10 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        // 设置状态栏 透明
+        ViewUtils.makeStatusBarTransparent(SplashActivity.this);
+
         FrameLayout layoutSplash = this.findViewById(R.id.splash);
         AlphaAnimation alphaAnimation = new AlphaAnimation(0.1f, 1.0f);
         alphaAnimation.setDuration(2000);//设置动画播放时长1000毫秒（1秒）
