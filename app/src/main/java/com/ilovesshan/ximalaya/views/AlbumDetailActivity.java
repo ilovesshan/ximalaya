@@ -1,6 +1,7 @@
 package com.ilovesshan.ximalaya.views;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
@@ -19,12 +20,14 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.hjq.toast.ToastUtils;
 import com.ilovesshan.ximalaya.R;
+import com.ilovesshan.ximalaya.adapter.TrackListAdapter;
 import com.ilovesshan.ximalaya.interfaces.IAlbumDetailViewController;
 import com.ilovesshan.ximalaya.presenter.AlbumDetailPresenter;
 import com.ilovesshan.ximalaya.utils.LogUtil;
 import com.ilovesshan.ximalaya.utils.NumberUtils;
 import com.ilovesshan.ximalaya.utils.ViewUtils;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
+import com.ximalaya.ting.android.opensdk.model.track.Track;
 
 import java.util.List;
 
@@ -43,9 +46,10 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
     private TextView mTvPlayAmountValue;
     private TextView mTvSubscriptionAmountValue;
     private TextView mBtnSubscription;
-
+    private RecyclerView mRcvAlbumDetailList;
 
     private AlbumDetailPresenter mAlbumDetailPresenter;
+    private TrackListAdapter mTrackListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,28 +78,47 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
         mTvPlayAmountValue = findViewById(R.id.tv_play_amount_value);
         mTvSubscriptionAmountValue = findViewById(R.id.tv_subscription_amount_value);
         mBtnSubscription = findViewById(R.id.btn_subscription);
-
-        mBtnSubscription.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ToastUtils.show("功能正在开发中...");
-            }
+        mRcvAlbumDetailList = findViewById(R.id.rcv_album_detail_list);
+        //TODO 实现 recommend详情中 订阅按钮点击逻辑
+        mBtnSubscription.setOnClickListener(v -> {
+            ToastUtils.show("功能正在开发中...");
         });
 
 
         // 获取逻辑层控制器和注册监听
         mAlbumDetailPresenter = AlbumDetailPresenter.getInstance();
         mAlbumDetailPresenter.registerViewController(this);
+
+
+        // 创建和设置适配器
+        mTrackListAdapter = new TrackListAdapter();
+        mRcvAlbumDetailList.setLayoutManager(new LinearLayoutManager(this));
+        mRcvAlbumDetailList.setAdapter(mTrackListAdapter);
+
+        //TODO 实现 recommend详情列表中 点击按钮下载功能
+        mTrackListAdapter.setOnDownloadClickListener((index, track) -> {
+            ToastUtils.show("功能正在开发中...");
+        });
+
+        //TODO 实现 recommend详情列表中 Item点击跳转逻辑
+        mTrackListAdapter.setOnItemClickListener((index, track) -> {
+            ToastUtils.show("功能正在开发中...");
+        });
     }
 
     @Override
-    public void onLoadedDetailList(List<Album> album) {
-
+    public void onLoadedDetailList(List<Track> tracks) {
+        mTrackListAdapter.setDat(tracks);
     }
 
     @Override
     public void onLoadedDetail(Album album) {
         LogUtil.d(TAG, "onLoadedDetail", "album = " + album);
+
+
+        // 根据专辑ID获取专辑下的声音列表
+        mAlbumDetailPresenter.loadDetailListData(album.getId() + "", 1 + "", "asc");
+
 
         // 图片圆角
         RequestOptions borderRadius = ViewUtils.makeBorderRadius(30);

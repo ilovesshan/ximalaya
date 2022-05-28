@@ -106,7 +106,7 @@ public class RecommendPresenter implements IRecommend {
 
             @Override
             public void onError(int i, String s) {
-                LogUtil.d(TAG, "onSuccess", "3.10.6 获取猜你喜欢专辑 数据获取失败");
+                LogUtil.d(TAG, "onError", "3.10.6 获取猜你喜欢专辑 数据获取失败");
                 LogUtil.d(TAG, "onError", "code = " + i + " message = " + s);
 
                 for (IRecommendViewController viewController : mViewControllers) {

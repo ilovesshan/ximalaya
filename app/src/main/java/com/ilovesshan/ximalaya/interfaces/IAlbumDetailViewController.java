@@ -1,6 +1,7 @@
 package com.ilovesshan.ximalaya.interfaces;
 
 import com.ximalaya.ting.android.opensdk.model.album.Album;
+import com.ximalaya.ting.android.opensdk.model.track.Track;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface IAlbumDetailViewController {
     /**
      * 请求专辑详情对应列表数据完成
      */
-    public void onLoadedDetailList(List<Album> album);
+    public void onLoadedDetailList(List<Track> trackList);
 
     /**
      * 请求专辑详情数据完成

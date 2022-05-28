@@ -12,7 +12,7 @@ public interface IAlbumDetail {
     /**
      * 请求专辑详情对应列表数据
      */
-    public void loadDetailListData();
+    public void loadDetailListData(String albumId, String page, String sort);
 
 
     /**

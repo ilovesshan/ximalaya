@@ -9,8 +9,10 @@
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/drawable/ic_baseline_play_arrow_24.xml" value="0.111" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.131" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/drawable/ic_baseline_star_24.xml" value="0.111" />
+        <entry key="..\:/workspace/android/ximalaya/app/src/main/res/drawable/layer_list_track.xml" value="0.167" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/drawable/radius_item_recommend.xml" value="0.164" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/drawable/shape_btn_subscription.xml" value="0.148" />
+        <entry key="..\:/workspace/android/ximalaya/app/src/main/res/drawable/shape_item_recommend.xml" value="0.167" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/activity_album_detail.xml" value="0.22864583333333333" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/activity_load_empty.xml" value="0.2171875" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/activity_load_error.xml" value="0.2171875" />
@@ -21,6 +23,7 @@
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/fragment_recommend.xml" value="0.2335958005249344" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/fragment_subscription.xml" value="0.2171875" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/item_recommend.xml" value="0.1828125" />
+        <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/item_tracks.xml" value="0.152734375" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.111" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.111" />
       </map>

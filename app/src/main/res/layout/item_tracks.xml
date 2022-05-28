@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:layout_marginBottom="5dp"
+    android:background="@drawable/layer_list_track"
+    android:orientation="horizontal"
+    android:padding="5dp">
+
+    <!--左侧-->
+    <TextView
+        android:id="@+id/tv__track_order"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="1"
+        android:textSize="16sp" />
+
+    <!--中间-->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:orientation="vertical"
+        android:paddingLeft="10dp">
+        <!--标题-->
+        <TextView
+            android:id="@+id/tv_track_title"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:lines="2"
+            android:text="十亿个冷笑话十亿个冷笑话十亿个冷笑话｜1分钟笑话"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <!--播放量 、时长、 评论数-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_track_play_count"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/play_no_outer_border" />
+
+            <TextView
+                android:id="@+id/tv_track_play_count"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/iv_track_play_count"
+                android:gravity="center"
+                android:text="5363593"
+                android:textSize="10sp" />
+
+
+            <ImageView
+                android:id="@+id/iv_track_play_duration"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="70dp"
+                android:layout_toRightOf="@+id/iv_track_play_count"
+                android:background="@drawable/duration" />
+
+            <TextView
+                android:id="@+id/tv_track_play_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/iv_track_play_duration"
+                android:gravity="center"
+                android:text="53635.93万"
+                android:textSize="10sp" />
+
+
+            <ImageView
+                android:id="@+id/iv_track_comment_count"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="70dp"
+                android:layout_toRightOf="@+id/iv_track_play_duration"
+                android:background="@drawable/comment_count" />
+
+            <TextView
+                android:id="@+id/tv_track_comment_count"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/iv_track_comment_count"
+                android:gravity="center"
+                android:text="5363593"
+                android:textSize="10sp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <!--右侧-->
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tv__track_update_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="2022-09"
+            android:textSize="10sp" />
+
+        <ImageView
+            android:id="@+id/iv__track_download"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/download" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>
