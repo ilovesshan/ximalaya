@@ -178,13 +178,75 @@
         android:layout_below="@id/ll_subscription_container"
         android:background="@color/recommend_background" />
 
+    <!--播放按钮 和选集-->
+    <RelativeLayout
+        android:id="@+id/rl_play_and_selection_container"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/ll_subscription_container"
+        android:layout_marginTop="2dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <!--播放按钮-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/play" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="连续播放"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!--选集按钮-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:gravity="center">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="选集"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/arrow_down" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <!--idp的分割线-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/rl_play_and_selection_container"
+        android:background="@color/recommend_background" />
+
 
     <!--专辑对应的列表-->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcv_album_detail_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/ll_subscription_container"
+        android:layout_below="@id/rl_play_and_selection_container"
         android:layout_marginTop="10dp" />
 
 </RelativeLayout>
