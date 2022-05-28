@@ -3,7 +3,6 @@ package com.ilovesshan.ximalaya.views;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 
@@ -17,7 +16,7 @@ import com.ilovesshan.ximalaya.R;
  * @description: 绘制自定义loading效果
  */
 
-public class LoadingActivity extends androidx.appcompat.widget.AppCompatImageView {
+public class LoadingView extends androidx.appcompat.widget.AppCompatImageView {
 
 
     // 旋转角度
@@ -26,15 +25,15 @@ public class LoadingActivity extends androidx.appcompat.widget.AppCompatImageVie
     private boolean mIsRotating = false;
 
 
-    public LoadingActivity(Context context) {
+    public LoadingView(Context context) {
         this(context, null);
     }
 
-    public LoadingActivity(Context context, @Nullable AttributeSet attrs) {
+    public LoadingView(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public LoadingActivity(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public LoadingView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
         // 设置图标

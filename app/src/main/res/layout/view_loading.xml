@@ -10,7 +10,7 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <com.ilovesshan.ximalaya.views.LoadingActivity
+        <com.ilovesshan.ximalaya.views.LoadingView
             android:layout_width="40dp"
             android:layout_height="40dp" />
 

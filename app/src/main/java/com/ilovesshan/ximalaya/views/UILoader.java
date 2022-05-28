@@ -110,7 +110,7 @@ public abstract class UILoader extends FrameLayout {
      * 创建加载中的View
      */
     private View createLoadingView() {
-        return LayoutInflater.from(getContext()).inflate(R.layout.activity_loading, this, false);
+        return LayoutInflater.from(getContext()).inflate(R.layout.view_loading, this, false);
     }
 
     /**
