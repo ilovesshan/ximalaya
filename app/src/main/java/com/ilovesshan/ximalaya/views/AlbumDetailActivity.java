@@ -36,6 +36,9 @@ import jp.wasabeef.glide.transformations.BlurTransformation;
 @SuppressLint("SetTextI18n")
 public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDetailViewController {
     private static final String TAG = "AlbumDetailActivity";
+    private ImageView mIvBack;
+    private ImageView mIvShare;
+    private ImageView mIvMore;
 
     private ImageView mIvBigCover;
     private ImageView mIvSmallCover;
@@ -47,6 +50,7 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
     private TextView mTvSubscriptionAmountValue;
     private TextView mBtnSubscription;
     private RecyclerView mRcvAlbumDetailList;
+
 
     private AlbumDetailPresenter mAlbumDetailPresenter;
     private TrackListAdapter mTrackListAdapter;
@@ -69,6 +73,10 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
      * 初始化view和绑定事件 处理函数
      */
     private void initViewAndBindEvent() {
+        mIvBack = findViewById(R.id.iv_back);
+        mIvShare = findViewById(R.id.iv_share);
+        mIvMore = findViewById(R.id.iv_more);
+
         mIvBigCover = findViewById(R.id.iv_big_cover);
         mIvSmallCover = findViewById(R.id.iv_small_cover);
         mTvAlbumTitle = findViewById(R.id.tv_album_title);
@@ -79,11 +87,17 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
         mTvSubscriptionAmountValue = findViewById(R.id.tv_subscription_amount_value);
         mBtnSubscription = findViewById(R.id.btn_subscription);
         mRcvAlbumDetailList = findViewById(R.id.rcv_album_detail_list);
-        //TODO 实现 recommend详情中 订阅按钮点击逻辑
-        mBtnSubscription.setOnClickListener(v -> {
-            ToastUtils.show("功能正在开发中...");
-        });
 
+        mIvBack.setOnClickListener(v -> finish());
+
+        //TODO 实现 recommend详情中 分享按钮点击逻辑
+        mIvShare.setOnClickListener(v -> ToastUtils.show("功能正在开发中..."));
+
+        //TODO 实现 recommend详情中 更多按钮点击逻辑
+        mIvMore.setOnClickListener(v -> ToastUtils.show("功能正在开发中..."));
+
+        //TODO 实现 recommend详情中 订阅按钮点击逻辑
+        mBtnSubscription.setOnClickListener(v -> ToastUtils.show("功能正在开发中..."));
 
         // 获取逻辑层控制器和注册监听
         mAlbumDetailPresenter = AlbumDetailPresenter.getInstance();
