@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="80dp"
     android:layout_marginBottom="5dp"
-    android:background="@drawable/radius_item_recommend"
+    android:background="@drawable/shape_item_recommend"
     android:orientation="horizontal"
     android:padding="5dp">
 

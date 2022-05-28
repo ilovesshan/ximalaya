@@ -7,6 +7,11 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
+
+import jp.wasabeef.glide.transformations.BlurTransformation;
+
 /**
  * Created with IntelliJ IDEA.
  *
@@ -15,6 +20,11 @@ import android.view.WindowManager;
  * @description:
  */
 public class ViewUtils {
+    /**
+     * 设置透明状态栏
+     *
+     * @param activity Activity
+     */
     public static void makeStatusBarTransparent(Activity activity) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             return;
@@ -32,4 +42,25 @@ public class ViewUtils {
         }
     }
 
+    /**
+     * 设置圆角 配和Glide
+     *
+     * @param radius 角度
+     * @return RequestOptions
+     */
+    public static RequestOptions makeBorderRadius(int radius) {
+        RoundedCorners roundedCorners = new RoundedCorners(radius);
+        return RequestOptions.bitmapTransform(roundedCorners);
+    }
+
+    /**
+     * 设置高斯模糊  配和Glide
+     *
+     * @param blur 模糊度
+     * @param sampling 缩放sampling背在进行模糊
+     * @return RequestOptions
+     */
+    public static RequestOptions blurTransformation(int blur, int sampling) {
+        return RequestOptions.bitmapTransform(new BlurTransformation(blur, sampling));
+    }
 }

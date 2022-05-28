@@ -1,12 +1,189 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center">
-    
-    <TextView
+    android:orientation="vertical">
+
+    <!--顶部背景图片-->
+    <ImageView
+        android:id="@+id/iv_big_cover"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:scaleType="fitXY" />
+
+    <!-- 专辑封面小图片-->
+    <ImageView
+        android:id="@+id/iv_small_cover"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_below="@+id/iv_big_cover"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="-40dp"
+        android:scaleType="fitXY" />
+
+
+    <!--专辑标题和作责信息-->
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="我是详情界面" />
+        android:layout_below="@+id/iv_big_cover"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="-30dp"
+        android:layout_toRightOf="@id/iv_small_cover"
+        android:orientation="vertical"
+        android:padding="5dp">
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/tv_album_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="这是标题"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:id="@+id/iv_album_author_avatar"
+                android:layout_width="30dp"
+                android:layout_height="30dp" />
+
+            <TextView
+                android:id="@+id/iv_album_author_name"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="1dp"
+                android:gravity="center"
+                android:text="这是作者信息"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <!--idp的分割线-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/iv_small_cover"
+        android:layout_marginTop="3dp"
+        android:background="@color/recommend_background" />
+
+    <!--评分、播放量、订阅量、订阅按钮-->
+    <LinearLayout
+        android:id="@+id/ll_subscription_container"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@id/iv_small_cover"
+        android:layout_marginTop="10dp"
+        android:background="#ffffff">
+
+        <!--评分-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_score_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_score_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="评分"
+                android:textSize="10sp" />
+        </LinearLayout>
+        <!--播放量-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:textColor="@color/black">
+
+            <TextView
+                android:id="@+id/tv_play_amount_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_play_amount_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="订阅量"
+                android:textSize="10sp" />
+        </LinearLayout>
+        <!--订阅量-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_subscription_amount_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_subscription_amount_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="订阅量"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+        <!--订阅按钮-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="35dp"
+                android:background="@drawable/shape_btn_subscription"
+                android:gravity="center"
+                android:text="+ 订阅"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!--idp的分割线-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/ll_subscription_container"
+        android:background="@color/recommend_background" />
+
+
+    <!--专辑对应的列表-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcv_album_detail_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/ll_subscription_container"
+        android:layout_marginTop="10dp" />
+
+</RelativeLayout>

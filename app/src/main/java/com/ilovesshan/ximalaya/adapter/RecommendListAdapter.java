@@ -15,6 +15,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.ilovesshan.ximalaya.R;
 import com.ilovesshan.ximalaya.utils.NumberUtils;
+import com.ilovesshan.ximalaya.utils.ViewUtils;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
 
 import java.util.ArrayList;
@@ -70,11 +71,10 @@ public class RecommendListAdapter extends RecyclerView.Adapter<RecommendListAdap
         TextView tvRecommendItemAlbumScore = itemView.findViewById(R.id.tv_recommend_item_album_score);
 
         // 设置图片圆角
-        RoundedCorners roundedCorners = new RoundedCorners(20);
-        RequestOptions options = RequestOptions.bitmapTransform(roundedCorners);
+        RequestOptions borderRadius = ViewUtils.makeBorderRadius(20);
 
         // 加载数据
-        Glide.with(ivRecommendItemCoverUrlSmall).load(album.getCoverUrlSmall()).apply(options).into(ivRecommendItemCoverUrlSmall);
+        Glide.with(ivRecommendItemCoverUrlSmall).load(album.getCoverUrlSmall()).apply(borderRadius).into(ivRecommendItemCoverUrlSmall);
         tvRecommendItemTitle.setText(album.getAlbumTitle());
         tvRecommendItemIntroduce.setText(album.getAlbumIntro());
         tvRecommendItemPlayCount.setText(NumberUtils.number2CountingUnit(album.getPlayCount()));
