@@ -64,7 +64,7 @@ public class RecommendPresenter implements IRecommend {
     }
 
     @Override
-    public void uRegisterViewController(IRecommendViewController viewController) {
+    public void unRegisterViewController(IRecommendViewController viewController) {
         if (mViewControllers != null) {
             mViewControllers.clear();
         }

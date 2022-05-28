@@ -5,29 +5,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ilovesshan.ximalaya.R;
 import com.ilovesshan.ximalaya.adapter.RecommendListAdapter;
 import com.ilovesshan.ximalaya.base.BaseFragment;
-import com.ilovesshan.ximalaya.config.Constants;
 import com.ilovesshan.ximalaya.interfaces.IRecommendViewController;
 import com.ilovesshan.ximalaya.presenter.RecommendPresenter;
-import com.ilovesshan.ximalaya.utils.LogUtil;
 import com.ilovesshan.ximalaya.views.UILoader;
-import com.ximalaya.ting.android.opensdk.constants.DTransferConstants;
-import com.ximalaya.ting.android.opensdk.datatrasfer.CommonRequest;
-import com.ximalaya.ting.android.opensdk.datatrasfer.IDataCallBack;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
-import com.ximalaya.ting.android.opensdk.model.album.GussLikeAlbumList;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -65,6 +54,9 @@ public class RecommendFragment extends BaseFragment implements IRecommendViewCon
                 return mViewItem;
             }
         };
+
+        // 加载失败 点击重新加载回调
+        mUiLoader.setOnRetryLoadClickListener(() -> mRecommendPresenter.loadedData());
 
         // 实例化逻辑层控制器
         mRecommendPresenter = RecommendPresenter.getInstance();
@@ -106,5 +98,14 @@ public class RecommendFragment extends BaseFragment implements IRecommendViewCon
     @Override
     public void onLoading() {
         mUiLoader.updateUILoaderState(UILoader.UILoaderState.LOADING);
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(mRecommendPresenter!=null){
+            mRecommendPresenter.unRegisterViewController(this);
+        }
     }
 }

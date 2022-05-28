@@ -24,7 +24,7 @@ public interface IRecommend {
     /**
      * 取消注册 viewController
      */
-    public void uRegisterViewController(IRecommendViewController viewController);
+    public void unRegisterViewController(IRecommendViewController viewController);
 
 
 }

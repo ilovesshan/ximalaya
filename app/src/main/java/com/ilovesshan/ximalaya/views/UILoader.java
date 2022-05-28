@@ -36,6 +36,9 @@ public abstract class UILoader extends FrameLayout {
         LOADING, SUCCESS, ERROR, EMPTY, NONE
     }
 
+
+    OnRetryLoadClickListener mOnRetryLoadClickListener = null;
+
     public UILoader(@NonNull Context context) {
         this(context, null);
     }
@@ -119,7 +122,22 @@ public abstract class UILoader extends FrameLayout {
      * 创建加载失败的View
      */
     private View createErrorView() {
-        return LayoutInflater.from(getContext()).inflate(R.layout.activity_load_error, this, false);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.activity_load_error, this, false);
+
+        // 处理加载失败 点击重新加载
+        View loadErrorContainer = view.findViewById(R.id.ll_load_error_container);
+
+        loadErrorContainer.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOnRetryLoadClickListener != null) {
+                    mOnRetryLoadClickListener.onRetry();
+                }
+            }
+        });
+
+        return view;
+
     }
 
     /**
@@ -128,4 +146,13 @@ public abstract class UILoader extends FrameLayout {
     private View createEmptyView() {
         return LayoutInflater.from(getContext()).inflate(R.layout.activity_load_empty, this, false);
     }
+
+    public void setOnRetryLoadClickListener(OnRetryLoadClickListener listener) {
+        this.mOnRetryLoadClickListener = listener;
+    }
+
+    public interface OnRetryLoadClickListener {
+        void onRetry();
+    }
+
 }

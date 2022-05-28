@@ -7,19 +7,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:gravity="center"
         android:orientation="vertical">
 
-        <ProgressBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        <com.ilovesshan.ximalaya.views.LoadingActivity
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:gravity="center"
             android:text="@string/loading_ext"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
     </LinearLayout>
 
 </RelativeLayout>
