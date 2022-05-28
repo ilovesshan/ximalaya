@@ -63,7 +63,11 @@ dependencies {
         exclude module: 'support-v4'
     }
 
+    // Guide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation 'jp.wasabeef:glide-transformations:4.3.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+
+    // Toast框架：https://github.com/getActivity/ToastUtils
+    implementation 'com.github.getActivity:ToastUtils:10.3'
 }

@@ -3,6 +3,7 @@ package com.ilovesshan.ximalaya.base;
 import android.app.Application;
 import android.content.Context;
 
+import com.hjq.toast.ToastUtils;
 import com.ilovesshan.ximalaya.utils.LogUtil;
 import com.ximalaya.ting.android.opensdk.constants.DTransferConstants;
 import com.ximalaya.ting.android.opensdk.datatrasfer.CommonRequest;
@@ -32,10 +33,15 @@ public class BaseApplication extends Application {
         super.onCreate();
         // 初始化日志输出工具
         LogUtil.init(this.getPackageName(), IS_RELEASE);
+
         // 初始化喜马拉雅配置
         initXimalayaConfig();
+
         // 初始化mHandler
         mHandler = new Handler();
+
+        // 初始化Toast框架
+        ToastUtils.init(this);
     }
 
 

@@ -159,6 +159,7 @@
             android:gravity="center">
 
             <TextView
+                android:id="@+id/btn_subscription"
                 android:layout_width="80dp"
                 android:layout_height="35dp"
                 android:background="@drawable/shape_btn_subscription"

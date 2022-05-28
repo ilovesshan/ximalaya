@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.hjq.toast.ToastUtils;
 import com.ilovesshan.ximalaya.R;
 import com.ilovesshan.ximalaya.interfaces.IAlbumDetailViewController;
 import com.ilovesshan.ximalaya.presenter.AlbumDetailPresenter;
@@ -41,6 +42,8 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
     private TextView mTvScoreValue;
     private TextView mTvPlayAmountValue;
     private TextView mTvSubscriptionAmountValue;
+    private TextView mBtnSubscription;
+
 
     private AlbumDetailPresenter mAlbumDetailPresenter;
 
@@ -70,6 +73,14 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
         mTvScoreValue = findViewById(R.id.tv_score_value);
         mTvPlayAmountValue = findViewById(R.id.tv_play_amount_value);
         mTvSubscriptionAmountValue = findViewById(R.id.tv_subscription_amount_value);
+        mBtnSubscription = findViewById(R.id.btn_subscription);
+
+        mBtnSubscription.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtils.show("功能正在开发中...");
+            }
+        });
 
 
         // 获取逻辑层控制器和注册监听
