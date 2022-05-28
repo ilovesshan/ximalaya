@@ -1,6 +1,7 @@
 package com.ilovesshan.ximalaya.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,10 @@ import com.ilovesshan.ximalaya.R;
 import com.ilovesshan.ximalaya.adapter.RecommendListAdapter;
 import com.ilovesshan.ximalaya.base.BaseFragment;
 import com.ilovesshan.ximalaya.interfaces.IRecommendViewController;
+import com.ilovesshan.ximalaya.presenter.AlbumDetailPresenter;
 import com.ilovesshan.ximalaya.presenter.RecommendPresenter;
+import com.ilovesshan.ximalaya.utils.LogUtil;
+import com.ilovesshan.ximalaya.views.AlbumDetailActivity;
 import com.ilovesshan.ximalaya.views.UILoader;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
 
@@ -35,6 +39,7 @@ public class RecommendFragment extends BaseFragment implements IRecommendViewCon
     private View mViewItem;
     private RecommendPresenter mRecommendPresenter;
     private UILoader mUiLoader;
+    private AlbumDetailPresenter mAlbumDetailPresenter;
 
 
     @Override
@@ -47,6 +52,16 @@ public class RecommendFragment extends BaseFragment implements IRecommendViewCon
                 mViewItem = inflater.inflate(R.layout.fragment_recommend, container, false);
                 if (mViewItem != null) {
                     mAdapter = new RecommendListAdapter();
+                    // 推荐列表被点击
+                    mAdapter.setOnItemClickListener(new RecommendListAdapter.OnItemClickListener() {
+                        @Override
+                        public void onClick(int index, Album album) {
+                            mAlbumDetailPresenter = AlbumDetailPresenter.getInstance();
+                            mAlbumDetailPresenter.setAlbum(album);
+                            startActivity(new Intent(getContext(), AlbumDetailActivity.class));
+                            LogUtil.d(TAG, "onClick", "index = " + index + "album =" + album);
+                        }
+                    });
                     RecyclerView recyclerView = mViewItem.findViewById(R.id.rv_recommend_list);
                     recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
                     recyclerView.setAdapter(mAdapter);
@@ -104,7 +119,7 @@ public class RecommendFragment extends BaseFragment implements IRecommendViewCon
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(mRecommendPresenter!=null){
+        if (mRecommendPresenter != null) {
             mRecommendPresenter.unRegisterViewController(this);
         }
     }

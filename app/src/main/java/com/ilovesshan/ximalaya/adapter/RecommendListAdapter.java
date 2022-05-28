@@ -33,6 +33,8 @@ import java.util.List;
 public class RecommendListAdapter extends RecyclerView.Adapter<RecommendListAdapter.InnerHolder> {
     List<Album> mList = new ArrayList<>();
 
+    OnItemClickListener mOnItemClickListener = null;
+
     @NonNull
     @Override
     public InnerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -45,6 +47,16 @@ public class RecommendListAdapter extends RecyclerView.Adapter<RecommendListAdap
     public void onBindViewHolder(@NonNull InnerHolder holder, int position) {
         View itemView = holder.itemView;
         Album album = mList.get(position);
+        // 方便回调函数中获取position
+        itemView.setTag(position);
+
+        // 监听点击 并将当前index和对应数据传递给RecommendFragment
+        itemView.setOnClickListener((v) -> {
+            if (mOnItemClickListener != null) {
+                int index = (int) v.getTag();
+                mOnItemClickListener.onClick(index, mList.get(index));
+            }
+        });
 
         // 专辑封面小
         ImageView ivRecommendItemCoverUrlSmall = itemView.findViewById(R.id.iv_recommend_item_cover_url_small);
@@ -61,6 +73,7 @@ public class RecommendListAdapter extends RecyclerView.Adapter<RecommendListAdap
         RoundedCorners roundedCorners = new RoundedCorners(20);
         RequestOptions options = RequestOptions.bitmapTransform(roundedCorners);
 
+        // 加载数据
         Glide.with(ivRecommendItemCoverUrlSmall).load(album.getCoverUrlSmall()).apply(options).into(ivRecommendItemCoverUrlSmall);
         tvRecommendItemTitle.setText(album.getAlbumTitle());
         tvRecommendItemIntroduce.setText(album.getAlbumIntro());
@@ -85,5 +98,14 @@ public class RecommendListAdapter extends RecyclerView.Adapter<RecommendListAdap
         this.mList.clear();
         this.mList = albumList;
         notifyDataSetChanged();
+    }
+
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mOnItemClickListener = listener;
+    }
+
+    public interface OnItemClickListener {
+        public void onClick(int index, Album album);
     }
 }
