@@ -9,6 +9,7 @@ import com.ximalaya.ting.android.opensdk.constants.DTransferConstants;
 import com.ximalaya.ting.android.opensdk.datatrasfer.CommonRequest;
 import com.ximalaya.ting.android.opensdk.datatrasfer.DeviceInfoProviderDefault;
 import com.ximalaya.ting.android.opensdk.datatrasfer.IDeviceInfoProvider;
+import com.ximalaya.ting.android.opensdk.player.XmPlayerManager;
 import com.ximalaya.ting.android.opensdk.util.SharedPreferencesUtil;
 
 import android.os.Handler;
@@ -42,6 +43,9 @@ public class BaseApplication extends Application {
 
         // 初始化Toast框架
         ToastUtils.init(this);
+
+        // 初始化喜马拉雅 播放器 XmPlayerManager
+        XmPlayerManager.getInstance(this).init();
     }
 
 

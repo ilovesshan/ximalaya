@@ -17,12 +17,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Ximalaya">
         <activity
-            android:name=".views.PlayerActivity"
-            android:exported="false" />
-        <activity
-            android:name=".views.AlbumDetailActivity"
-            android:exported="false" />
-        <activity
             android:name=".views.SplashActivity"
             android:exported="true">
             <intent-filter>
@@ -32,8 +26,21 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".views.PlayerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.AlbumDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true" />
+
+
+        <!--喜马拉雅播放器服务采用AIDL机制，独立运行在一个进程中，我们在此基础上又做了一层封装，第三方App只需要和XmPlayerManager交互，XmPlayerManager再负责和播放器服务交互。-->
+        <service
+            android:name="com.ximalaya.ting.android.opensdk.player.service.XmPlayerService"
+            android:process=":player" />
+
     </application>
 
 </manifest>
