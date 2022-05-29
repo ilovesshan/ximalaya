@@ -76,10 +76,4 @@ public interface IPlayer extends IBasePresenter<IPlayerViewController> {
 
     public void setProgress(long progress);
 
-
-    /**
-     * 请求播放列表
-     *
-     */
-    public void loadPlayList() ;
 }

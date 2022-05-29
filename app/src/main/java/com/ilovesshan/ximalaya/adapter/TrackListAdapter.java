@@ -15,10 +15,8 @@ import com.ilovesshan.ximalaya.utils.NumberUtils;
 import com.ilovesshan.ximalaya.utils.TimeUtils;
 import com.ximalaya.ting.android.opensdk.model.track.Track;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created with IntelliJ IDEA.
@@ -74,7 +72,7 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.Inne
         });
         viewItem.setOnClickListener(v -> {
             if (mOnItemClickListener != null) {
-                mOnItemClickListener.onClick((int) v.getTag(), mTracks.get((int) v.getTag()));
+                mOnItemClickListener.onClick(mTracks, (int) v.getTag());
             }
         });
     }
@@ -111,6 +109,6 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.Inne
     }
 
     public interface OnItemClickListener {
-        public void onClick(int position, Track track);
+        public void onClick(List<Track> position, int track);
     }
 }

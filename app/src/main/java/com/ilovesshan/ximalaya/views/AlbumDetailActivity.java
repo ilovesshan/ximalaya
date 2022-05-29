@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,6 +20,7 @@ import com.ilovesshan.ximalaya.R;
 import com.ilovesshan.ximalaya.adapter.TrackListAdapter;
 import com.ilovesshan.ximalaya.interfaces.IAlbumDetailViewController;
 import com.ilovesshan.ximalaya.presenter.AlbumDetailPresenter;
+import com.ilovesshan.ximalaya.presenter.PlayerPresenter;
 import com.ilovesshan.ximalaya.utils.LogUtil;
 import com.ilovesshan.ximalaya.utils.NumberUtils;
 import com.ilovesshan.ximalaya.utils.ViewUtils;
@@ -118,8 +118,9 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
                     mTrackListAdapter.setOnDownloadClickListener((index, track) -> {
                         ToastUtils.show("功能正在开发中...");
                     });
-
-                    mTrackListAdapter.setOnItemClickListener((index, track) -> {
+                    mTrackListAdapter.setOnItemClickListener((tracks, index) -> {
+                        // 给PlayerPresenter 设置播放列表
+                        PlayerPresenter.getInstance().setPlayList(tracks, index);
                         startActivity(new Intent(AlbumDetailActivity.this, PlayerActivity.class));
                     });
                     return viewItem;

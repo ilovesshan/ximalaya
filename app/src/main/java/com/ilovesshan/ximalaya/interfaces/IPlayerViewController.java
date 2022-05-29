@@ -5,6 +5,8 @@ import com.ximalaya.ting.android.opensdk.model.advertis.Advertis;
 import com.ximalaya.ting.android.opensdk.model.track.Track;
 import com.ximalaya.ting.android.opensdk.player.service.XmPlayerException;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  *
@@ -17,8 +19,6 @@ public interface IPlayerViewController {
      * 开始播放
      */
     public void onPlayStart(Track track);
-
-    ;
 
     /**
      * 暂停播放
@@ -45,6 +45,11 @@ public interface IPlayerViewController {
      * 下一首
      */
     public void onPlayNext(Track track);
+
+    /**
+     * 请求播放列表加载完成
+     */
+    public void onLoadedPlayList(List<Track> tracks);
 
 
     /**
