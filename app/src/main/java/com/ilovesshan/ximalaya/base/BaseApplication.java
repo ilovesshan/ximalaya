@@ -1,5 +1,6 @@
 package com.ilovesshan.ximalaya.base;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 
@@ -21,6 +22,7 @@ import android.os.Handler;
  * @date: 2022/5/25
  * @description:
  */
+@SuppressLint("StaticFieldLeak")
 public class BaseApplication extends Application {
     private static final String TAG = "BaseApplication";
 
@@ -29,9 +31,13 @@ public class BaseApplication extends Application {
 
     private static Handler mHandler = null;
 
+    private static Context mBaseContext = null;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        mBaseContext = this;
+
         // 初始化日志输出工具
         LogUtil.init(this.getPackageName(), IS_RELEASE);
 
@@ -48,6 +54,15 @@ public class BaseApplication extends Application {
         XmPlayerManager.getInstance(this).init();
     }
 
+
+    /**
+     * 取 全局Context对象
+     *
+     * @return Context
+     */
+    public Context getBaseContext() {
+        return mBaseContext;
+    }
 
     /**
      * 获取 Handler对象
