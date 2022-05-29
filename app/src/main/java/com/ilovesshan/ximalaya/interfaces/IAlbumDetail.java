@@ -1,5 +1,7 @@
 package com.ilovesshan.ximalaya.interfaces;
 
+import com.ilovesshan.ximalaya.base.IBasePresenter;
+
 /**
  * Created with IntelliJ IDEA.
  *
@@ -7,7 +9,7 @@ package com.ilovesshan.ximalaya.interfaces;
  * @date: 2022/5/28
  * @description:
  */
-public interface IAlbumDetail {
+public interface IAlbumDetail extends IBasePresenter<IAlbumDetailViewController> {
 
     /**
      * 请求专辑详情对应列表数据
@@ -15,15 +17,5 @@ public interface IAlbumDetail {
     public void loadDetailListData(String albumId, String page, String sort);
 
 
-    /**
-     * 注册 viewController
-     */
 
-    public void registerViewController(IAlbumDetailViewController viewController);
-
-
-    /**
-     * 取消注册 viewController
-     */
-    public void unRegisterViewController(IAlbumDetailViewController viewController);
 }

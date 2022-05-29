@@ -1,5 +1,7 @@
 package com.ilovesshan.ximalaya.interfaces;
 
+import com.ilovesshan.ximalaya.base.IBasePresenter;
+
 /**
  * Created with IntelliJ IDEA.
  *
@@ -7,24 +9,9 @@ package com.ilovesshan.ximalaya.interfaces;
  * @date: 2022/5/27
  * @description:
  */
-public interface IRecommend {
+public interface IRecommend extends IBasePresenter<IRecommendViewController> {
     /**
      * 请求数据
      */
     public void loadedData();
-
-
-    /**
-     * 注册 viewController
-     */
-
-    public void registerViewController(IRecommendViewController viewController);
-
-
-    /**
-     * 取消注册 viewController
-     */
-    public void unRegisterViewController(IRecommendViewController viewController);
-
-
 }
