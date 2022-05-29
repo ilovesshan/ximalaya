@@ -273,12 +273,11 @@
             android:background="@drawable/more" />
     </RelativeLayout>
 
-    <!--专辑对应的列表-->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcv_album_detail_list"
+    <FrameLayout
+        android:id="@+id/rcv_album_detail_list_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/rl_play_and_selection_container"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"/>
 
 </RelativeLayout>

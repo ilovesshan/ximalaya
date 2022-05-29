@@ -22,4 +22,22 @@ public interface IAlbumDetailViewController {
      * 请求专辑详情数据完成
      */
     public void onLoadedDetail(Album album);
+
+    /**
+     * 加载失败
+     */
+    public void onLoadError();
+
+
+    /**
+     * 无数据
+     */
+    public void onLoadEmpty();
+
+
+    /**
+     * 加载中
+     */
+    public void onLoading();
+
 }

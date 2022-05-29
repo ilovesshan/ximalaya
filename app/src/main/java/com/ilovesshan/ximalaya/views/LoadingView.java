@@ -56,7 +56,7 @@ public class LoadingView extends androidx.appcompat.widget.AppCompatImageView {
                 invalidate();
                 if (mIsRotating) {
                     // 200ms 执行一次
-                    postDelayed(this, 200);
+                    postDelayed(this, 100);
                 }
 
             }

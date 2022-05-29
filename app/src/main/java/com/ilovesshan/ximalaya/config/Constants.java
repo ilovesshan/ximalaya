@@ -16,4 +16,8 @@ public class Constants {
 
     // 获取推荐列表数据条数
     public static final int RECOMMEND_LIST_SIZE = 10;
+
+
+    // 获取推荐详情 列表数据条数
+    public static final int RECOMMEND_DETAIL_LIST_SIZE = 30;
 }

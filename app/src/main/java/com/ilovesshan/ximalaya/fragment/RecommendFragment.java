@@ -44,7 +44,6 @@ public class RecommendFragment extends BaseFragment implements IRecommendViewCon
 
     @Override
     protected View getSubViewItem(LayoutInflater inflater, ViewGroup container) {
-
         mUiLoader = new UILoader(getContext()) {
             @Override
             public View createSuccessView() {

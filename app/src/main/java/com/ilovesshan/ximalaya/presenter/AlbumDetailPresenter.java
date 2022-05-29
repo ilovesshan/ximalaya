@@ -2,6 +2,7 @@ package com.ilovesshan.ximalaya.presenter;
 
 import androidx.annotation.Nullable;
 
+import com.ilovesshan.ximalaya.config.Constants;
 import com.ilovesshan.ximalaya.interfaces.IAlbumDetail;
 import com.ilovesshan.ximalaya.interfaces.IAlbumDetailViewController;
 import com.ilovesshan.ximalaya.utils.LogUtil;
@@ -51,26 +52,38 @@ public class AlbumDetailPresenter implements IAlbumDetail {
      * 3.2.4 专辑浏览，根据专辑ID获取专辑下的声音列表
      *
      * @param albumId 专辑ID
-     * @param page    "asc"表示喜马拉雅正序，"desc"表示喜马拉雅倒序，"time_asc"表示时间升序，"time_desc"表示时间降序，默认为"asc"
-     * @param sort    当前第几页，不填默认为 1
+     * @param page    当前第几页，不填默认为 1
+     * @param sort    "asc"表示喜马拉雅正序，"desc"表示喜马拉雅倒序，"time_asc"表示时间升序，"time_desc"表示时间降序，默认为"asc"
      */
 
     @Override
     public void loadDetailListData(String albumId, String page, String sort) {
+        for (IAlbumDetailViewController viewController : mIAlbumDetailViewControllers) {
+            viewController.onLoading();
+        }
+
         Map<String, String> map = new HashMap<String, String>();
         map.put(DTransferConstants.ALBUM_ID, "4603856");
         map.put(DTransferConstants.SORT, sort);
         map.put(DTransferConstants.PAGE, page);
+        map.put(DTransferConstants.PAGE_SIZE, String.valueOf(Constants.RECOMMEND_DETAIL_LIST_SIZE));
         CommonRequest.getTracks(map, new IDataCallBack<TrackList>() {
             @Override
             public void onSuccess(@Nullable TrackList trackList) {
                 if (trackList != null) {
                     List<Track> tracks = trackList.getTracks();
+                    LogUtil.d(TAG, "onSuccess", "3.2.4 专辑浏览，根据专辑ID获取专辑下的声音列表");
+                    LogUtil.d(TAG, "onSuccess", "tracks == " + tracks);
                     if (tracks != null) {
-                        LogUtil.d(TAG, "onSuccess", "3.2.4 专辑浏览，根据专辑ID获取专辑下的声音列表");
-                        LogUtil.d(TAG, "onSuccess", "tracks == " + tracks);
-                        for (IAlbumDetailViewController viewController : mIAlbumDetailViewControllers) {
-                            viewController.onLoadedDetailList(tracks);
+                        if (tracks.size() == 0) {
+                            // 数据为空
+                            for (IAlbumDetailViewController viewController : mIAlbumDetailViewControllers) {
+                                viewController.onLoadEmpty();
+                            }
+                        } else {
+                            for (IAlbumDetailViewController viewController : mIAlbumDetailViewControllers) {
+                                viewController.onLoadedDetailList(tracks);
+                            }
                         }
                     }
                 }
@@ -80,6 +93,9 @@ public class AlbumDetailPresenter implements IAlbumDetail {
             public void onError(int i, String s) {
                 LogUtil.d(TAG, "onError", "3.2.4 专辑浏览，根据专辑ID获取专辑下的声音列表 数据获取失败");
                 LogUtil.d(TAG, "onError", "code = " + i + " message = " + s);
+                for (IAlbumDetailViewController viewController : mIAlbumDetailViewControllers) {
+                    viewController.onLoadError();
+                }
             }
         });
     }
