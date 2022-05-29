@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -118,9 +119,8 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
                         ToastUtils.show("功能正在开发中...");
                     });
 
-                    //TODO 实现 recommend详情列表中 Item点击跳转逻辑
                     mTrackListAdapter.setOnItemClickListener((index, track) -> {
-                        ToastUtils.show("功能正在开发中...");
+                        startActivity(new Intent(AlbumDetailActivity.this, PlayerActivity.class));
                     });
                     return viewItem;
                 }

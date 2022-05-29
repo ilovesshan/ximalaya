@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--背景图-->
+    <ImageView
+        android:id="@+id/iv_player_big_cover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!--标题-->
+    <TextView
+        android:id="@+id/tv_player_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:padding="10dp"
+        android:text="我是播放列表的标题我是播放列表的标题我是播放列表的标题我是播放列表的标题我是播放列表的标题我是播放列表的标题我是播放列表的标题我是播放列表的标题"
+        android:textSize="24sp" />
+
+    <!--专辑图片-->
+    <androidx.viewpager.widget.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/ll_progress_controller_container"
+        android:layout_below="@+id/tv_player_title"
+        android:background="#ff00"
+        android:gravity="center">
+        <!--<ImageView-->
+        <!--    android:id="@+id/iv_player_small_cover"-->
+        <!--    android:layout_width="240dp"-->
+        <!--    android:layout_height="240dp"-->
+        <!--    android:background="#ff0" />-->
+    </androidx.viewpager.widget.ViewPager>
+
+    <!--进度条-->
+    <LinearLayout
+        android:id="@+id/ll_progress_controller_container"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_above="@+id/ll_player_controller_container"
+        android:background="#03A9F4">
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="00:00" />
+
+        <SeekBar
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="00:00" />
+    </LinearLayout>
+
+    <!--播放控制器-->
+    <LinearLayout
+        android:id="@+id/ll_player_controller_container"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:background="#ff0"
+        android:orientation="horizontal">
+
+        <!--下载-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/iv_player_download"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/player_download" />
+        </LinearLayout>
+
+        <!--上一首-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/iv_player_prev"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/player_previous" />
+        </LinearLayout>
+
+        <!--暂停/播放-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/iv_player_play_or_pause"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/player_pause" />
+        </LinearLayout>
+
+        <!--下一首-->
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/iv_player_next"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/player_next" />
+        </LinearLayout>
+
+        <!--播放列表-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/iv_player_list"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/player_play_list" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

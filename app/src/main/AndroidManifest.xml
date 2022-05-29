@@ -17,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Ximalaya">
         <activity
+            android:name=".views.PlayerActivity"
+            android:exported="false" />
+        <activity
             android:name=".views.AlbumDetailActivity"
             android:exported="false" />
         <activity
