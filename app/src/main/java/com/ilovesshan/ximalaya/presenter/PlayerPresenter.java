@@ -1,18 +1,17 @@
 package com.ilovesshan.ximalaya.presenter;
 
 import com.ilovesshan.ximalaya.base.BaseApplication;
-import com.ilovesshan.ximalaya.interfaces.IAlbumDetailViewController;
 import com.ilovesshan.ximalaya.interfaces.IPlayer;
 import com.ilovesshan.ximalaya.interfaces.IPlayerViewController;
 import com.ilovesshan.ximalaya.utils.LogUtil;
 import com.ximalaya.ting.android.opensdk.model.PlayableModel;
 import com.ximalaya.ting.android.opensdk.model.advertis.Advertis;
 import com.ximalaya.ting.android.opensdk.model.advertis.AdvertisList;
-import com.ximalaya.ting.android.opensdk.model.album.Album;
 import com.ximalaya.ting.android.opensdk.model.track.Track;
 import com.ximalaya.ting.android.opensdk.player.XmPlayerManager;
 import com.ximalaya.ting.android.opensdk.player.advertis.IXmAdsStatusListener;
 import com.ximalaya.ting.android.opensdk.player.service.IXmPlayerStatusListener;
+import com.ximalaya.ting.android.opensdk.player.service.XmPlayListControl;
 import com.ximalaya.ting.android.opensdk.player.service.XmPlayerException;
 
 import java.util.ArrayList;
@@ -32,7 +31,6 @@ public class PlayerPresenter implements IPlayer {
     private List<Track> mTracks = new ArrayList<>();
     private int mIndex = 0;
     private boolean mPlaySet = false;
-
 
     private static PlayerPresenter sPlayerPresenter = null;
     private XmPlayerManager mXmPlayerManager;
@@ -67,39 +65,50 @@ public class PlayerPresenter implements IPlayer {
 
     @Override
     public void pause() {
-        mXmPlayerManager.pause();
+        if (mXmPlayerManager != null) {
+            mXmPlayerManager.pause();
+        }
     }
 
     @Override
     public void stop() {
-        mXmPlayerManager.stop();
+        if (mXmPlayerManager != null) {
+            mXmPlayerManager.stop();
+        }
     }
 
     @Override
     public void playPrev() {
-        mXmPlayerManager.playPre();
+        if (mXmPlayerManager != null) {
+            mXmPlayerManager.playPre();
+        }
     }
 
     @Override
     public void playNext() {
-        mXmPlayerManager.playNext();
+        if (mXmPlayerManager != null) {
+            mXmPlayerManager.playNext();
+        }
     }
 
     @Override
-    public void setPlayMode(int mode) {
-
+    public void setPlayMode(XmPlayListControl.PlayMode playMode) {
+        for (IPlayerViewController iPlayerViewController : mIPlayerViewControllers) {
+            iPlayerViewController.onPlayModeUpdate(playMode);
+        }
     }
 
     @Override
-    public void setProgress(long progress) {
-
+    public void seekTo(int progress) {
+        if (mXmPlayerManager != null) {
+            mXmPlayerManager.seekTo(progress);
+        }
     }
 
 
     public boolean isPlaying() {
         return mXmPlayerManager.isPlaying();
     }
-
 
     @Override
     public void registerViewController(IPlayerViewController iPlayerViewController) {
@@ -198,6 +207,9 @@ public class PlayerPresenter implements IPlayer {
             @Override
             public void onPlayStart() {
                 LogUtil.d(TAG, "onPlayStart", "开始播放");
+                for (IPlayerViewController iPlayerViewController : mIPlayerViewControllers) {
+                    iPlayerViewController.onPlayStart(mTracks.get(mIndex));
+                }
             }
 
             /**
@@ -206,6 +218,9 @@ public class PlayerPresenter implements IPlayer {
             @Override
             public void onPlayPause() {
                 LogUtil.d(TAG, "onPlayStart", "暂停播放");
+                for (IPlayerViewController iPlayerViewController : mIPlayerViewControllers) {
+                    iPlayerViewController.onPlayPause();
+                }
             }
 
             /**
@@ -214,6 +229,9 @@ public class PlayerPresenter implements IPlayer {
             @Override
             public void onPlayStop() {
                 LogUtil.d(TAG, "onPlayStart", "停止播放");
+                for (IPlayerViewController iPlayerViewController : mIPlayerViewControllers) {
+                    iPlayerViewController.onPlayStop();
+                }
             }
 
 
@@ -273,12 +291,15 @@ public class PlayerPresenter implements IPlayer {
             /**
              * 播放进度回调
              *
-             * @param currPos 当前播放进度
-             * @param duration 总进度
+             * @param currPosition 当前播放进度
+             * @param totalDuration 总进度
              */
             @Override
-            public void onPlayProgress(int currPos, int duration) {
-                LogUtil.d(TAG, "onPlayStart", "播放进度回调 currPos " + currPos + " duration = " + duration);
+            public void onPlayProgress(int currPosition, int totalDuration) {
+                LogUtil.d(TAG, "onPlayStart", "播放进度回调 currPosition " + currPosition + " totalDuration = " + totalDuration);
+                for (IPlayerViewController iPlayerViewController : mIPlayerViewControllers) {
+                    iPlayerViewController.onPlayProgressUpdate(currPosition, totalDuration);
+                }
             }
 
             /**、

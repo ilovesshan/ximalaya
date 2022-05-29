@@ -3,6 +3,7 @@ package com.ilovesshan.ximalaya.interfaces;
 import com.ilovesshan.ximalaya.base.IBasePresenter;
 import com.ximalaya.ting.android.opensdk.model.advertis.Advertis;
 import com.ximalaya.ting.android.opensdk.model.track.Track;
+import com.ximalaya.ting.android.opensdk.player.service.XmPlayListControl;
 import com.ximalaya.ting.android.opensdk.player.service.XmPlayerException;
 
 import java.util.List;
@@ -83,5 +84,17 @@ public interface IPlayerViewController {
      * 广告播放完毕
      */
     public void onCompletePlayAds();
+
+
+    /**
+     * 播放进度更新
+     */
+    public void onPlayProgressUpdate(int currPosition, int totalDuration);
+
+
+    /**
+     * 播放模式改变
+     */
+    public void onPlayModeUpdate(XmPlayListControl.PlayMode playMode);;
 }
 
