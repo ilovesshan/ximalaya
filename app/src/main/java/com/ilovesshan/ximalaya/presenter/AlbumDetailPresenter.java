@@ -63,7 +63,7 @@ public class AlbumDetailPresenter implements IAlbumDetail {
         }
 
         Map<String, String> map = new HashMap<String, String>();
-        map.put(DTransferConstants.ALBUM_ID, "4603856");
+        map.put(DTransferConstants.ALBUM_ID, albumId);
         map.put(DTransferConstants.SORT, sort);
         map.put(DTransferConstants.PAGE, page);
         map.put(DTransferConstants.PAGE_SIZE, String.valueOf(Constants.RECOMMEND_DETAIL_LIST_SIZE));
