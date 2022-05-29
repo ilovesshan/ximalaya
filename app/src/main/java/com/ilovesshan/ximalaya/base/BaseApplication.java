@@ -56,11 +56,11 @@ public class BaseApplication extends Application {
 
 
     /**
-     * 取 全局Context对象
+     * 获取全局Context对象
      *
      * @return Context
      */
-    public Context getBaseContext() {
+    public static Context getBaseCtx() {
         return mBaseContext;
     }
 
