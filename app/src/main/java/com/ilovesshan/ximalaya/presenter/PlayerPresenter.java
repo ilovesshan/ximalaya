@@ -133,6 +133,7 @@ public class PlayerPresenter implements IPlayer {
         mPlaySet = true;
 
 
+
         // 监听广告播放状态
         mXmPlayerManager.addAdsStatusListener(new IXmAdsStatusListener() {
             /**
@@ -208,7 +209,8 @@ public class PlayerPresenter implements IPlayer {
             public void onPlayStart() {
                 LogUtil.d(TAG, "onPlayStart", "开始播放");
                 for (IPlayerViewController iPlayerViewController : mIPlayerViewControllers) {
-                    iPlayerViewController.onPlayStart(mTracks.get(mIndex));
+                    iPlayerViewController.onPlayStart(tracks.get(mXmPlayerManager.getCurrentIndex()));
+                    iPlayerViewController.onTrackUpdate(tracks.get(mXmPlayerManager.getCurrentIndex()), mXmPlayerManager.getCurrentIndex());
                 }
             }
 
@@ -255,12 +257,19 @@ public class PlayerPresenter implements IPlayer {
              * 切歌
              * 请通过model中的kind字段来判断是track、radio和schedule； 上一首的播放时间请通过lastPlayedMills字段来获取;
              *
-             * @param playableModel 上一首model,可能为空
-             * @param playableModel1 下一首model
+             * @param prevMode 上一首model,可能为空
+             * @param currentMode 当前首model
              */
             @Override
-            public void onSoundSwitch(PlayableModel playableModel, PlayableModel playableModel1) {
+            public void onSoundSwitch(PlayableModel prevMode, PlayableModel currentMode) {
                 LogUtil.d(TAG, "onPlayStart", "切歌");
+                if (prevMode != null) {
+                    if (currentMode instanceof Track) {
+                        for (IPlayerViewController iPlayerViewController : mIPlayerViewControllers) {
+                            iPlayerViewController.onTrackUpdate((Track) currentMode, mXmPlayerManager.getCurrentIndex());
+                        }
+                    }
+                }
             }
 
             /**
@@ -313,6 +322,5 @@ public class PlayerPresenter implements IPlayer {
                 return false;
             }
         });
-
     }
 }

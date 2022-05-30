@@ -1,6 +1,5 @@
 package com.ilovesshan.ximalaya.interfaces;
 
-import com.ilovesshan.ximalaya.base.IBasePresenter;
 import com.ximalaya.ting.android.opensdk.model.advertis.Advertis;
 import com.ximalaya.ting.android.opensdk.model.track.Track;
 import com.ximalaya.ting.android.opensdk.player.service.XmPlayListControl;
@@ -52,7 +51,6 @@ public interface IPlayerViewController {
      */
     public void onLoadedPlayList(List<Track> tracks);
 
-
     /**
      * 播放器错误
      * <p>
@@ -62,7 +60,6 @@ public interface IPlayerViewController {
      * 参考喜马拉雅SDK文档：XimalayaAndroidSDK_V8.0.9/文档/喜马拉雅SDK接入文档.html#41-播放器概述
      */
     public void onPlayError(XmPlayerException exception);
-
 
     /**
      * 开始播放广告
@@ -95,6 +92,14 @@ public interface IPlayerViewController {
     /**
      * 播放模式改变
      */
-    public void onPlayModeUpdate(XmPlayListControl.PlayMode playMode);;
+    public void onPlayModeUpdate(XmPlayListControl.PlayMode playMode);
+
+
+    /**
+     * @param track    节目信息
+     * @param position 播放索引
+     */
+    public void onTrackUpdate(Track track, int position);
+
 }
 

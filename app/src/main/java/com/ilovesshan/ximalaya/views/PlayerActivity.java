@@ -1,7 +1,5 @@
 package com.ilovesshan.ximalaya.views;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -9,12 +7,14 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.hjq.toast.ToastUtils;
 import com.ilovesshan.ximalaya.R;
 import com.ilovesshan.ximalaya.interfaces.IPlayerViewController;
 import com.ilovesshan.ximalaya.presenter.PlayerPresenter;
+import com.ilovesshan.ximalaya.utils.LogUtil;
 import com.ilovesshan.ximalaya.utils.TimeUtils;
-import com.ilovesshan.ximalaya.utils.ViewUtils;
 import com.ximalaya.ting.android.opensdk.model.advertis.Advertis;
 import com.ximalaya.ting.android.opensdk.model.track.Track;
 import com.ximalaya.ting.android.opensdk.player.service.XmPlayListControl;
@@ -196,7 +196,6 @@ public class PlayerActivity extends AppCompatActivity implements IPlayerViewCont
     @Override
     public void onPlayStart(Track track) {
         if (mIvPlayerPlayOrPause != null) {
-            mTvPlayerTitle.setText(track.getTrackTitle());
             mIvPlayerPlayOrPause.setImageResource(R.drawable.player_pause);
         }
     }
@@ -222,17 +221,15 @@ public class PlayerActivity extends AppCompatActivity implements IPlayerViewCont
 
     @Override
     public void onPlayPrev(Track track) {
-        mTvPlayerTitle.setText(track.getTrackTitle());
     }
 
     @Override
     public void onPlayNext(Track track) {
-        mTvPlayerTitle.setText(track.getTrackTitle());
     }
 
     @Override
     public void onLoadedPlayList(List<Track> tracks) {
-
+        LogUtil.d(TAG, "onLoadedPlayList", "List<Track> ==" + tracks.size());
     }
 
     @Override
@@ -296,6 +293,13 @@ public class PlayerActivity extends AppCompatActivity implements IPlayerViewCont
         } else if (playMode == XmPlayListControl.PlayMode.PLAY_MODEL_RANDOM) {
             ToastUtils.show("随机播放");
             mIvPlayerMode.setImageResource(R.drawable.player_mode_suiji);
+        }
+    }
+
+    @Override
+    public void onTrackUpdate(Track track, int position) {
+        if (mTvPlayerTitle != null) {
+            mTvPlayerTitle.setText(track.getTrackTitle());
         }
     }
 
