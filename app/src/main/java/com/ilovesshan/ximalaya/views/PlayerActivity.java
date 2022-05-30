@@ -8,13 +8,18 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.hjq.toast.ToastUtils;
 import com.ilovesshan.ximalaya.R;
+import com.ilovesshan.ximalaya.adapter.PlayerSmallCoverAdapter;
 import com.ilovesshan.ximalaya.interfaces.IPlayerViewController;
 import com.ilovesshan.ximalaya.presenter.PlayerPresenter;
 import com.ilovesshan.ximalaya.utils.LogUtil;
 import com.ilovesshan.ximalaya.utils.TimeUtils;
+import com.ilovesshan.ximalaya.utils.ViewUtils;
 import com.ximalaya.ting.android.opensdk.model.advertis.Advertis;
 import com.ximalaya.ting.android.opensdk.model.track.Track;
 import com.ximalaya.ting.android.opensdk.player.service.XmPlayListControl;
@@ -38,11 +43,14 @@ public class PlayerActivity extends AppCompatActivity implements IPlayerViewCont
     private TextView mTvPlayerCurrentDuration;
     private TextView mTvPlayerTotalDuration;
     private SeekBar mSbPlayerProgress;
+    private ViewPager mVpPlayerSmallCoverContainer;
+
 
     private PlayerPresenter mPlayerPresenter;
     private boolean isUserTouching = false;
     // 默认列表循环播放
     private XmPlayListControl.PlayMode mCurrentPlayMode = XmPlayListControl.PlayMode.PLAY_MODEL_LIST_LOOP;
+    private PlayerSmallCoverAdapter mPlayerSmallCoverAdapter;
 
 
     @Override
@@ -51,16 +59,13 @@ public class PlayerActivity extends AppCompatActivity implements IPlayerViewCont
         setContentView(R.layout.activity_player);
 
         // 透明状态栏
-        // ViewUtils.makeStatusBarTransparent(this);
+        ViewUtils.makeStatusBarTransparent(this);
 
         // 初始化view
         initView();
 
         // 绑定事件
         bindEvent();
-
-        // 进入界面 默认开始播放
-        startPlay();
 
     }
 
@@ -80,6 +85,7 @@ public class PlayerActivity extends AppCompatActivity implements IPlayerViewCont
         mTvPlayerCurrentDuration = findViewById(R.id.tv_player_current_duration);
         mTvPlayerTotalDuration = findViewById(R.id.tv_player_total_duration);
         mSbPlayerProgress = findViewById(R.id.sb_player_progress);
+        mVpPlayerSmallCoverContainer = findViewById(R.id.vp_player_small_cover_container);
     }
 
 
@@ -87,6 +93,11 @@ public class PlayerActivity extends AppCompatActivity implements IPlayerViewCont
      * 绑定事件 处理函数
      */
     private void bindEvent() {
+
+        // 创建并设置适配器
+        mPlayerSmallCoverAdapter = new PlayerSmallCoverAdapter();
+        mVpPlayerSmallCoverContainer.setAdapter(mPlayerSmallCoverAdapter);
+
         // 获取PlayerPresenter
         mPlayerPresenter = PlayerPresenter.getInstance();
 
@@ -99,7 +110,7 @@ public class PlayerActivity extends AppCompatActivity implements IPlayerViewCont
                 if (mPlayerPresenter.isPlaying()) {
                     pausePlay();
                 } else {
-                    startPlay();
+                    mPlayerPresenter.play();
                 }
             }
         });
@@ -160,18 +171,25 @@ public class PlayerActivity extends AppCompatActivity implements IPlayerViewCont
                 mPlayerPresenter.setPlayMode(mCurrentPlayMode);
             }
         });
+
+        // 监听viewPager滑动 切换节目
+        mVpPlayerSmallCoverContainer.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                mPlayerPresenter.play(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
-
-
-    /**
-     * 开始播放
-     */
-    private void startPlay() {
-        if (mPlayerPresenter != null) {
-            mPlayerPresenter.play();
-        }
-    }
-
 
     /**
      * 暂停播放
@@ -230,6 +248,9 @@ public class PlayerActivity extends AppCompatActivity implements IPlayerViewCont
     @Override
     public void onLoadedPlayList(List<Track> tracks) {
         LogUtil.d(TAG, "onLoadedPlayList", "List<Track> ==" + tracks.size());
+        if (mPlayerSmallCoverAdapter != null) {
+            mPlayerSmallCoverAdapter.setDat(tracks);
+        }
     }
 
     @Override
@@ -300,6 +321,14 @@ public class PlayerActivity extends AppCompatActivity implements IPlayerViewCont
     public void onTrackUpdate(Track track, int position) {
         if (mTvPlayerTitle != null) {
             mTvPlayerTitle.setText(track.getTrackTitle());
+            // 高斯模糊背景
+            RequestOptions blurTransformation = ViewUtils.blurTransformation(30, 10);
+            Glide.with(mIvPlayerBigCover).load(track.getCoverUrlLarge()).apply(blurTransformation).into(mIvPlayerBigCover);
+        }
+
+        if (mPlayerSmallCoverAdapter != null) {
+            // 歌曲切换 需要改变对应的cover
+            mVpPlayerSmallCoverContainer.setCurrentItem(position, true);
         }
     }
 

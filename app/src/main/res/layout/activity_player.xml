@@ -16,26 +16,22 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:ellipsize="end"
+        android:gravity="center"
         android:maxLines="2"
-        android:padding="10dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:text="我是播放列表的表的标题"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="24sp" />
 
     <!--专辑图片-->
     <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vp_player_small_cover_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/ll_progress_controller_container"
+        android:layout_above="@id/ll_progress_controller_container"
         android:layout_below="@+id/tv_player_title"
-        android:gravity="center">
-        <!--<ImageView
-                android:scaleType="fitXY"-->
-        <!--    android:id="@+id/iv_player_small_cover"-->
-        <!--    android:layout_width="240dp"-->
-        <!--    android:layout_height="240dp"-->
-        <!--    android:background="#ff0" />-->
-    </androidx.viewpager.widget.ViewPager>
+        android:gravity="center" />
 
     <!--进度条-->
     <LinearLayout
@@ -50,7 +46,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="00:00" />
+            android:text="00:00"
+            android:textColor="@color/white" />
 
         <SeekBar
             android:id="@+id/sb_player_progress"
@@ -64,7 +61,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="00:00" />
+            android:text="00:00"
+            android:textColor="@color/white" />
     </LinearLayout>
 
     <!--播放控制器-->

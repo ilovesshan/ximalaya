@@ -1,5 +1,8 @@
 package com.ilovesshan.ximalaya.presenter;
 
+import static com.ximalaya.ting.android.opensdk.player.constants.PlayerConstants.STATE_PREPARED;
+
+import com.hjq.toast.ToastUtils;
 import com.ilovesshan.ximalaya.base.BaseApplication;
 import com.ilovesshan.ximalaya.interfaces.IPlayer;
 import com.ilovesshan.ximalaya.interfaces.IPlayerViewController;
@@ -133,7 +136,6 @@ public class PlayerPresenter implements IPlayer {
         mPlaySet = true;
 
 
-
         // 监听广告播放状态
         mXmPlayerManager.addAdsStatusListener(new IXmAdsStatusListener() {
             /**
@@ -178,6 +180,7 @@ public class PlayerPresenter implements IPlayer {
             @Override
             public void onStartPlayAds(Advertis advertise, int i) {
                 LogUtil.d(TAG, "onStartGetAdsInfo", "开始播放广告");
+                ToastUtils.show("播放广告中...");
             }
 
             /**
@@ -186,6 +189,7 @@ public class PlayerPresenter implements IPlayer {
             @Override
             public void onCompletePlayAds() {
                 LogUtil.d(TAG, "onStartGetAdsInfo", "广告播放完毕");
+                ToastUtils.show("广告播放完毕...");
             }
 
             /**
@@ -251,6 +255,9 @@ public class PlayerPresenter implements IPlayer {
             @Override
             public void onSoundPrepared() {
                 LogUtil.d(TAG, "onPlayStart", "播放器准备完毕");
+                if (mXmPlayerManager.getPlayerStatus() == STATE_PREPARED) {
+                    mXmPlayerManager.play();
+                }
             }
 
             /**
