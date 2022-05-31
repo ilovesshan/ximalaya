@@ -1,7 +1,6 @@
 package com.ilovesshan.ximalaya.interfaces;
 
 import com.ilovesshan.ximalaya.base.IBasePresenter;
-import com.ximalaya.ting.android.opensdk.player.service.XmPlayListControl;
 
 /**
  * Created with IntelliJ IDEA.
@@ -59,11 +58,9 @@ public interface IPlayer extends IBasePresenter<IPlayerViewController> {
      * PLAY_MODEL_LIST列表播放
      * PLAY_MODEL_LIST_LOOP列表循环
      * PLAY_MODEL_RANDOM 随机播放
-     *
-     * @param playMode 播放模式
      */
 
-    public void setPlayMode(XmPlayListControl.PlayMode playMode);
+    public void setPlayMode();
 
 
     /**

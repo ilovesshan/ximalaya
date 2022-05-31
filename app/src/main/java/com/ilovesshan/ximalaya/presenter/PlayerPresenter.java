@@ -2,8 +2,12 @@ package com.ilovesshan.ximalaya.presenter;
 
 import static com.ximalaya.ting.android.opensdk.player.constants.PlayerConstants.STATE_PREPARED;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.hjq.toast.ToastUtils;
 import com.ilovesshan.ximalaya.base.BaseApplication;
+import com.ilovesshan.ximalaya.config.SharedPreferencesConstants;
 import com.ilovesshan.ximalaya.interfaces.IPlayer;
 import com.ilovesshan.ximalaya.interfaces.IPlayerViewController;
 import com.ilovesshan.ximalaya.utils.LogUtil;
@@ -37,6 +41,11 @@ public class PlayerPresenter implements IPlayer {
 
     private static PlayerPresenter sPlayerPresenter = null;
     private XmPlayerManager mXmPlayerManager;
+
+    // 默认 列表循环播放
+    private int mCurrentPlayMode = SharedPreferencesConstants.PLAY_MODEL_LIST_LOOP_INT;
+    private SharedPreferences mSharedPreferences;
+
 
     private PlayerPresenter() {
     }
@@ -95,9 +104,34 @@ public class PlayerPresenter implements IPlayer {
     }
 
     @Override
-    public void setPlayMode(XmPlayListControl.PlayMode playMode) {
+    public void setPlayMode() {
+        //  单曲播放 PLAY_MODEL_SINGLE_INT = 1
+        //  单曲循环播放 PLAY_MODEL_SINGLE_LOOP_INT = 2
+        //  列表播放 PLAY_MODEL_LIST_INT = 3
+        //  列表循环 PLAY_MODEL_LIST_LOOP_INT = 4
+        //  随机播放 PLAY_MODEL_RANDOM_INT = 5
+
+        // 切换顺序 列表循环 => 随机播放=> 单曲循环播放
+
+        if (mCurrentPlayMode == 4) {
+            mCurrentPlayMode = SharedPreferencesConstants.PLAY_MODEL_RANDOM_INT;
+        } else if (mCurrentPlayMode == 5) {
+            mCurrentPlayMode = SharedPreferencesConstants.PLAY_MODEL_SINGLE_LOOP_INT;
+        } else if (mCurrentPlayMode == 2) {
+            mCurrentPlayMode = SharedPreferencesConstants.PLAY_MODEL_LIST_LOOP_INT;
+        }
+
+        // 更新播放器 播放模式
+        mXmPlayerManager.setPlayMode(getPlayModeByInt(mCurrentPlayMode));
+
+        // mSharedPreferences 持久化状态
+        SharedPreferences.Editor edit = mSharedPreferences.edit();
+        edit.putInt(SharedPreferencesConstants.PLAY_MODE_KEY, mCurrentPlayMode);
+        edit.apply();
+
+        // 通知UI更新界面
         for (IPlayerViewController iPlayerViewController : mIPlayerViewControllers) {
-            iPlayerViewController.onPlayModeUpdate(playMode);
+            iPlayerViewController.onPlayModeUpdate(getPlayModeByInt(mCurrentPlayMode));
         }
     }
 
@@ -118,7 +152,10 @@ public class PlayerPresenter implements IPlayer {
         if (!mIPlayerViewControllers.contains(iPlayerViewController)) {
             mIPlayerViewControllers.add(iPlayerViewController);
         }
+
+        iPlayerViewController.onTrackUpdate(mTracks.get(mIndex), mIndex);
         iPlayerViewController.onLoadedPlayList(mTracks);
+        iPlayerViewController.onInitPlayMode(getPlayModeByInt(mCurrentPlayMode));
     }
 
     @Override
@@ -134,6 +171,13 @@ public class PlayerPresenter implements IPlayer {
         mXmPlayerManager = XmPlayerManager.getInstance(BaseApplication.getBaseCtx());
         mXmPlayerManager.setPlayList(tracks, index);
         mPlaySet = true;
+
+        // SharedPreferences 用于记录上次选择的播放模式
+        if (mSharedPreferences == null) {
+            mSharedPreferences = BaseApplication.getBaseCtx().getSharedPreferences("playMode", Context.MODE_PRIVATE);
+        }
+        // 更新状态
+        mCurrentPlayMode = mSharedPreferences.getInt(SharedPreferencesConstants.PLAY_MODE_KEY, mCurrentPlayMode);
 
 
         // 监听广告播放状态
@@ -214,7 +258,6 @@ public class PlayerPresenter implements IPlayer {
                 LogUtil.d(TAG, "onPlayStart", "开始播放");
                 for (IPlayerViewController iPlayerViewController : mIPlayerViewControllers) {
                     iPlayerViewController.onPlayStart(tracks.get(mXmPlayerManager.getCurrentIndex()));
-                    iPlayerViewController.onTrackUpdate(tracks.get(mXmPlayerManager.getCurrentIndex()), mXmPlayerManager.getCurrentIndex());
                 }
             }
 
@@ -256,6 +299,9 @@ public class PlayerPresenter implements IPlayer {
             public void onSoundPrepared() {
                 LogUtil.d(TAG, "onPlayStart", "播放器准备完毕");
                 if (mXmPlayerManager.getPlayerStatus() == STATE_PREPARED) {
+                    // 设置播放模式
+                    mXmPlayerManager.setPlayMode(getPlayModeByInt(mCurrentPlayMode));
+                    // 开始播放
                     mXmPlayerManager.play();
                 }
             }
@@ -274,6 +320,7 @@ public class PlayerPresenter implements IPlayer {
                     if (currentMode instanceof Track) {
                         for (IPlayerViewController iPlayerViewController : mIPlayerViewControllers) {
                             iPlayerViewController.onTrackUpdate((Track) currentMode, mXmPlayerManager.getCurrentIndex());
+                            iPlayerViewController.onTrackUpdate(tracks.get(mXmPlayerManager.getCurrentIndex()), mXmPlayerManager.getCurrentIndex());
                         }
                     }
                 }
@@ -329,5 +376,49 @@ public class PlayerPresenter implements IPlayer {
                 return false;
             }
         });
+    }
+
+
+    private int getIntByPlayMode(XmPlayListControl.PlayMode playMode) {
+        //  单曲播放 PLAY_MODEL_SINGLE_INT = 1
+        //  单曲循环播放 PLAY_MODEL_SINGLE_LOOP_INT = 2
+        //  列表播放 PLAY_MODEL_LIST_INT = 3
+        //  列表循环 PLAY_MODEL_LIST_LOOP_INT = 4
+        //  随机播放 PLAY_MODEL_RANDOM_INT = 5
+
+        switch (playMode) {
+            case PLAY_MODEL_SINGLE:
+                return SharedPreferencesConstants.PLAY_MODEL_SINGLE_INT;
+            case PLAY_MODEL_SINGLE_LOOP:
+                return SharedPreferencesConstants.PLAY_MODEL_SINGLE_LOOP_INT;
+            case PLAY_MODEL_LIST:
+                return SharedPreferencesConstants.PLAY_MODEL_LIST_INT;
+            case PLAY_MODEL_LIST_LOOP:
+                return SharedPreferencesConstants.PLAY_MODEL_LIST_LOOP_INT;
+            case PLAY_MODEL_RANDOM:
+            default:
+                return SharedPreferencesConstants.PLAY_MODEL_RANDOM_INT;
+        }
+    }
+
+    private XmPlayListControl.PlayMode getPlayModeByInt(int index) {
+        //  单曲播放 PLAY_MODEL_SINGLE_INT = 1
+        //  单曲循环播放 PLAY_MODEL_SINGLE_LOOP_INT = 2
+        //  列表播放 PLAY_MODEL_LIST_INT = 3
+        //  列表循环 PLAY_MODEL_LIST_LOOP_INT = 4
+        //  随机播放 PLAY_MODEL_RANDOM_INT = 5
+        switch (index) {
+            case SharedPreferencesConstants.PLAY_MODEL_SINGLE_INT:
+                return XmPlayListControl.PlayMode.PLAY_MODEL_SINGLE;
+            case SharedPreferencesConstants.PLAY_MODEL_SINGLE_LOOP_INT:
+                return XmPlayListControl.PlayMode.PLAY_MODEL_SINGLE_LOOP;
+            case SharedPreferencesConstants.PLAY_MODEL_LIST_INT:
+                return XmPlayListControl.PlayMode.PLAY_MODEL_LIST;
+            case SharedPreferencesConstants.PLAY_MODEL_LIST_LOOP_INT:
+                return XmPlayListControl.PlayMode.PLAY_MODEL_LIST_LOOP;
+            case SharedPreferencesConstants.PLAY_MODEL_RANDOM_INT:
+            default:
+                return XmPlayListControl.PlayMode.PLAY_MODEL_RANDOM;
+        }
     }
 }

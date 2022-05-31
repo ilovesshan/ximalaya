@@ -101,5 +101,10 @@ public interface IPlayerViewController {
      */
     public void onTrackUpdate(Track track, int position);
 
+
+
+    public void onInitPlayMode(XmPlayListControl.PlayMode playMode);
+
+
 }
 

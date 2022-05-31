@@ -1,8 +1,5 @@
 package com.ilovesshan.ximalaya.config;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created with IntelliJ IDEA.
  *

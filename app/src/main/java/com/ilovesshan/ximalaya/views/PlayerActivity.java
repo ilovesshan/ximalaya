@@ -48,9 +48,8 @@ public class PlayerActivity extends AppCompatActivity implements IPlayerViewCont
 
     private PlayerPresenter mPlayerPresenter;
     private boolean isUserTouching = false;
-    // 默认列表循环播放
-    private XmPlayListControl.PlayMode mCurrentPlayMode = XmPlayListControl.PlayMode.PLAY_MODEL_LIST_LOOP;
     private PlayerSmallCoverAdapter mPlayerSmallCoverAdapter;
+    private int mCurrentProgress = 0;
 
 
     @Override
@@ -126,6 +125,9 @@ public class PlayerActivity extends AppCompatActivity implements IPlayerViewCont
              */
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser) {
+                    mCurrentProgress = progress;
+                }
             }
 
             @Override
@@ -135,7 +137,8 @@ public class PlayerActivity extends AppCompatActivity implements IPlayerViewCont
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                mPlayerPresenter.seekTo(seekBar.getProgress());
+                isUserTouching = false;
+                mPlayerPresenter.seekTo(mCurrentProgress);
             }
         });
 
@@ -155,22 +158,7 @@ public class PlayerActivity extends AppCompatActivity implements IPlayerViewCont
         });
 
         // 改变播放模式
-        mIvPlayerMode.setOnClickListener(v -> {
-            // PLAY_MODEL_LIST_LOOP 列表循环
-            // PLAY_MODEL_RANDOM 随机播放
-            // PLAY_MODEL_SINGLE 单曲播放
-            // 切换顺序 列表循环 => 随机播放=>单曲播放
-            if (mPlayerPresenter != null) {
-                if (mCurrentPlayMode == XmPlayListControl.PlayMode.PLAY_MODEL_LIST_LOOP) {
-                    mCurrentPlayMode = XmPlayListControl.PlayMode.PLAY_MODEL_RANDOM;
-                } else if (mCurrentPlayMode == XmPlayListControl.PlayMode.PLAY_MODEL_RANDOM) {
-                    mCurrentPlayMode = XmPlayListControl.PlayMode.PLAY_MODEL_SINGLE;
-                } else if (mCurrentPlayMode == XmPlayListControl.PlayMode.PLAY_MODEL_SINGLE) {
-                    mCurrentPlayMode = XmPlayListControl.PlayMode.PLAY_MODEL_LIST_LOOP;
-                }
-                mPlayerPresenter.setPlayMode(mCurrentPlayMode);
-            }
-        });
+        mIvPlayerMode.setOnClickListener(v -> mPlayerPresenter.setPlayMode());
 
         // 监听viewPager滑动 切换节目
         mVpPlayerSmallCoverContainer.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -305,8 +293,8 @@ public class PlayerActivity extends AppCompatActivity implements IPlayerViewCont
         // PLAY_MODEL_LIST 列表播放
         // PLAY_MODEL_LIST_LOOP 列表循环播放
         // PLAY_MODEL_RANDOM 随机播放
-        if (playMode == XmPlayListControl.PlayMode.PLAY_MODEL_SINGLE) {
-            ToastUtils.show("单曲播放");
+        if (playMode == XmPlayListControl.PlayMode.PLAY_MODEL_SINGLE_LOOP) {
+            ToastUtils.show("单曲循环播放");
             mIvPlayerMode.setImageResource(R.drawable.player_mode_danqu);
         } else if (playMode == XmPlayListControl.PlayMode.PLAY_MODEL_LIST_LOOP) {
             ToastUtils.show("列表循环播放");
@@ -329,6 +317,17 @@ public class PlayerActivity extends AppCompatActivity implements IPlayerViewCont
         if (mPlayerSmallCoverAdapter != null) {
             // 歌曲切换 需要改变对应的cover
             mVpPlayerSmallCoverContainer.setCurrentItem(position, true);
+        }
+    }
+
+    @Override
+    public void onInitPlayMode(XmPlayListControl.PlayMode playMode) {
+        if (playMode == XmPlayListControl.PlayMode.PLAY_MODEL_SINGLE_LOOP) {
+            mIvPlayerMode.setImageResource(R.drawable.player_mode_danqu);
+        } else if (playMode == XmPlayListControl.PlayMode.PLAY_MODEL_LIST_LOOP) {
+            mIvPlayerMode.setImageResource(R.drawable.player_mode_shunxu);
+        } else if (playMode == XmPlayListControl.PlayMode.PLAY_MODEL_RANDOM) {
+            mIvPlayerMode.setImageResource(R.drawable.player_mode_suiji);
         }
     }
 
