@@ -1,9 +1,11 @@
 package com.ilovesshan.ximalaya.views;
 
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -27,14 +29,12 @@ import com.ximalaya.ting.android.opensdk.player.service.XmPlayerException;
 
 import java.util.List;
 
-@SuppressLint("UseCompatLoadingForDrawables")
+@SuppressLint({"UseCompatLoadingForDrawables", "Recycle"})
 public class PlayerActivity extends AppCompatActivity implements IPlayerViewController {
     private static final String TAG = "PlayerActivity";
 
     private ImageView mIvPlayerBigCover;
     private TextView mTvPlayerTitle;
-    private LinearLayout mLlProgressControllerContainer;
-    private LinearLayout mLlPlayerControllerContainer;
     private ImageView mIvPlayerMode;
     private ImageView mIvPlayerPrev;
     private ImageView mIvPlayerPlayOrPause;
@@ -50,6 +50,9 @@ public class PlayerActivity extends AppCompatActivity implements IPlayerViewCont
     private boolean isUserTouching = false;
     private PlayerSmallCoverAdapter mPlayerSmallCoverAdapter;
     private int mCurrentProgress = 0;
+    private BottomSheet mBottomSheet;
+    private ValueAnimator mEnterAnimator;
+    private ValueAnimator mLeavrAnimator;
 
 
     @Override
@@ -66,6 +69,33 @@ public class PlayerActivity extends AppCompatActivity implements IPlayerViewCont
         // 绑定事件
         bindEvent();
 
+        initAnimation();
+
+    }
+
+    /**
+     * 初始化 动画
+     */
+    private void initAnimation() {
+        mEnterAnimator = ValueAnimator.ofFloat(1.0f, 0.7f);
+        mEnterAnimator.setDuration(300);
+        mEnterAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                Object value = animation.getAnimatedValue();
+                setWindowAlpha((float) value);
+            }
+        });
+
+        mLeavrAnimator = ValueAnimator.ofFloat(0.7f, 1.0f);
+        mLeavrAnimator.setDuration(300);
+        mLeavrAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                Object value = animation.getAnimatedValue();
+                setWindowAlpha((float) value);
+            }
+        });
     }
 
     /**
@@ -74,8 +104,6 @@ public class PlayerActivity extends AppCompatActivity implements IPlayerViewCont
     private void initView() {
         mIvPlayerBigCover = findViewById(R.id.iv_player_big_cover);
         mTvPlayerTitle = findViewById(R.id.tv_player_title);
-        mLlProgressControllerContainer = findViewById(R.id.ll_progress_controller_container);
-        mLlPlayerControllerContainer = findViewById(R.id.ll_player_controller_container);
         mIvPlayerMode = findViewById(R.id.iv_player_mode);
         mIvPlayerPrev = findViewById(R.id.iv_player_prev);
         mIvPlayerPlayOrPause = findViewById(R.id.iv_player_play_or_pause);
@@ -92,6 +120,9 @@ public class PlayerActivity extends AppCompatActivity implements IPlayerViewCont
      * 绑定事件 处理函数
      */
     private void bindEvent() {
+
+        // 创建底部弹窗PopupWindow对象
+        mBottomSheet = new BottomSheet();
 
         // 创建并设置适配器
         mPlayerSmallCoverAdapter = new PlayerSmallCoverAdapter();
@@ -177,6 +208,23 @@ public class PlayerActivity extends AppCompatActivity implements IPlayerViewCont
 
             }
         });
+
+
+        // 弹出播放列表
+        mIvPlayerList.setOnClickListener(v -> {
+            mBottomSheet.showAtLocation(v, Gravity.BOTTOM, 0, 0);
+            setWindowAlpha(0.7f);
+            mEnterAnimator.start();
+        });
+
+        // 监听mBottomSheet关闭
+        mBottomSheet.setOnDismissListener(() -> mLeavrAnimator.start());
+    }
+
+    private void setWindowAlpha(float alpha) {
+        WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+        layoutParams.alpha = alpha;
+        getWindow().setAttributes(layoutParams);
     }
 
     /**
