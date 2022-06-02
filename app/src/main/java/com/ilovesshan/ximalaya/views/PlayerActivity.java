@@ -52,7 +52,7 @@ public class PlayerActivity extends AppCompatActivity implements IPlayerViewCont
     private int mCurrentProgress = 0;
     private BottomSheet mBottomSheet;
     private ValueAnimator mEnterAnimator;
-    private ValueAnimator mLeavrAnimator;
+    private ValueAnimator mLeaveAnimator;
 
 
     @Override
@@ -87,9 +87,9 @@ public class PlayerActivity extends AppCompatActivity implements IPlayerViewCont
             }
         });
 
-        mLeavrAnimator = ValueAnimator.ofFloat(0.7f, 1.0f);
-        mLeavrAnimator.setDuration(300);
-        mLeavrAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        mLeaveAnimator = ValueAnimator.ofFloat(0.7f, 1.0f);
+        mLeaveAnimator.setDuration(300);
+        mLeaveAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 Object value = animation.getAnimatedValue();
@@ -200,7 +200,10 @@ public class PlayerActivity extends AppCompatActivity implements IPlayerViewCont
 
             @Override
             public void onPageSelected(int position) {
-                mPlayerPresenter.play(position);
+                // 通知 PlayerPresenter切歌
+                if (mPlayerPresenter != null) {
+                    mPlayerPresenter.play(position);
+                }
             }
 
             @Override
@@ -218,7 +221,7 @@ public class PlayerActivity extends AppCompatActivity implements IPlayerViewCont
         });
 
         // 监听mBottomSheet关闭
-        mBottomSheet.setOnDismissListener(() -> mLeavrAnimator.start());
+        mBottomSheet.setOnDismissListener(() -> mLeaveAnimator.start());
     }
 
     private void setWindowAlpha(float alpha) {
@@ -286,6 +289,11 @@ public class PlayerActivity extends AppCompatActivity implements IPlayerViewCont
         LogUtil.d(TAG, "onLoadedPlayList", "List<Track> ==" + tracks.size());
         if (mPlayerSmallCoverAdapter != null) {
             mPlayerSmallCoverAdapter.setDat(tracks);
+        }
+
+        // 通知 bottomSheet 更新数据
+        if (mBottomSheet != null) {
+            mBottomSheet.setData(tracks);
         }
     }
 
@@ -365,6 +373,11 @@ public class PlayerActivity extends AppCompatActivity implements IPlayerViewCont
         if (mPlayerSmallCoverAdapter != null) {
             // 歌曲切换 需要改变对应的cover
             mVpPlayerSmallCoverContainer.setCurrentItem(position, true);
+        }
+
+        //  通知 BottomSheet(->PlayerListAdapter) 切歌(->切换UI展示)
+        if (mBottomSheet != null) {
+            mBottomSheet.setCurrentPlayIndex(position);
         }
     }
 

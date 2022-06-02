@@ -3,10 +3,105 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:layout_gravity="bottom"
         android:background="@drawable/shape_player_list"
-        android:padding="0dp" />
+        android:padding="0dp">
+
+        <!--播放模式切换和倒序播放-->
+        <RelativeLayout
+            android:id="@+id/rl_player_list_top"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/player_mode_shunxu" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center"
+                    android:text="顺序播放"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="15dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/player_desc"
+                    android:gravity="center" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"
+                    android:text="顺序播放"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/recommend_background" />
+
+
+        </RelativeLayout>
+
+        <!--播放列表-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv_player_list_center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/ll_player_list_bottom"
+            android:layout_below="@+id/rl_player_list_top" />
+
+        <!--关闭按钮-->
+        <LinearLayout
+            android:id="@+id/ll_player_list_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/recommend_background" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="关闭"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
 </LinearLayout>
