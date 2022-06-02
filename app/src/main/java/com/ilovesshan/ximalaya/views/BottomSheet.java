@@ -96,6 +96,10 @@ public class BottomSheet extends PopupWindow {
      * 绑定事件 处理函数
      */
     private void bindEvent() {
+        mMLlPlayerListBottom.setOnClickListener(v -> {
+            // 关闭 BottomSheet
+            this.dismiss();
+        });
 
         // 播放列表中item被点击 通知PPlayerActivity 切换歌曲
         mPlayerListAdapter.setOnPlayListTrackItemClickListener(playIndex -> {
