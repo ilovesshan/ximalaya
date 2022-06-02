@@ -222,6 +222,9 @@ public class PlayerActivity extends AppCompatActivity implements IPlayerViewCont
 
         // 监听mBottomSheet关闭
         mBottomSheet.setOnDismissListener(() -> mLeaveAnimator.start());
+
+        mBottomSheet.setOnPlayListItemClickListener(playIndex -> mPlayerPresenter.play(playIndex));
+        mBottomSheet.setOnPlayListPlayModeChangeListener(() -> mPlayerPresenter.setPlayMode());
     }
 
     private void setWindowAlpha(float alpha) {
@@ -359,6 +362,12 @@ public class PlayerActivity extends AppCompatActivity implements IPlayerViewCont
             ToastUtils.show("随机播放");
             mIvPlayerMode.setImageResource(R.drawable.player_mode_suiji);
         }
+
+        // 通知BottomSheet 更新播放状态
+        if (mBottomSheet != null) {
+            mBottomSheet.setPlayMode(playMode);
+        }
+
     }
 
     @Override
@@ -389,6 +398,11 @@ public class PlayerActivity extends AppCompatActivity implements IPlayerViewCont
             mIvPlayerMode.setImageResource(R.drawable.player_mode_shunxu);
         } else if (playMode == XmPlayListControl.PlayMode.PLAY_MODEL_RANDOM) {
             mIvPlayerMode.setImageResource(R.drawable.player_mode_suiji);
+        }
+
+        // 通知BottomSheet 更新播放状态
+        if (mBottomSheet != null) {
+            mBottomSheet.setPlayMode(playMode);
         }
     }
 

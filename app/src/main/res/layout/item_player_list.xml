@@ -23,15 +23,15 @@
                 android:layout_marginLeft="15dp">
 
                 <ImageView
+                    android:id="@+id/iv_player_list_play_mode_icon"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/player_mode_shunxu" />
+                    android:layout_gravity="center" />
 
                 <TextView
+                    android:id="@+id/iv_player_list_play_mode_text"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-
                     android:layout_marginLeft="10dp"
                     android:gravity="center"
                     android:text="顺序播放"
@@ -47,6 +47,7 @@
                 android:layout_marginRight="15dp">
 
                 <ImageView
+                    android:id="@+id/iv_player_list_play_order_icon"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center"
@@ -54,6 +55,7 @@
                     android:gravity="center" />
 
                 <TextView
+                    android:id="@+id/tv_player_list_play_order_text"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_marginLeft="10dp"

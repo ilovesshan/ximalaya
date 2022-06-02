@@ -51,14 +51,17 @@ public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.in
         mTvPlayerListTrackTitle.setText(mTracks.get(position).getTrackTitle());
         mTvPlayerListTrackTitle.setTextColor(itemView.getResources().getColor(mCurrentPlayIndex == position ? R.color.app_primary : R.color.black));
 
-        //TODO 播放列表底部弹窗中 下载按钮被点击逻辑暂未实现
         mIvPlayerListTrackDownload.setOnClickListener(v -> {
-            mOnPlayListTrackDownloadClickListener.onClick(position);
+            if (mOnPlayListTrackDownloadClickListener != null) {
+                mOnPlayListTrackDownloadClickListener.onClick(mTracks.get(position), position);
+            }
         });
 
         mTvPlayerListTrackTitle.setOnClickListener(v -> {
-            mOnPlayListTrackItemClickListener.onClick(position);
-            setCurrentPlayIndex(position);
+            if (mOnPlayListTrackItemClickListener != null) {
+                mOnPlayListTrackItemClickListener.onClick(position);
+                setCurrentPlayIndex(position);
+            }
         });
     }
 
@@ -100,6 +103,6 @@ public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.in
     }
 
     public interface OnPlayListTrackDownloadClickListener {
-        public void onClick(int playIndex);
+        public void onClick(Track track, int playIndex);
     }
 }
