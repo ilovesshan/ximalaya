@@ -190,20 +190,24 @@
 
         <!--播放按钮-->
         <LinearLayout
+            android:id="@+id/ll_album_detail_check_play_mode"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center">
 
             <ImageView
+                android:id="@+id/iv_album_detail_play_icon"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:background="@drawable/play" />
+                android:background="@drawable/play"
+                android:scaleType="fitXY" />
 
             <TextView
+                android:id="@+id/tv_album_detail_play_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="连续播放"
+                android:text="全部播放"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -278,6 +282,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/rl_play_and_selection_container"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp" />
 
 </RelativeLayout>

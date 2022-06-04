@@ -142,9 +142,11 @@ public class PlayerPresenter implements IPlayer {
         }
     }
 
-
     public boolean isPlaying() {
-        return mXmPlayerManager.isPlaying();
+        if (mXmPlayerManager != null) {
+            return mXmPlayerManager.isPlaying();
+        }
+        return false;
     }
 
     @Override
@@ -153,9 +155,11 @@ public class PlayerPresenter implements IPlayer {
             mIPlayerViewControllers.add(iPlayerViewController);
         }
 
-        iPlayerViewController.onTrackUpdate(mTracks.get(mIndex), mIndex);
-        iPlayerViewController.onLoadedPlayList(mTracks);
-        iPlayerViewController.onInitPlayMode(getPlayModeByInt(mCurrentPlayMode));
+        if (mTracks.size() > 0) {
+            iPlayerViewController.onTrackUpdate(mTracks.get(mIndex), mIndex);
+            iPlayerViewController.onLoadedPlayList(mTracks);
+            iPlayerViewController.onInitPlayMode(getPlayModeByInt(mCurrentPlayMode));
+        }
     }
 
     @Override

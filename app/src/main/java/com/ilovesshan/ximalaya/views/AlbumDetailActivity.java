@@ -1,9 +1,5 @@
 package com.ilovesshan.ximalaya.views;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -19,18 +20,23 @@ import com.hjq.toast.ToastUtils;
 import com.ilovesshan.ximalaya.R;
 import com.ilovesshan.ximalaya.adapter.TrackListAdapter;
 import com.ilovesshan.ximalaya.interfaces.IAlbumDetailViewController;
+import com.ilovesshan.ximalaya.interfaces.IPlayerViewController;
 import com.ilovesshan.ximalaya.presenter.AlbumDetailPresenter;
 import com.ilovesshan.ximalaya.presenter.PlayerPresenter;
 import com.ilovesshan.ximalaya.utils.LogUtil;
 import com.ilovesshan.ximalaya.utils.NumberUtils;
 import com.ilovesshan.ximalaya.utils.ViewUtils;
+import com.ximalaya.ting.android.opensdk.model.advertis.Advertis;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
 import com.ximalaya.ting.android.opensdk.model.track.Track;
+import com.ximalaya.ting.android.opensdk.player.service.XmPlayListControl;
+import com.ximalaya.ting.android.opensdk.player.service.XmPlayerException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SuppressLint("SetTextI18n")
-public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDetailViewController {
+public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDetailViewController, IPlayerViewController {
     private static final String TAG = "AlbumDetailActivity";
     private ImageView mIvBack;
     private ImageView mIvShare;
@@ -46,7 +52,9 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
     private TextView mTvSubscriptionAmountValue;
     private TextView mBtnSubscription;
     private RecyclerView mRcvAlbumDetailList;
-
+    private ImageView mIvAlbumDetailPlayIcon;
+    private TextView mTvAlbumDetailPlayText;
+    private LinearLayout mLlAlbumDetailCheckPlayMode;
 
     private AlbumDetailPresenter mAlbumDetailPresenter;
     private TrackListAdapter mTrackListAdapter;
@@ -55,7 +63,8 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
 
     private int mPageNum = 1;
     private long mAlbumId = -1;
-
+    private PlayerPresenter mPlayerPresenter;
+    private List<Track> mTrack = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,16 +74,20 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
         // 设置透明状态栏
         ViewUtils.makeStatusBarTransparent(AlbumDetailActivity.this);
 
-        // 初始化view和绑定事件
-        initViewAndBindEvent();
+        // 初始化view
+        initView();
+
+        // 绑定事件
+        bindEvent();
+
 
     }
 
 
     /**
-     * 初始化view和绑定事件 处理函数
+     * 初始化view 处理函数
      */
-    private void initViewAndBindEvent() {
+    private void initView() {
         mIvBack = findViewById(R.id.iv_back);
         mIvShare = findViewById(R.id.iv_share);
         mIvMore = findViewById(R.id.iv_more);
@@ -87,7 +100,17 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
         mTvPlayAmountValue = findViewById(R.id.tv_play_amount_value);
         mTvSubscriptionAmountValue = findViewById(R.id.tv_subscription_amount_value);
         mBtnSubscription = findViewById(R.id.btn_subscription);
+        mLlAlbumDetailCheckPlayMode = findViewById(R.id.ll_album_detail_check_play_mode);
+        mIvAlbumDetailPlayIcon = findViewById(R.id.iv_album_detail_play_icon);
+        mTvAlbumDetailPlayText = findViewById(R.id.tv_album_detail_play_text);
 
+    }
+
+
+    /**
+     * 绑定事件 处理函数
+     */
+    private void bindEvent() {
 
         // 占位的坑 方便填充数据 (加载中/成功/失败/为空...)
         FrameLayout mRcvAlbumDetailListContainer = findViewById(R.id.rcv_album_detail_list_container);
@@ -144,11 +167,31 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
 
         // 获取逻辑层控制器和注册监听
         mAlbumDetailPresenter = AlbumDetailPresenter.getInstance();
-        mAlbumDetailPresenter.registerViewController(AlbumDetailActivity.this);
+        mPlayerPresenter = PlayerPresenter.getInstance();
+
+        mAlbumDetailPresenter.registerViewController(this);
+        mPlayerPresenter.registerViewController(this);
+
+
+        // 播放与暂停控制
+        mLlAlbumDetailCheckPlayMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mPlayerPresenter != null) {
+                    //TODO 未进播放器界面时、点击播放列表播放按钮无效果
+                    if (mPlayerPresenter.isPlaying()) {
+                        mPlayerPresenter.pause();
+                    } else {
+                        mPlayerPresenter.play();
+                    }
+                }
+            }
+        });
     }
 
     @Override
     public void onLoadedDetailList(List<Track> tracks) {
+        this.mTrack = tracks;
         mTrackListAdapter.setDat(tracks);
         if (mUiLoader != null) {
             mUiLoader.updateUILoaderState(UILoader.UILoaderState.SUCCESS);
@@ -210,6 +253,90 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
         super.onDestroy();
         if (mAlbumDetailPresenter != null) {
             mAlbumDetailPresenter.unRegisterViewController(this);
+            mPlayerPresenter.unRegisterViewController(this);
+        }
+    }
+
+    private void setPlayModeTextAndIcon(boolean isPlay) {
+        mIvAlbumDetailPlayIcon.setBackgroundResource(isPlay ? R.drawable.pause : R.drawable.play);
+        mTvAlbumDetailPlayText.setText(isPlay ? "暂停" : "播放");
+    }
+
+
+    @Override
+    public void onPlayStart(Track track) {
+        setPlayModeTextAndIcon(true);
+    }
+
+    @Override
+    public void onPlayPause() {
+        setPlayModeTextAndIcon(false);
+    }
+
+    @Override
+    public void onPlayStop() {
+        setPlayModeTextAndIcon(false);
+    }
+
+    @Override
+    public void onSoundPlayComplete() {
+
+    }
+
+    @Override
+    public void onPlayPrev(Track track) {
+
+    }
+
+    @Override
+    public void onPlayNext(Track track) {
+
+    }
+
+    @Override
+    public void onLoadedPlayList(List<Track> tracks) {
+
+    }
+
+    @Override
+    public void onPlayError(XmPlayerException exception) {
+
+    }
+
+    @Override
+    public void onStartPlayAds(Advertis ad, int position) {
+
+    }
+
+    @Override
+    public void onPlayAdsError(int what, int extra) {
+
+    }
+
+    @Override
+    public void onCompletePlayAds() {
+
+    }
+
+    @Override
+    public void onPlayProgressUpdate(int currPosition, int totalDuration) {
+
+    }
+
+    @Override
+    public void onPlayModeUpdate(XmPlayListControl.PlayMode playMode) {
+
+    }
+
+    @Override
+    public void onTrackUpdate(Track track, int position) {
+
+    }
+
+    @Override
+    public void onInitPlayMode(XmPlayListControl.PlayMode playMode) {
+        if (mPlayerPresenter != null) {
+            setPlayModeTextAndIcon(mPlayerPresenter.isPlaying());
         }
     }
 }
