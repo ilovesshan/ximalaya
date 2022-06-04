@@ -9,7 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.ilovesshan.ximalaya.R;
+import com.ilovesshan.ximalaya.utils.ViewUtils;
 import com.ximalaya.ting.android.opensdk.model.track.Track;
 
 import java.util.ArrayList;
@@ -33,7 +35,8 @@ public class PlayerSmallCoverAdapter extends PagerAdapter {
         container.addView(viewItem);
 
         ImageView smallCover = viewItem.findViewById(R.id.iv_player_small_cover);
-        Glide.with(smallCover).load(mTracks.get(position).getCoverUrlLarge()).into(smallCover);
+        RequestOptions borderRadius = ViewUtils.makeBorderRadius(10);
+        Glide.with(smallCover).load(mTracks.get(position).getCoverUrlLarge()).apply(borderRadius).into(smallCover);
         return viewItem;
     }
 
