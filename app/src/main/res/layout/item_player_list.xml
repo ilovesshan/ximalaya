@@ -17,6 +17,7 @@
             android:layout_height="50dp">
 
             <LinearLayout
+                android:id="@+id/ll_player_mode_check"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -39,6 +40,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_player_order_check"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -51,7 +53,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center"
-                    android:background="@drawable/player_desc"
+                    android:background="@drawable/player_asc"
                     android:gravity="center" />
 
                 <TextView
@@ -61,7 +63,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:gravity="center"
-                    android:text="顺序播放"
+                    android:text="升序"
                     android:textColor="@color/black" />
             </LinearLayout>
 

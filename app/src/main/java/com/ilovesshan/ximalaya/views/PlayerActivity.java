@@ -223,8 +223,30 @@ public class PlayerActivity extends AppCompatActivity implements IPlayerViewCont
         // 监听mBottomSheet关闭
         mBottomSheet.setOnDismissListener(() -> mLeaveAnimator.start());
 
-        mBottomSheet.setOnPlayListItemClickListener(playIndex -> mPlayerPresenter.play(playIndex));
-        mBottomSheet.setOnPlayListPlayModeChangeListener(() -> mPlayerPresenter.setPlayMode());
+        mBottomSheet.setOnPlayListClickListener(new BottomSheet.OnPlayListClickListener() {
+            @Override
+            public void onItemClick(int playIndex) {
+                mPlayerPresenter.play(playIndex);
+            }
+
+            //TODO 播放列表底部弹窗中 下载按钮被点击逻辑暂未实现
+            @Override
+            public void onDownloadClick(int playIndex) {
+                ToastUtils.show("功能正在开发中...");
+            }
+        });
+        mBottomSheet.setOnPlayListPlayActionChangeListener(new BottomSheet.OnPlayListPlayActionChangeListener() {
+            @Override
+            public void onPlayOrderChange() {
+                ToastUtils.show("功能正在开发中...");
+            }
+
+            //TODO 播放列表底部弹窗中 切换播放模式功能暂未实现
+            @Override
+            public void onPlayModeChange() {
+                mPlayerPresenter.setPlayMode();
+            }
+        });
     }
 
     private void setWindowAlpha(float alpha) {

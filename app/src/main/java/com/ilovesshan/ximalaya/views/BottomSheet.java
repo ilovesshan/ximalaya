@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -40,11 +39,11 @@ public class BottomSheet extends PopupWindow {
     private ImageView mMIvPlayerListPlayOrderIcon;
     private TextView mMtvPlayerListPlayOrderText;
     private LinearLayout mMLlPlayerListBottom;
-    private RelativeLayout mMRlPlayerListTop;
+    private LinearLayout mLlPlayerModeCheck;
+    private LinearLayout mLlPlayerOrderCheck;
 
-
-    private OnPlayListPlayModeChangeListener mOnPlayListPlayModeChangeListener;
-    private OnPlayListItemClickListener mOnPlayListItemClickListener;
+    private OnPlayListPlayActionChangeListener mOnPlayListPlayActionChangeListener;
+    private OnPlayListClickListener mOnPlayListClickListener;
 
     public BottomSheet() {
         super(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -75,7 +74,8 @@ public class BottomSheet extends PopupWindow {
      */
     private void initView() {
         mPlayerList = mViewItem.findViewById(R.id.rcv_player_list_center);
-        mMRlPlayerListTop = mViewItem.findViewById(R.id.rl_player_list_top);
+        mLlPlayerModeCheck = mViewItem.findViewById(R.id.ll_player_mode_check);
+        mLlPlayerOrderCheck = mViewItem.findViewById(R.id.ll_player_order_check);
         mMIvPlayerListPlayModeIcon = mViewItem.findViewById(R.id.iv_player_list_play_mode_icon);
         mMIvPlayerListPlayModeText = mViewItem.findViewById(R.id.iv_player_list_play_mode_text);
         mMIvPlayerListPlayOrderIcon = mViewItem.findViewById(R.id.iv_player_list_play_order_icon);
@@ -101,21 +101,28 @@ public class BottomSheet extends PopupWindow {
             this.dismiss();
         });
 
-        // 播放列表中item被点击 通知PPlayerActivity 切换歌曲
+        // 播放列表中item被点击
         mPlayerListAdapter.setOnPlayListTrackItemClickListener(playIndex -> {
-            mOnPlayListItemClickListener.onClick(playIndex);
+            mOnPlayListClickListener.onItemClick(playIndex);
         });
 
-        //TODO 播放列表底部弹窗中 下载按钮被点击逻辑暂未实现
+        // 播放列表中item 下载按钮被点击
         mPlayerListAdapter.setOnPlayListTrackDownloadClickListener((track, playIndex) -> {
-
+            mOnPlayListClickListener.onDownloadClick(playIndex);
         });
 
 
-        // 播放列表播放模式切换 通知PlayerActivity 切换播放模式
-        mMRlPlayerListTop.setOnClickListener(v -> {
-            if (this.mOnPlayListPlayModeChangeListener != null) {
-                mOnPlayListPlayModeChangeListener.onChange();
+        // 播放列表播放模式切换 通知PlayerActivity
+        mLlPlayerModeCheck.setOnClickListener(v -> {
+            if (this.mOnPlayListPlayActionChangeListener != null) {
+                mOnPlayListPlayActionChangeListener.onPlayModeChange();
+            }
+        });
+
+        // 播放列表播放排序改变 通知PlayerActivity
+        mLlPlayerOrderCheck.setOnClickListener(v -> {
+            if (this.mOnPlayListPlayActionChangeListener != null) {
+                mOnPlayListPlayActionChangeListener.onPlayOrderChange();
             }
         });
 
@@ -154,22 +161,26 @@ public class BottomSheet extends PopupWindow {
     }
 
 
-    public void setOnPlayListPlayModeChangeListener(OnPlayListPlayModeChangeListener listener) {
-        this.mOnPlayListPlayModeChangeListener = listener;
+    public void setOnPlayListPlayActionChangeListener(OnPlayListPlayActionChangeListener listener) {
+        this.mOnPlayListPlayActionChangeListener = listener;
     }
 
 
-    public interface OnPlayListPlayModeChangeListener {
-        public void onChange();
+    public interface OnPlayListPlayActionChangeListener {
+        public void onPlayOrderChange();
+
+        public void onPlayModeChange();
     }
 
 
-    public void setOnPlayListItemClickListener(OnPlayListItemClickListener listener) {
-        this.mOnPlayListItemClickListener = listener;
+    public void setOnPlayListClickListener(OnPlayListClickListener listener) {
+        this.mOnPlayListClickListener = listener;
     }
 
 
-    public interface OnPlayListItemClickListener {
-        public void onClick(int playIndex);
+    public interface OnPlayListClickListener {
+        public void onItemClick(int playIndex);
+
+        public void onDownloadClick(int playIndex);
     }
 }
