@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,7 +20,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.hjq.toast.ToastUtils;
 import com.ilovesshan.ximalaya.R;
 import com.ilovesshan.ximalaya.adapter.TrackListAdapter;
-import com.ilovesshan.ximalaya.base.BaseApplication;
 import com.ilovesshan.ximalaya.interfaces.IAlbumDetailViewController;
 import com.ilovesshan.ximalaya.interfaces.IPlayerViewController;
 import com.ilovesshan.ximalaya.presenter.AlbumDetailPresenter;
@@ -163,28 +163,35 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
                     mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
                         // 下拉刷新
                         @Override
-                        public void onRefresh(RefreshLayout refreshlayout) {
-                            BaseApplication.getHandler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    ToastUtils.show("下拉刷新成功~");
-                                    refreshlayout.finishRefresh();//传入false表示刷新失败
-                                }
-                            }, 2000);
+                        public void onRefresh(@NonNull RefreshLayout refreshlayout) {
+                            // BaseApplication.getHandler().postDelayed(new Runnable() {
+                            //     @Override
+                            //     public void run() {
+                            //         ToastUtils.show("下拉刷新成功~");
+                            //         refreshlayout.finishRefresh();//传入false表示刷新失败
+                            //     }
+                            // }, 2000);
+                            if (mAlbumDetailPresenter != null) {
+                                mAlbumDetailPresenter.refresh(refreshlayout);
+                            }
                         }
                     });
 
                     mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
                         // 上拉加载
                         @Override
-                        public void onLoadMore(RefreshLayout refreshlayout) {
-                            BaseApplication.getHandler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    ToastUtils.show("上拉加载成功~");
-                                    refreshlayout.finishLoadMore();//传入false表示加载失败
-                                }
-                            }, 2000);
+                        public void onLoadMore(@NonNull RefreshLayout refreshlayout) {
+                            if (mAlbumDetailPresenter != null) {
+                                mAlbumDetailPresenter.loadMore(refreshlayout);
+                            }
+
+                            // BaseApplication.getHandler().postDelayed(new Runnable() {
+                            //     @Override
+                            //     public void run() {
+                            //         ToastUtils.show("上拉加载成功~");
+                            //         refreshlayout.finishLoadMore();//传入false表示加载失败
+                            //     }
+                            // }, 2000);
                         }
                     });
                     return viewItem;
@@ -196,7 +203,7 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
                 @Override
                 public void onRetry() {
                     if (mAlbumDetailPresenter != null) {
-                        mAlbumDetailPresenter.loadDetailListData(mAlbumId + "", mPageNum + "", "asc");
+                        mAlbumDetailPresenter.loadDetailListData((int) mAlbumId, mPageNum);
                     }
                 }
             });
@@ -247,7 +254,7 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
         LogUtil.d(TAG, "onLoadedDetail", "album = " + album);
         mAlbumId = album.getId();
         // 根据专辑ID获取专辑下的声音列表
-        mAlbumDetailPresenter.loadDetailListData(album.getId() + "", mPageNum + "", "asc");
+        mAlbumDetailPresenter.loadDetailListData((int) mAlbumId, mPageNum);
         if (mUiLoader != null) {
             mUiLoader.updateUILoaderState(UILoader.UILoaderState.LOADING);
         }
