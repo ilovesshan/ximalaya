@@ -310,7 +310,7 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
 
     private void setPlayModeTextAndIcon(boolean isPlay) {
         mIvAlbumDetailPlayIcon.setBackgroundResource(isPlay ? R.drawable.pause : R.drawable.play);
-        mTvAlbumDetailPlayText.setText(isPlay ? "暂停" : "播放");
+        mTvAlbumDetailPlayText.setText(isPlay ? "暂停" : "点击播放");
     }
 
 
