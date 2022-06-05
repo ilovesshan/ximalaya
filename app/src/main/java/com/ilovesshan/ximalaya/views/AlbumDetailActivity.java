@@ -19,6 +19,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.hjq.toast.ToastUtils;
 import com.ilovesshan.ximalaya.R;
 import com.ilovesshan.ximalaya.adapter.TrackListAdapter;
+import com.ilovesshan.ximalaya.base.BaseApplication;
 import com.ilovesshan.ximalaya.interfaces.IAlbumDetailViewController;
 import com.ilovesshan.ximalaya.interfaces.IPlayerViewController;
 import com.ilovesshan.ximalaya.presenter.AlbumDetailPresenter;
@@ -26,6 +27,11 @@ import com.ilovesshan.ximalaya.presenter.PlayerPresenter;
 import com.ilovesshan.ximalaya.utils.LogUtil;
 import com.ilovesshan.ximalaya.utils.NumberUtils;
 import com.ilovesshan.ximalaya.utils.ViewUtils;
+import com.scwang.smart.refresh.footer.ClassicsFooter;
+import com.scwang.smart.refresh.header.ClassicsHeader;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 import com.ximalaya.ting.android.opensdk.model.advertis.Advertis;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
 import com.ximalaya.ting.android.opensdk.model.track.Track;
@@ -65,6 +71,7 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
     private long mAlbumId = -1;
     private PlayerPresenter mPlayerPresenter;
     private List<Track> mTrack = new ArrayList<>();
+    private RefreshLayout mRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +128,9 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
                 @Override
                 protected View createSuccessView() {
                     View viewItem = LayoutInflater.from(AlbumDetailActivity.this).inflate(R.layout.activity_album_detail_list, mRcvAlbumDetailListContainer, false);
+                    mRefreshLayout = viewItem.findViewById(R.id.refreshLayout);
                     mRcvAlbumDetailList = viewItem.findViewById(R.id.rcv_album_detail_list);
+
                     mIvBack.setOnClickListener(v -> finish());
                     //TODO 实现 recommend详情中 分享按钮点击逻辑
                     mIvShare.setOnClickListener(v -> ToastUtils.show("功能正在开发中..."));
@@ -145,6 +154,38 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
                         // 给PlayerPresenter 设置播放列表
                         PlayerPresenter.getInstance().setPlayList(tracks, index);
                         startActivity(new Intent(AlbumDetailActivity.this, PlayerActivity.class));
+                    });
+
+                    // 设置 RefreshLayout 头部和脚部刷新风格
+                    mRefreshLayout.setRefreshHeader(new ClassicsHeader(AlbumDetailActivity.this));
+                    mRefreshLayout.setRefreshFooter(new ClassicsFooter(AlbumDetailActivity.this));
+                    // 设置下拉刷新和上拉加载 回调接口
+                    mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+                        // 下拉刷新
+                        @Override
+                        public void onRefresh(RefreshLayout refreshlayout) {
+                            BaseApplication.getHandler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ToastUtils.show("下拉刷新成功~");
+                                    refreshlayout.finishRefresh();//传入false表示刷新失败
+                                }
+                            }, 2000);
+                        }
+                    });
+
+                    mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+                        // 上拉加载
+                        @Override
+                        public void onLoadMore(RefreshLayout refreshlayout) {
+                            BaseApplication.getHandler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ToastUtils.show("上拉加载成功~");
+                                    refreshlayout.finishLoadMore();//传入false表示加载失败
+                                }
+                            }, 2000);
+                        }
                     });
                     return viewItem;
                 }
