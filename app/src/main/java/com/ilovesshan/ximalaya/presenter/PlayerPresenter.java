@@ -40,7 +40,7 @@ public class PlayerPresenter implements IPlayer {
     private boolean mPlaySet = false;
 
     private static PlayerPresenter sPlayerPresenter = null;
-    private XmPlayerManager mXmPlayerManager;
+    private static XmPlayerManager mXmPlayerManager;
 
     // 默认 列表循环播放
     private int mCurrentPlayMode = SharedPreferencesConstants.PLAY_MODEL_LIST_LOOP_INT;
@@ -57,6 +57,9 @@ public class PlayerPresenter implements IPlayer {
                     sPlayerPresenter = new PlayerPresenter();
                 }
             }
+        }
+        if (mXmPlayerManager == null) {
+            mXmPlayerManager = XmPlayerManager.getInstance(BaseApplication.getBaseCtx());
         }
         return sPlayerPresenter;
     }
@@ -135,6 +138,18 @@ public class PlayerPresenter implements IPlayer {
         }
     }
 
+
+    /**
+     * 判断当前播放器 是否有播放列表
+     *
+     * @return boolean
+     */
+
+    public boolean hasPlayList() {
+        return !(mXmPlayerManager.getPlayList() == null || mXmPlayerManager.getPlayList().size() == 0);
+    }
+
+
     @Override
     public void seekTo(int progress) {
         if (mXmPlayerManager != null) {
@@ -171,8 +186,6 @@ public class PlayerPresenter implements IPlayer {
         mTracks.clear();
         mTracks.addAll(tracks);
         mIndex = index;
-
-        mXmPlayerManager = XmPlayerManager.getInstance(BaseApplication.getBaseCtx());
         mXmPlayerManager.setPlayList(tracks, index);
         mPlaySet = true;
 

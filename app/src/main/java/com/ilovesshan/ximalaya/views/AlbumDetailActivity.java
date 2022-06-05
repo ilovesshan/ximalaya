@@ -178,11 +178,14 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
             @Override
             public void onClick(View v) {
                 if (mPlayerPresenter != null) {
-                    //TODO 未进播放器界面时、点击播放列表播放按钮无效果
-                    if (mPlayerPresenter.isPlaying()) {
-                        mPlayerPresenter.pause();
+                    if (mPlayerPresenter.hasPlayList()) {
+                        if (mPlayerPresenter.isPlaying()) {
+                            mPlayerPresenter.pause();
+                        } else {
+                            mPlayerPresenter.play();
+                        }
                     } else {
-                        mPlayerPresenter.play();
+                        mPlayerPresenter.setPlayList(mTrack, 0);
                     }
                 }
             }
