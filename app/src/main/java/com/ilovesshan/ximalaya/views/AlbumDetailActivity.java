@@ -72,6 +72,7 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
     private PlayerPresenter mPlayerPresenter;
     private List<Track> mTrack = new ArrayList<>();
     private RefreshLayout mRefreshLayout;
+    private String mAlbumName = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +122,9 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
 
         // 占位的坑 方便填充数据 (加载中/成功/失败/为空...)
         FrameLayout mRcvAlbumDetailListContainer = findViewById(R.id.rcv_album_detail_list_container);
+
+        // 设置跑马灯条件
+        mTvAlbumDetailPlayText.requestFocus();
 
         // 创建UILoader
         if (mUiLoader == null) {
@@ -251,6 +255,9 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
 
     @Override
     public void onLoadedDetail(Album album) {
+        if (this.mAlbumName == null || this.mAlbumName.length() == 0) {
+            this.mAlbumName = album.getAlbumTitle();
+        }
         LogUtil.d(TAG, "onLoadedDetail", "album = " + album);
         mAlbumId = album.getId();
         // 根据专辑ID获取专辑下的声音列表
@@ -310,7 +317,11 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
 
     private void setPlayModeTextAndIcon(boolean isPlay) {
         mIvAlbumDetailPlayIcon.setBackgroundResource(isPlay ? R.drawable.pause : R.drawable.play);
-        mTvAlbumDetailPlayText.setText(isPlay ? "暂停" : "点击播放");
+        if (isPlay) {
+            mTvAlbumDetailPlayText.setText(mAlbumName);
+        } else {
+            mTvAlbumDetailPlayText.setText("继续播放");
+        }
     }
 
 
@@ -381,7 +392,7 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
 
     @Override
     public void onTrackUpdate(Track track, int position) {
-
+        this.mAlbumName = track.getTrackTitle();
     }
 
     @Override
