@@ -1,33 +1,19 @@
 package com.ilovesshan.ximalaya;
 
-import androidx.annotation.Nullable;
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
-
-import android.content.Context;
-import android.os.Bundle;
-import android.util.Log;
 
 import com.ilovesshan.ximalaya.adapter.TabIndicatorAdapter;
 import com.ilovesshan.ximalaya.adapter.TabViewPagerAdapter;
 import com.ilovesshan.ximalaya.config.Constants;
-import com.ximalaya.ting.android.opensdk.datatrasfer.CommonRequest;
-import com.ximalaya.ting.android.opensdk.datatrasfer.IDataCallBack;
-import com.ximalaya.ting.android.opensdk.model.category.CategoryList;
-import com.ximalaya.ting.android.opensdk.model.live.provinces.ProvinceList;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";

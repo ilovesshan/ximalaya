@@ -6,11 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.hjq.toast.ToastUtils;
 import com.ilovesshan.ximalaya.R;
 import com.ilovesshan.ximalaya.adapter.RecommendListAdapter;
+import com.ilovesshan.ximalaya.base.BaseApplication;
 import com.ilovesshan.ximalaya.base.BaseFragment;
 import com.ilovesshan.ximalaya.interfaces.IRecommendViewController;
 import com.ilovesshan.ximalaya.presenter.AlbumDetailPresenter;
@@ -18,6 +21,12 @@ import com.ilovesshan.ximalaya.presenter.RecommendPresenter;
 import com.ilovesshan.ximalaya.utils.LogUtil;
 import com.ilovesshan.ximalaya.views.AlbumDetailActivity;
 import com.ilovesshan.ximalaya.views.UILoader;
+import com.scwang.smart.refresh.footer.ClassicsFooter;
+import com.scwang.smart.refresh.header.ClassicsHeader;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
 
 import java.util.List;
@@ -40,6 +49,7 @@ public class RecommendFragment extends BaseFragment implements IRecommendViewCon
     private RecommendPresenter mRecommendPresenter;
     private UILoader mUiLoader;
     private AlbumDetailPresenter mAlbumDetailPresenter;
+    private SmartRefreshLayout mRefreshLayout;
 
 
     @Override
@@ -62,9 +72,40 @@ public class RecommendFragment extends BaseFragment implements IRecommendViewCon
                         }
                     });
                     RecyclerView recyclerView = mViewItem.findViewById(R.id.rv_recommend_list);
+                    mRefreshLayout = mViewItem.findViewById(R.id.main_refresh_layout);
                     recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
                     recyclerView.setAdapter(mAdapter);
                 }
+
+                // 上拉加载和下拉刷新监听
+                mRefreshLayout.setRefreshHeader(new ClassicsHeader(BaseApplication.getBaseCtx()));
+                mRefreshLayout.setRefreshFooter(new ClassicsFooter(BaseApplication.getBaseCtx()));
+                mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+                    @Override
+                    public void onRefresh(@NonNull RefreshLayout refreshlayout) {
+                        BaseApplication.getHandler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                ToastUtils.show("刷新成功~");
+                                refreshlayout.finishRefresh(/*,false*/);//传入false表示刷新失败
+                            }
+                        }, 2000);
+                    }
+                });
+
+                mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+                    @Override
+                    public void onLoadMore(@NonNull RefreshLayout refreshlayout) {
+                        BaseApplication.getHandler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                ToastUtils.show("加载成功~");
+                                refreshlayout.finishLoadMore(/*,false*/);//传入false表示加载失败
+                            }
+                        }, 2000);
+                    }
+                });
+
                 return mViewItem;
             }
         };
