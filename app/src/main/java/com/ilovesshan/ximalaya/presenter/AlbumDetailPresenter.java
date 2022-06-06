@@ -2,23 +2,19 @@ package com.ilovesshan.ximalaya.presenter;
 
 import androidx.annotation.Nullable;
 
-import com.ilovesshan.ximalaya.config.Constants;
+import com.ilovesshan.ximalaya.api.AlbumDetailApi;
 import com.ilovesshan.ximalaya.interfaces.IAlbumDetail;
 import com.ilovesshan.ximalaya.interfaces.IAlbumDetailViewController;
 import com.ilovesshan.ximalaya.utils.LogUtil;
 import com.ilovesshan.ximalaya.views.UILoader;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
-import com.ximalaya.ting.android.opensdk.constants.DTransferConstants;
-import com.ximalaya.ting.android.opensdk.datatrasfer.CommonRequest;
 import com.ximalaya.ting.android.opensdk.datatrasfer.IDataCallBack;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
 import com.ximalaya.ting.android.opensdk.model.track.Track;
 import com.ximalaya.ting.android.opensdk.model.track.TrackList;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -79,12 +75,7 @@ public class AlbumDetailPresenter implements IAlbumDetail {
             viewController.onLoading();
         }
 
-        Map<String, String> map = new HashMap<>();
-        map.put(DTransferConstants.ALBUM_ID, mAlbumId + "");
-        map.put(DTransferConstants.PAGE, mPage + "");
-        map.put(DTransferConstants.SORT, "asc");
-        map.put(DTransferConstants.PAGE_SIZE, String.valueOf(Constants.RECOMMEND_DETAIL_LIST_SIZE));
-        CommonRequest.getTracks(map, new IDataCallBack<TrackList>() {
+        AlbumDetailApi.getInstance().getAlbumDetailList(mAlbumId, mPage, new IDataCallBack<TrackList>() {
             @Override
             public void onSuccess(@Nullable TrackList trackList) {
                 if (trackList != null) {
@@ -180,7 +171,7 @@ public class AlbumDetailPresenter implements IAlbumDetail {
     @Override
     public void refresh(RefreshLayout refreshlayout) {
         mTracks.clear();
-        mPage=1;
+        mPage = 1;
         handleRequestData(false, refreshlayout);
     }
 

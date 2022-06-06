@@ -2,20 +2,16 @@ package com.ilovesshan.ximalaya.presenter;
 
 import androidx.annotation.Nullable;
 
-import com.ilovesshan.ximalaya.config.Constants;
+import com.ilovesshan.ximalaya.api.RecommendApi;
 import com.ilovesshan.ximalaya.interfaces.IRecommend;
 import com.ilovesshan.ximalaya.interfaces.IRecommendViewController;
 import com.ilovesshan.ximalaya.utils.LogUtil;
-import com.ximalaya.ting.android.opensdk.constants.DTransferConstants;
-import com.ximalaya.ting.android.opensdk.datatrasfer.CommonRequest;
 import com.ximalaya.ting.android.opensdk.datatrasfer.IDataCallBack;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
 import com.ximalaya.ting.android.opensdk.model.album.GussLikeAlbumList;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -79,10 +75,7 @@ public class RecommendPresenter implements IRecommend {
         for (IRecommendViewController viewController : mViewControllers) {
             viewController.onLoading();
         }
-
-        Map<String, String> map = new HashMap<>();
-        map.put(DTransferConstants.LIKE_COUNT, Constants.RECOMMEND_LIST_SIZE + "");
-        CommonRequest.getGuessLikeAlbum(map, new IDataCallBack<GussLikeAlbumList>() {
+        RecommendApi.getInstance().getRecommendList(new IDataCallBack<GussLikeAlbumList>() {
             @Override
             public void onSuccess(@Nullable GussLikeAlbumList gussLikeAlbumList) {
                 LogUtil.d(TAG, "onSuccess", "3.10.6 获取猜你喜欢专辑 数据获取成功");
