@@ -13,5 +13,5 @@ public interface IRecommend extends IBasePresenter<IRecommendViewController> {
     /**
      * 请求数据
      */
-    public void loadedData();
+    void loadedData();
 }

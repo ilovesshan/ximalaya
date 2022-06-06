@@ -15,7 +15,7 @@ public interface IAlbumDetail extends IBasePresenter<IAlbumDetailViewController>
     /**
      * 请求专辑详情对应列表数据
      */
-    public void loadDetailListData(int albumId, int page);
+    void loadDetailListData(int albumId, int page);
 
 
     /**
@@ -23,7 +23,7 @@ public interface IAlbumDetail extends IBasePresenter<IAlbumDetailViewController>
      *
      * @param refreshLayout 控制器
      */
-    public void refresh(RefreshLayout refreshLayout);
+    void refresh(RefreshLayout refreshLayout);
 
 
     /**
@@ -31,7 +31,7 @@ public interface IAlbumDetail extends IBasePresenter<IAlbumDetailViewController>
      *
      * @param refreshlayout 控制器
      */
-    public void loadMore(RefreshLayout refreshlayout);
+    void loadMore(RefreshLayout refreshlayout);
 
 
 }

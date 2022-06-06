@@ -16,7 +16,7 @@ public interface IPlayer extends IBasePresenter<IPlayerViewController> {
      * 试恢复播放器的播放状态，如果恢复失败，则播放列表的第一条声音
      */
 
-    public void play();
+    void play();
 
 
     /**
@@ -24,31 +24,31 @@ public interface IPlayer extends IBasePresenter<IPlayerViewController> {
      *
      * @param index 索引
      */
-    public void play(int index);
+    void play(int index);
 
 
     /**
      * 暂停播放器(如果暂停的时候正在缓冲状态,是暂停不掉的,需要在缓冲结束后(比如开始播放时)才能暂停)
      */
-    public void pause();
+    void pause();
 
 
     /**
      * 停止播放器(一般情况下不需要调用,希望暂停就调用pause)
      */
-    public void stop();
+    void stop();
 
 
     /**
      * 上一首
      */
-    public void playPrev();
+    void playPrev();
 
 
     /**
      * 下一首
      */
-    public void playNext();
+    void playNext();
 
 
     /**
@@ -60,7 +60,7 @@ public interface IPlayer extends IBasePresenter<IPlayerViewController> {
      * PLAY_MODEL_RANDOM 随机播放
      */
 
-    public void setPlayMode();
+    void setPlayMode();
 
 
     /**
@@ -69,6 +69,6 @@ public interface IPlayer extends IBasePresenter<IPlayerViewController> {
      * @param progress 播放进度
      */
 
-    public void seekTo(int progress);
+    void seekTo(int progress);
 
 }
