@@ -46,6 +46,9 @@ public class PlayerPresenter implements IPlayer {
     private int mCurrentPlayMode = SharedPreferencesConstants.PLAY_MODEL_LIST_LOOP_INT;
     private SharedPreferences mSharedPreferences;
 
+    private int mTotalDuration = 0;
+    private int mCurrPosition = 0;
+
 
     private PlayerPresenter() {
     }
@@ -174,6 +177,16 @@ public class PlayerPresenter implements IPlayer {
             iPlayerViewController.onTrackUpdate(mTracks.get(mIndex), mIndex);
             iPlayerViewController.onLoadedPlayList(mTracks);
             iPlayerViewController.onInitPlayMode(getPlayModeByInt(mCurrentPlayMode));
+
+            if (mXmPlayerManager.isPlaying()) {
+                iPlayerViewController.onPlayStart(mTracks.get(mIndex));
+            } else {
+                iPlayerViewController.onPlayPause();
+            }
+
+            for (IPlayerViewController playerViewController : mIPlayerViewControllers) {
+                playerViewController.onPlayProgressUpdate(mCurrPosition, mTotalDuration);
+            }
         }
     }
 
@@ -376,9 +389,12 @@ public class PlayerPresenter implements IPlayer {
              */
             @Override
             public void onPlayProgress(int currPosition, int totalDuration) {
+                mCurrPosition = currPosition;
+                mTotalDuration = totalDuration;
+
                 LogUtil.d(TAG, "onPlayStart", "播放进度回调 currPosition " + currPosition + " totalDuration = " + totalDuration);
                 for (IPlayerViewController iPlayerViewController : mIPlayerViewControllers) {
-                    iPlayerViewController.onPlayProgressUpdate(currPosition, totalDuration);
+                    iPlayerViewController.onPlayProgressUpdate(mCurrPosition, mTotalDuration);
                 }
             }
 

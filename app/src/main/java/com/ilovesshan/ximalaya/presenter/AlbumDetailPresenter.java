@@ -112,6 +112,37 @@ public class AlbumDetailPresenter implements IAlbumDetail {
         });
     }
 
+
+    /**
+     * 根据Album Id获取播放列表
+     *
+     * @param id ID
+     */
+
+    public void requestRecommendListById(long id) {
+        AlbumDetailApi.getInstance().getAlbumDetailList(id, 1, new IDataCallBack<TrackList>() {
+            @Override
+            public void onSuccess(@Nullable TrackList trackList) {
+                if (trackList != null) {
+                    List<Track> tracks = trackList.getTracks();
+                    LogUtil.d(TAG, "onSuccess", "根据Album Id获取播放列表");
+                    LogUtil.d(TAG, "onSuccess", "tracks == " + tracks);
+                    if (tracks != null) {
+                        PlayerPresenter playerPresenter = PlayerPresenter.getInstance();
+                        playerPresenter.setPlayList(tracks, 0);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                LogUtil.d(TAG, "onError", "根据Album Id获取播放列表数据获取失败");
+                LogUtil.d(TAG, "onError", "code = " + i + " message = " + s);
+            }
+        });
+    }
+
+
     /**
      * 通知 UILoader 更新状态
      *
