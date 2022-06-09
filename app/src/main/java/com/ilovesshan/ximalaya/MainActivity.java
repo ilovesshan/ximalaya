@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +25,7 @@ import com.ilovesshan.ximalaya.presenter.PlayerPresenter;
 import com.ilovesshan.ximalaya.presenter.RecommendPresenter;
 import com.ilovesshan.ximalaya.utils.ViewUtils;
 import com.ilovesshan.ximalaya.views.PlayerActivity;
+import com.ilovesshan.ximalaya.views.SearchActivity;
 import com.ximalaya.ting.android.opensdk.model.advertis.Advertis;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
 import com.ximalaya.ting.android.opensdk.model.track.Track;
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements IPlayerViewContro
     private AlbumDetailPresenter mAlbumDetailPresenter;
     private List<Album> mAlbumList = new ArrayList<>();
     private RecommendPresenter mRecommendPresenter;
+    private RelativeLayout mRlSearchIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements IPlayerViewContro
         mIvMainPlayerPlayList = findViewById(R.id.iv_main_player_play_list);
         mIvMainPlayerPlayOrPause = findViewById(R.id.iv_main_player_play_or_pause);
         mLlMainControllerBar = findViewById(R.id.ll_main_controller_bar);
+        mRlSearchIcon = findViewById(R.id.rl_search_icon);
 
     }
 
@@ -153,6 +157,10 @@ public class MainActivity extends AppCompatActivity implements IPlayerViewContro
                 }
             }, 500);
         });
+
+        // 点击跳转到搜索界面
+        mRlSearchIcon.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, SearchActivity.class)));
+
     }
 
     @Override
