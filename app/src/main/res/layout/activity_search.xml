@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <!--顶部搜索栏-->
     <LinearLayout
@@ -40,5 +41,20 @@
 
     </LinearLayout>
 
+
+    <!--分割线-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/recommend_background" />
+
+
+    <!--推荐热词-->
+    <com.ilovesshan.ximalaya.views.FlowTextLayout
+        android:id="@+id/recommend_hot_word_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp" />
 
 </LinearLayout>
