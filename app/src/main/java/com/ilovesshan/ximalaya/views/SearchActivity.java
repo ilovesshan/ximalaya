@@ -2,15 +2,21 @@ package com.ilovesshan.ximalaya.views;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.hjq.toast.ToastUtils;
 import com.ilovesshan.ximalaya.R;
+import com.ilovesshan.ximalaya.adapter.RecommendListAdapter;
 import com.ilovesshan.ximalaya.base.BaseApplication;
 import com.ilovesshan.ximalaya.interfaces.ISearchViewController;
 import com.ilovesshan.ximalaya.presenter.SearchPresenter;
@@ -30,6 +36,8 @@ public class SearchActivity extends AppCompatActivity implements ISearchViewCont
     private TextView mTvSearchBtn;
     private SearchPresenter mSearchPresenter;
     private FlowTextLayout mRecommendHotWordView;
+    private RecyclerView mRcvSearchResultList;
+    private RecommendListAdapter mRecommendListAdapter;
 
 
     @Override
@@ -55,7 +63,7 @@ public class SearchActivity extends AppCompatActivity implements ISearchViewCont
         mEtSearchInput = findViewById(R.id.et_search_input);
         mTvSearchBtn = findViewById(R.id.tv_search_btn);
         mRecommendHotWordView = findViewById(R.id.recommend_hot_word_view);
-
+        mRcvSearchResultList = findViewById(R.id.rcv_search_result_list);
     }
 
 
@@ -70,6 +78,9 @@ public class SearchActivity extends AppCompatActivity implements ISearchViewCont
         mSearchPresenter = SearchPresenter.getInstance();
         mSearchPresenter.registerViewController(this);
 
+        mRcvSearchResultList.setLayoutManager(new LinearLayoutManager(this));
+        mRecommendListAdapter = new RecommendListAdapter();
+        mRcvSearchResultList.setAdapter(mRecommendListAdapter);
 
         // 获取热词
         mSearchPresenter.requestHotWords();
@@ -79,16 +90,54 @@ public class SearchActivity extends AppCompatActivity implements ISearchViewCont
 
         // 点击搜索
         mTvSearchBtn.setOnClickListener(v -> {
-            // 关闭键盘
-            visibleSoftInputFromWindow(false);
-            ToastUtils.show("搜索");
+            searchHandler(mEtSearchInput.getText().toString());
         });
 
         // 点击 推荐热词搜索
         mRecommendHotWordView.setClickListener(s -> {
-            ToastUtils.show("点击了" + s);
+            // 设置光标位置
+            mEtSearchInput.setText(s);
+            mEtSearchInput.setSelection(s.length());
+            searchHandler(s);
         });
 
+        // 输入框 内容改变
+        mEtSearchInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // 用户 清空了输入框
+                if (s.length() == 0) {
+                    // 展示 推荐热词列表
+                    mRecommendHotWordView.setVisibility(View.VISIBLE);
+                    // 隐藏 搜索列表
+                    mRcvSearchResultList.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        // 输入框 回车事件
+        mEtSearchInput.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                searchHandler(v.getText().toString());
+            }
+            return false;
+        });
+    }
+
+    private void searchHandler(String keyWord) {
+        // 关闭键盘
+        visibleSoftInputFromWindow(false);
+        mSearchPresenter.search(keyWord);
     }
 
 
@@ -124,8 +173,17 @@ public class SearchActivity extends AppCompatActivity implements ISearchViewCont
     }
 
     @Override
-    public void noSearchResultLoaded(List<Album> albums) {
+    public void onSearchResultLoaded(List<Album> album) {
 
+        if (mRecommendHotWordView.getVisibility() != View.GONE) {
+            mRecommendHotWordView.setVisibility(View.GONE);
+        }
+
+        if (mRcvSearchResultList.getVisibility() != View.VISIBLE) {
+            mRcvSearchResultList.setVisibility(View.VISIBLE);
+        }
+
+        mRecommendListAdapter.setData(album);
     }
 
     @Override
@@ -134,6 +192,7 @@ public class SearchActivity extends AppCompatActivity implements ISearchViewCont
         for (HotWord hotWord : hotWordList) {
             list.add(hotWord.getSearchword());
         }
+
         mRecommendHotWordView.setTextContents(list);
     }
 

@@ -53,7 +53,7 @@ public class SearchPresenter implements ISearch {
                     LogUtil.d(TAG, "onSuccess", "list.getAlbums()==" + list.getAlbums());
 
                     for (ISearchViewController iSearchViewController : mISearchViewControllers) {
-                        iSearchViewController.noSearchResultLoaded(list.getAlbums());
+                        iSearchViewController.onSearchResultLoaded(list.getAlbums());
                     }
 
                 }

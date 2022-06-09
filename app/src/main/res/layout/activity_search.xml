@@ -27,8 +27,10 @@
             android:layout_weight="1"
             android:background="@drawable/shape_search_border"
             android:hint="请输入专辑关键字"
+            android:imeOptions="actionSearch"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
+            android:singleLine="true"
             android:textColor="@color/app_primary"
             android:textSize="14sp" />
 
@@ -49,6 +51,12 @@
         android:layout_marginBottom="5dp"
         android:background="@color/recommend_background" />
 
+    <!--关键字搜索的结果 列表-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcv_search_result_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp" />
 
     <!--推荐热词-->
     <com.ilovesshan.ximalaya.views.FlowTextLayout

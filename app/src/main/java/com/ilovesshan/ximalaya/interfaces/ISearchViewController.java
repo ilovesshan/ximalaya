@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface ISearchViewController {
 
-    void noSearchResultLoaded(List<Album> albums);
+    void onSearchResultLoaded(List<Album> albums);
 
     void ontHotWordsResultLoaded(List<HotWord> hotWordList);
 
