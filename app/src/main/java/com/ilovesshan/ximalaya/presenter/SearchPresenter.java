@@ -63,6 +63,9 @@ public class SearchPresenter implements ISearch {
             public void onError(int i, String s) {
                 LogUtil.d(TAG, "onError", "根据关键字搜索专辑 获取失败");
                 LogUtil.d(TAG, "onError", "code = " + i + " message = " + s);
+                for (ISearchViewController iSearchViewController : mISearchViewControllers) {
+                    iSearchViewController.onError(i, s);
+                }
             }
         });
     }

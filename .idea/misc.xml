@@ -27,7 +27,7 @@
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/activity_loading.xml" value="0.2171875" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/activity_main.xml" value="0.15625" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/activity_player.xml" value="0.15078125" />
-        <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/activity_search.xml" value="0.18828125" />
+        <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/activity_search.xml" value="0.1861003861003861" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/activity_splash.xml" value="0.24739583333333334" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/animation_pop.xml" value="0.18828125" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/fragment_history.xml" value="0.2171875" />
@@ -37,6 +37,7 @@
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/item_player_samll_cover.xml" value="0.161328125" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/item_player_track_list.xml" value="0.130859375" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/item_recommend.xml" value="0.1828125" />
+        <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/item_search_list.xml" value="0.11796875" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/item_text.xml" value="0.14258675078864352" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/item_tracks.xml" value="0.152734375" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.111" />

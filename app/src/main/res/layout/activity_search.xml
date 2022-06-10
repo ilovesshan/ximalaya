@@ -51,13 +51,6 @@
         android:layout_marginBottom="5dp"
         android:background="@color/recommend_background" />
 
-    <!--关键字搜索的结果 列表-->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcv_search_result_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="10dp" />
-
     <!--推荐热词-->
     <com.ilovesshan.ximalaya.views.FlowTextLayout
         android:id="@+id/recommend_hot_word_view"
@@ -65,4 +58,12 @@
         android:layout_height="match_parent"
         android:padding="10dp" />
 
+    <!--占位符-->
+    <LinearLayout
+        android:id="@+id/ll_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal" />
 </LinearLayout>

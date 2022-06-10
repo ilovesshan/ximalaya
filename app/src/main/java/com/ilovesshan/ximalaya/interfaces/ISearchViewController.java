@@ -21,4 +21,6 @@ public interface ISearchViewController {
 
     void ontSuggestWordResultLoaded(List<QueryResult> keyWordList);
 
+    void onError(int errorCode, String errorMessage);
+
 }

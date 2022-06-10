@@ -3,18 +3,23 @@ package com.ilovesshan.ximalaya.views;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.hjq.toast.ToastUtils;
 import com.ilovesshan.ximalaya.R;
 import com.ilovesshan.ximalaya.adapter.RecommendListAdapter;
 import com.ilovesshan.ximalaya.base.BaseApplication;
@@ -38,7 +43,11 @@ public class SearchActivity extends AppCompatActivity implements ISearchViewCont
     private FlowTextLayout mRecommendHotWordView;
     private RecyclerView mRcvSearchResultList;
     private RecommendListAdapter mRecommendListAdapter;
+    private LinearLayout mLlContainer;
 
+
+    private UILoader mUiLoader;
+    private String mKeyWord = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +72,27 @@ public class SearchActivity extends AppCompatActivity implements ISearchViewCont
         mEtSearchInput = findViewById(R.id.et_search_input);
         mTvSearchBtn = findViewById(R.id.tv_search_btn);
         mRecommendHotWordView = findViewById(R.id.recommend_hot_word_view);
-        mRcvSearchResultList = findViewById(R.id.rcv_search_result_list);
+        mLlContainer = findViewById(R.id.ll_container);
+
+        // 使用 UILoader
+        if (mUiLoader == null) {
+            mUiLoader = new UILoader(this) {
+                @Override
+                protected View createSuccessView() {
+                    View view = FrameLayout.inflate(SearchActivity.this, R.layout.item_search_result_list, null);
+                    mRcvSearchResultList = view.findViewById(R.id.rcv_search_result_list);
+                    mRcvSearchResultList.setLayoutManager(new LinearLayoutManager(SearchActivity.this));
+                    mRecommendListAdapter = new RecommendListAdapter();
+                    mRcvSearchResultList.setAdapter(mRecommendListAdapter);
+                    return view;
+                }
+            };
+            if (mUiLoader.getParent() instanceof ViewGroup) {
+                ((ViewGroup) mUiLoader.getParent()).removeView(mUiLoader);
+            }
+            mLlContainer.addView(mUiLoader);
+        }
+
     }
 
 
@@ -78,9 +107,6 @@ public class SearchActivity extends AppCompatActivity implements ISearchViewCont
         mSearchPresenter = SearchPresenter.getInstance();
         mSearchPresenter.registerViewController(this);
 
-        mRcvSearchResultList.setLayoutManager(new LinearLayoutManager(this));
-        mRecommendListAdapter = new RecommendListAdapter();
-        mRcvSearchResultList.setAdapter(mRecommendListAdapter);
 
         // 获取热词
         mSearchPresenter.requestHotWords();
@@ -132,12 +158,25 @@ public class SearchActivity extends AppCompatActivity implements ISearchViewCont
             }
             return false;
         });
+
+        // 出错了 再次加载
+        mUiLoader.setOnRetryLoadClickListener(() -> searchHandler(this.mKeyWord));
     }
 
     private void searchHandler(String keyWord) {
+        this.mKeyWord = keyWord;
+        if (TextUtils.isEmpty(keyWord)) {
+            ToastUtils.show("请输入搜索关键字");
+            return;
+        }
+        if (mRecommendHotWordView.getVisibility() != View.GONE) {
+            mRecommendHotWordView.setVisibility(View.GONE);
+        }
+
         // 关闭键盘
         visibleSoftInputFromWindow(false);
         mSearchPresenter.search(keyWord);
+        mUiLoader.updateUILoaderState(UILoader.UILoaderState.LOADING);
     }
 
 
@@ -174,7 +213,6 @@ public class SearchActivity extends AppCompatActivity implements ISearchViewCont
 
     @Override
     public void onSearchResultLoaded(List<Album> album) {
-
         if (mRecommendHotWordView.getVisibility() != View.GONE) {
             mRecommendHotWordView.setVisibility(View.GONE);
         }
@@ -183,7 +221,16 @@ public class SearchActivity extends AppCompatActivity implements ISearchViewCont
             mRcvSearchResultList.setVisibility(View.VISIBLE);
         }
 
-        mRecommendListAdapter.setData(album);
+        if (album.size() == 0) {
+            if (mUiLoader != null) {
+                mUiLoader.updateUILoaderState(UILoader.UILoaderState.EMPTY);
+            }
+        } else {
+            if (mUiLoader != null) {
+                mUiLoader.updateUILoaderState(UILoader.UILoaderState.SUCCESS);
+                mRecommendListAdapter.setData(album);
+            }
+        }
     }
 
     @Override
@@ -192,12 +239,18 @@ public class SearchActivity extends AppCompatActivity implements ISearchViewCont
         for (HotWord hotWord : hotWordList) {
             list.add(hotWord.getSearchword());
         }
-
         mRecommendHotWordView.setTextContents(list);
     }
 
     @Override
     public void ontSuggestWordResultLoaded(List<QueryResult> keyWordList) {
 
+    }
+
+    @Override
+    public void onError(int errorCode, String errorMessage) {
+        if (mUiLoader != null) {
+            mUiLoader.updateUILoaderState(UILoader.UILoaderState.ERROR);
+        }
     }
 }
