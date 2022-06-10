@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <!--关键字搜索的结果 列表-->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcv_search_result_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:padding="10dp"/>
+
+    <!--获取某个关键词的联想词 列表-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcv_search_recommend_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
         android:padding="10dp"/>
 
 </LinearLayout>

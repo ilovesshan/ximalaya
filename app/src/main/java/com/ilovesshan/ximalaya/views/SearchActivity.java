@@ -22,9 +22,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.hjq.toast.ToastUtils;
 import com.ilovesshan.ximalaya.R;
 import com.ilovesshan.ximalaya.adapter.RecommendListAdapter;
+import com.ilovesshan.ximalaya.adapter.SearchRecommendWordListAdapter;
 import com.ilovesshan.ximalaya.base.BaseApplication;
 import com.ilovesshan.ximalaya.interfaces.ISearchViewController;
 import com.ilovesshan.ximalaya.presenter.SearchPresenter;
+import com.ilovesshan.ximalaya.utils.LogUtil;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
 import com.ximalaya.ting.android.opensdk.model.word.HotWord;
 import com.ximalaya.ting.android.opensdk.model.word.QueryResult;
@@ -45,10 +47,12 @@ public class SearchActivity extends AppCompatActivity implements ISearchViewCont
     private RecommendListAdapter mRecommendListAdapter;
     private LinearLayout mLlContainer;
     private ImageView mIvSearchDelete;
+    private RecyclerView mRcvSearchRecommendWordList;
 
 
     private UILoader mUiLoader;
     private String mKeyWord = "";
+    private SearchRecommendWordListAdapter mSearchRecommendWordListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,9 +87,24 @@ public class SearchActivity extends AppCompatActivity implements ISearchViewCont
                 protected View createSuccessView() {
                     View view = FrameLayout.inflate(SearchActivity.this, R.layout.item_search_result_list, null);
                     mRcvSearchResultList = view.findViewById(R.id.rcv_search_result_list);
+                    mRcvSearchRecommendWordList = view.findViewById(R.id.rcv_search_recommend_list);
+
+                    // 搜索结果
                     mRcvSearchResultList.setLayoutManager(new LinearLayoutManager(SearchActivity.this));
                     mRecommendListAdapter = new RecommendListAdapter();
                     mRcvSearchResultList.setAdapter(mRecommendListAdapter);
+
+                    // 搜索联想关键字
+                    mRcvSearchRecommendWordList.setLayoutManager(new LinearLayoutManager(SearchActivity.this));
+                    mSearchRecommendWordListAdapter = new SearchRecommendWordListAdapter();
+                    mRcvSearchRecommendWordList.setAdapter(mSearchRecommendWordListAdapter);
+
+
+                    mSearchRecommendWordListAdapter.setOnRecommendHotWordItemClick(hotWord -> {
+                        ToastUtils.show(hotWord);
+                        searchHandler(hotWord);
+                    });
+
                     return view;
                 }
             };
@@ -142,11 +161,20 @@ public class SearchActivity extends AppCompatActivity implements ISearchViewCont
                 if (s.length() == 0) {
                     // 展示 推荐热词列表
                     mRecommendHotWordView.setVisibility(View.VISIBLE);
-                    // 隐藏 搜索列表
+                    // 隐藏 搜索列表 / 联想热词列表
                     mRcvSearchResultList.setVisibility(View.GONE);
+                    mRcvSearchRecommendWordList.setVisibility(View.GONE);
+
+                    // 隐藏 删除Icon
                     mIvSearchDelete.setVisibility(View.GONE);
+
                 } else {
+                    // 显示 删除Icon
                     mIvSearchDelete.setVisibility(View.VISIBLE);
+
+                    // 模糊匹配关键字
+                    mSearchPresenter.requestSuggestWord(s.toString());
+
                 }
             }
 
@@ -221,13 +249,9 @@ public class SearchActivity extends AppCompatActivity implements ISearchViewCont
 
     @Override
     public void onSearchResultLoaded(List<Album> album) {
-        if (mRecommendHotWordView.getVisibility() != View.GONE) {
-            mRecommendHotWordView.setVisibility(View.GONE);
-        }
-
-        if (mRcvSearchResultList.getVisibility() != View.VISIBLE) {
-            mRcvSearchResultList.setVisibility(View.VISIBLE);
-        }
+        mRecommendHotWordView.setVisibility(View.GONE);
+        mRcvSearchRecommendWordList.setVisibility(View.GONE);
+        mRcvSearchResultList.setVisibility(View.VISIBLE);
 
         if (album.size() == 0) {
             if (mUiLoader != null) {
@@ -252,7 +276,12 @@ public class SearchActivity extends AppCompatActivity implements ISearchViewCont
 
     @Override
     public void ontSuggestWordResultLoaded(List<QueryResult> keyWordList) {
+        mRecommendHotWordView.setVisibility(View.GONE);
+        mRcvSearchResultList.setVisibility(View.GONE);
+        mRcvSearchRecommendWordList.setVisibility(View.VISIBLE);
 
+        mSearchRecommendWordListAdapter.setData(keyWordList);
+        LogUtil.d(TAG, "ontSuggestWordResultLoaded", "keyWordList === " + keyWordList);
     }
 
     @Override
