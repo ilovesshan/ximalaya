@@ -44,6 +44,7 @@ public class SearchActivity extends AppCompatActivity implements ISearchViewCont
     private RecyclerView mRcvSearchResultList;
     private RecommendListAdapter mRecommendListAdapter;
     private LinearLayout mLlContainer;
+    private ImageView mIvSearchDelete;
 
 
     private UILoader mUiLoader;
@@ -73,6 +74,7 @@ public class SearchActivity extends AppCompatActivity implements ISearchViewCont
         mTvSearchBtn = findViewById(R.id.tv_search_btn);
         mRecommendHotWordView = findViewById(R.id.recommend_hot_word_view);
         mLlContainer = findViewById(R.id.ll_container);
+        mIvSearchDelete = findViewById(R.id.iv_search_delete);
 
         // 使用 UILoader
         if (mUiLoader == null) {
@@ -142,6 +144,9 @@ public class SearchActivity extends AppCompatActivity implements ISearchViewCont
                     mRecommendHotWordView.setVisibility(View.VISIBLE);
                     // 隐藏 搜索列表
                     mRcvSearchResultList.setVisibility(View.GONE);
+                    mIvSearchDelete.setVisibility(View.GONE);
+                } else {
+                    mIvSearchDelete.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -161,6 +166,9 @@ public class SearchActivity extends AppCompatActivity implements ISearchViewCont
 
         // 出错了 再次加载
         mUiLoader.setOnRetryLoadClickListener(() -> searchHandler(this.mKeyWord));
+
+        // 清输入框内容
+        mIvSearchDelete.setOnClickListener(v -> mEtSearchInput.setText(""));
     }
 
     private void searchHandler(String keyWord) {
