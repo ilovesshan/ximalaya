@@ -1,7 +1,5 @@
 package com.ilovesshan.ximalaya.base;
 
-import com.ilovesshan.ximalaya.interfaces.IAlbumDetailViewController;
-
 /**
  * Created with IntelliJ IDEA.
  *
@@ -14,11 +12,11 @@ public interface IBasePresenter<T> {
      * 注册 viewController
      */
 
-    public void registerViewController(T t);
+     void registerViewController(T t);
 
 
     /**
      * 取消注册 viewController
      */
-    public void unRegisterViewController(T t);
+     void unRegisterViewController(T t);
 }
