@@ -1,6 +1,7 @@
 package com.ilovesshan.ximalaya.views;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -25,6 +26,7 @@ import com.ilovesshan.ximalaya.adapter.RecommendListAdapter;
 import com.ilovesshan.ximalaya.adapter.SearchRecommendWordListAdapter;
 import com.ilovesshan.ximalaya.base.BaseApplication;
 import com.ilovesshan.ximalaya.interfaces.ISearchViewController;
+import com.ilovesshan.ximalaya.presenter.AlbumDetailPresenter;
 import com.ilovesshan.ximalaya.presenter.SearchPresenter;
 import com.ilovesshan.ximalaya.utils.LogUtil;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
@@ -53,6 +55,7 @@ public class SearchActivity extends AppCompatActivity implements ISearchViewCont
     private UILoader mUiLoader;
     private String mKeyWord = "";
     private SearchRecommendWordListAdapter mSearchRecommendWordListAdapter;
+    private AlbumDetailPresenter mAlbumDetailPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +96,17 @@ public class SearchActivity extends AppCompatActivity implements ISearchViewCont
                     mRcvSearchResultList.setLayoutManager(new LinearLayoutManager(SearchActivity.this));
                     mRecommendListAdapter = new RecommendListAdapter();
                     mRcvSearchResultList.setAdapter(mRecommendListAdapter);
+
+                    // 点击跳转到 专辑详情界面
+                    mRecommendListAdapter.setOnItemClickListener(new RecommendListAdapter.OnItemClickListener() {
+                        @Override
+                        public void onClick(int index, Album album) {
+                            mAlbumDetailPresenter = AlbumDetailPresenter.getInstance();
+                            mAlbumDetailPresenter.setAlbum(album);
+                            startActivity(new Intent(SearchActivity.this, AlbumDetailActivity.class));
+                            LogUtil.d(TAG, "onClick", "index = " + index + "album =" + album);
+                        }
+                    });
 
                     // 搜索联想关键字
                     mRcvSearchRecommendWordList.setLayoutManager(new LinearLayoutManager(SearchActivity.this));

@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.ilovesshan.ximalaya.R;
 import com.ilovesshan.ximalaya.utils.NumberUtils;
@@ -78,7 +77,7 @@ public class RecommendListAdapter extends RecyclerView.Adapter<RecommendListAdap
         tvRecommendItemTitle.setText(album.getAlbumTitle());
         tvRecommendItemIntroduce.setText(album.getAlbumIntro());
         tvRecommendItemPlayCount.setText(NumberUtils.number2CountingUnit(album.getPlayCount()));
-        tvRecommendItemAlbumScore.setText(album.getAlbumScore() + "");
+        tvRecommendItemAlbumScore.setText(album.getSubscribeCount() + "");
 
     }
 
