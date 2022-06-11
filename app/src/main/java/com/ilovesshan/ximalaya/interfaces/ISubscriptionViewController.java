@@ -34,5 +34,5 @@ public interface ISubscriptionViewController {
      *
      * @param albumList 专辑列表
      */
-    void OnSubscriptionListLoaded(List<Album> albumList);
+    void onSubscriptionListLoaded(List<Album> albumList);
 }

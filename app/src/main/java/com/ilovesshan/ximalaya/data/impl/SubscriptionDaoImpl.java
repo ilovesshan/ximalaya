@@ -52,8 +52,9 @@ public class SubscriptionDaoImpl implements ISubscriptionDao {
 
     @Override
     public void addSubscription(Album album) {
-        SQLiteDatabase database = mDataBaseHelper.getWritableDatabase();
+        SQLiteDatabase database = null;
         try {
+            database = mDataBaseHelper.getWritableDatabase();
             database.beginTransaction();
 
             ContentValues values = new ContentValues();
@@ -71,13 +72,13 @@ public class SubscriptionDaoImpl implements ISubscriptionDao {
             LogUtil.d(TAG, "addSubscription", "订阅专辑结果：" + row);
 
             if (mISubscriptionCallBack != null) {
-                mISubscriptionCallBack.OnAddSubscriptionResult(true);
+                mISubscriptionCallBack.onAddSubscriptionResult(true);
             }
 
             database.setTransactionSuccessful();
         } catch (Exception e) {
             if (mISubscriptionCallBack != null) {
-                mISubscriptionCallBack.OnAddSubscriptionResult(false);
+                mISubscriptionCallBack.onAddSubscriptionResult(false);
             }
             e.printStackTrace();
         } finally {
@@ -92,18 +93,20 @@ public class SubscriptionDaoImpl implements ISubscriptionDao {
 
     @Override
     public void deleteSubscription(long id) {
-        SQLiteDatabase database = mDataBaseHelper.getWritableDatabase();
+        SQLiteDatabase database = null;
         try {
+            database = mDataBaseHelper.getWritableDatabase();
             database.beginTransaction();
+
             int row = database.delete(DBConstants.DB_SUBSCRIPTION_TABLE_NAME, DBConstants.DB_SUBSCRIPTION_ALBUM_ID + "= ?", new String[]{id + ""});
             LogUtil.d(TAG, "addSubscription", "删除专辑结果：" + row);
             if (mISubscriptionCallBack != null) {
-                mISubscriptionCallBack.OnDeleteSubscriptionResult(true);
+                mISubscriptionCallBack.onDeleteSubscriptionResult(true);
             }
             database.setTransactionSuccessful();
         } catch (Exception e) {
             if (mISubscriptionCallBack != null) {
-                mISubscriptionCallBack.OnDeleteSubscriptionResult(false);
+                mISubscriptionCallBack.onDeleteSubscriptionResult(false);
             }
             e.printStackTrace();
         } finally {
@@ -116,12 +119,14 @@ public class SubscriptionDaoImpl implements ISubscriptionDao {
 
     @Override
     public void querySubscriptionList() {
-        SQLiteDatabase database = mDataBaseHelper.getReadableDatabase();
         ArrayList<Album> albums = new ArrayList<>();
+        SQLiteDatabase database = null;
 
         try {
+            database = mDataBaseHelper.getReadableDatabase();
+
             database.beginTransaction();
-            Cursor cursor = database.query(DBConstants.DB_SUBSCRIPTION_TABLE_NAME, null, null, null, null, null, null);
+            Cursor cursor = database.query(DBConstants.DB_SUBSCRIPTION_TABLE_NAME, null, null, null, null, null, "id desc");
             while (cursor.moveToNext()) {
 
                 //TODO  cursor.getColumnIndex() 传入静态常量 报异常 暂未解决
@@ -170,12 +175,12 @@ public class SubscriptionDaoImpl implements ISubscriptionDao {
 
             LogUtil.d(TAG, "addSubscription", "查询专辑结果条数：" + albums.size());
             if (mISubscriptionCallBack != null) {
-                mISubscriptionCallBack.OnSubscriptionListLoaded(albums, true);
+                mISubscriptionCallBack.onSubscriptionListLoaded(albums, true);
             }
             database.setTransactionSuccessful();
         } catch (Exception e) {
             if (mISubscriptionCallBack != null) {
-                mISubscriptionCallBack.OnSubscriptionListLoaded(albums, false);
+                mISubscriptionCallBack.onSubscriptionListLoaded(albums, false);
             }
             e.printStackTrace();
         } finally {

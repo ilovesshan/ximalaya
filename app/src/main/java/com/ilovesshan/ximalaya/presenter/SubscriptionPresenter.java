@@ -75,7 +75,7 @@ public class SubscriptionPresenter implements ISubscription, ISubscriptionCallBa
 
     // 添加专辑结果回调
     @Override
-    public void OnAddSubscriptionResult(boolean isSuccess) {
+    public void onAddSubscriptionResult(boolean isSuccess) {
         for (ISubscriptionViewController iSubscriptionViewController : mISubscriptionViewControllers) {
             iSubscriptionViewController.onAddSubscriptionResult(isSuccess);
         }
@@ -83,7 +83,7 @@ public class SubscriptionPresenter implements ISubscription, ISubscriptionCallBa
 
     // 删除专辑结果回调
     @Override
-    public void OnDeleteSubscriptionResult(boolean isSuccess) {
+    public void onDeleteSubscriptionResult(boolean isSuccess) {
         for (ISubscriptionViewController iSubscriptionViewController : mISubscriptionViewControllers) {
             iSubscriptionViewController.onDeleteSubscriptionResult(isSuccess);
         }
@@ -91,7 +91,7 @@ public class SubscriptionPresenter implements ISubscription, ISubscriptionCallBa
 
     // 订阅专辑列表结果回调
     @Override
-    public void OnSubscriptionListLoaded(List<Album> albumList, boolean isSuccess) {
+    public void onSubscriptionListLoaded(List<Album> albumList, boolean isSuccess) {
 
         // 保证获取到的数据是最新的
         mAlbumHashMap.clear();
@@ -102,10 +102,8 @@ public class SubscriptionPresenter implements ISubscription, ISubscriptionCallBa
             mAlbumHashMap.put((int) album.getId(), album);
         }
 
-        if (isSuccess) {
-            // 获取成功
-        } else {
-            // 获取失败
+        for (ISubscriptionViewController iSubscriptionViewController : mISubscriptionViewControllers) {
+            iSubscriptionViewController.onSubscriptionListLoaded(albumList);
         }
     }
 

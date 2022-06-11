@@ -17,7 +17,7 @@ public interface ISubscriptionCallBack {
      *
      * @param isSuccess 是否成功
      */
-    void OnAddSubscriptionResult(boolean isSuccess);
+    void onAddSubscriptionResult(boolean isSuccess);
 
 
     /**
@@ -25,7 +25,7 @@ public interface ISubscriptionCallBack {
      *
      * @param isSuccess 是否成功
      */
-    void OnDeleteSubscriptionResult(boolean isSuccess);
+    void onDeleteSubscriptionResult(boolean isSuccess);
 
 
     /**
@@ -34,5 +34,5 @@ public interface ISubscriptionCallBack {
      * @param albumList 专辑列表
      * @param isSuccess 是否成功
      */
-    void OnSubscriptionListLoaded(List<Album> albumList,boolean isSuccess);
+    void onSubscriptionListLoaded(List<Album> albumList, boolean isSuccess);
 }
