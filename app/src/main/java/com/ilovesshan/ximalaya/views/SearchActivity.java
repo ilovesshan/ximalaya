@@ -22,7 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hjq.toast.ToastUtils;
 import com.ilovesshan.ximalaya.R;
-import com.ilovesshan.ximalaya.adapter.RecommendListAdapter;
+import com.ilovesshan.ximalaya.adapter.AlbumListAdapter;
 import com.ilovesshan.ximalaya.adapter.SearchRecommendWordListAdapter;
 import com.ilovesshan.ximalaya.base.BaseApplication;
 import com.ilovesshan.ximalaya.interfaces.ISearchViewController;
@@ -46,7 +46,7 @@ public class SearchActivity extends AppCompatActivity implements ISearchViewCont
     private SearchPresenter mSearchPresenter;
     private FlowTextLayout mRecommendHotWordView;
     private RecyclerView mRcvSearchResultList;
-    private RecommendListAdapter mRecommendListAdapter;
+    private AlbumListAdapter mAlbumListAdapter;
     private LinearLayout mLlContainer;
     private ImageView mIvSearchDelete;
     private RecyclerView mRcvSearchRecommendWordList;
@@ -94,11 +94,11 @@ public class SearchActivity extends AppCompatActivity implements ISearchViewCont
 
                     // 搜索结果
                     mRcvSearchResultList.setLayoutManager(new LinearLayoutManager(SearchActivity.this));
-                    mRecommendListAdapter = new RecommendListAdapter();
-                    mRcvSearchResultList.setAdapter(mRecommendListAdapter);
+                    mAlbumListAdapter = new AlbumListAdapter();
+                    mRcvSearchResultList.setAdapter(mAlbumListAdapter);
 
                     // 点击跳转到 专辑详情界面
-                    mRecommendListAdapter.setOnItemClickListener(new RecommendListAdapter.OnItemClickListener() {
+                    mAlbumListAdapter.setOnItemClickListener(new AlbumListAdapter.OnItemClickListener() {
                         @Override
                         public void onClick(int index, Album album) {
                             mAlbumDetailPresenter = AlbumDetailPresenter.getInstance();
@@ -274,7 +274,7 @@ public class SearchActivity extends AppCompatActivity implements ISearchViewCont
         } else {
             if (mUiLoader != null) {
                 mUiLoader.updateUILoaderState(UILoader.UILoaderState.SUCCESS);
-                mRecommendListAdapter.setData(album);
+                mAlbumListAdapter.setData(album);
             }
         }
     }

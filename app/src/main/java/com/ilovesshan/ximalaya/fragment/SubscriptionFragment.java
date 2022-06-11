@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ilovesshan.ximalaya.R;
-import com.ilovesshan.ximalaya.adapter.RecommendListAdapter;
+import com.ilovesshan.ximalaya.adapter.AlbumListAdapter;
 import com.ilovesshan.ximalaya.base.BaseApplication;
 import com.ilovesshan.ximalaya.base.BaseFragment;
 import com.ilovesshan.ximalaya.interfaces.ISubscriptionViewController;
@@ -36,7 +36,7 @@ public class SubscriptionFragment extends BaseFragment implements ISubscriptionV
     private static final String TAG = "SubscriptionFragment";
 
     private View mViewItem;
-    private RecommendListAdapter mAdapter;
+    private AlbumListAdapter mAdapter;
     private AlbumDetailPresenter mAlbumDetailPresenter;
     private SmartRefreshLayout mRefreshLayout;
     private SubscriptionPresenter mSubscriptionPresenter;
@@ -50,7 +50,7 @@ public class SubscriptionFragment extends BaseFragment implements ISubscriptionV
             mRefreshLayout = mViewItem.findViewById(R.id.main_refresh_layout);
 
             // 获取适配器
-            mAdapter = new RecommendListAdapter();
+            mAdapter = new AlbumListAdapter();
 
             // 获取 Presenter
             mAlbumDetailPresenter = AlbumDetailPresenter.getInstance();

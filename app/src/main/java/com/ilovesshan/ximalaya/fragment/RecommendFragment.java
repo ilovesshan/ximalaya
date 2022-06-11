@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hjq.toast.ToastUtils;
 import com.ilovesshan.ximalaya.R;
-import com.ilovesshan.ximalaya.adapter.RecommendListAdapter;
+import com.ilovesshan.ximalaya.adapter.AlbumListAdapter;
 import com.ilovesshan.ximalaya.base.BaseApplication;
 import com.ilovesshan.ximalaya.base.BaseFragment;
 import com.ilovesshan.ximalaya.interfaces.IRecommendViewController;
@@ -44,7 +44,7 @@ public class RecommendFragment extends BaseFragment implements IRecommendViewCon
 
     private static final String TAG = "RecommendFragment";
 
-    private RecommendListAdapter mAdapter;
+    private AlbumListAdapter mAdapter;
     private View mViewItem;
     private RecommendPresenter mRecommendPresenter;
     private UILoader mUiLoader;
@@ -60,9 +60,9 @@ public class RecommendFragment extends BaseFragment implements IRecommendViewCon
                 // 加载布局文件
                 mViewItem = inflater.inflate(R.layout.fragment_recommend, container, false);
                 if (mViewItem != null) {
-                    mAdapter = new RecommendListAdapter();
+                    mAdapter = new AlbumListAdapter();
                     // 推荐列表被点击
-                    mAdapter.setOnItemClickListener(new RecommendListAdapter.OnItemClickListener() {
+                    mAdapter.setOnItemClickListener(new AlbumListAdapter.OnItemClickListener() {
                         @Override
                         public void onClick(int index, Album album) {
                             mAlbumDetailPresenter = AlbumDetailPresenter.getInstance();

@@ -30,7 +30,7 @@ import java.util.List;
 
 @SuppressLint({"SetTextI18n", "NotifyDataSetChanged"})
 
-public class RecommendListAdapter extends RecyclerView.Adapter<RecommendListAdapter.InnerHolder> {
+public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.InnerHolder> {
     List<Album> mList = new ArrayList<>();
 
     OnItemClickListener mOnItemClickListener = null;
