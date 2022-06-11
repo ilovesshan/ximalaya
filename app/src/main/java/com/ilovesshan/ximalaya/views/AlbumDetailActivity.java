@@ -22,8 +22,10 @@ import com.ilovesshan.ximalaya.R;
 import com.ilovesshan.ximalaya.adapter.TrackListAdapter;
 import com.ilovesshan.ximalaya.interfaces.IAlbumDetailViewController;
 import com.ilovesshan.ximalaya.interfaces.IPlayerViewController;
+import com.ilovesshan.ximalaya.interfaces.ISubscriptionViewController;
 import com.ilovesshan.ximalaya.presenter.AlbumDetailPresenter;
 import com.ilovesshan.ximalaya.presenter.PlayerPresenter;
+import com.ilovesshan.ximalaya.presenter.SubscriptionPresenter;
 import com.ilovesshan.ximalaya.utils.LogUtil;
 import com.ilovesshan.ximalaya.utils.NumberUtils;
 import com.ilovesshan.ximalaya.utils.ViewUtils;
@@ -42,7 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressLint("SetTextI18n")
-public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDetailViewController, IPlayerViewController {
+public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDetailViewController, IPlayerViewController, ISubscriptionViewController {
     private static final String TAG = "AlbumDetailActivity";
     private ImageView mIvBack;
     private ImageView mIvShare;
@@ -73,6 +75,8 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
     private List<Track> mTrack = new ArrayList<>();
     private RefreshLayout mRefreshLayout;
     private String mAlbumName = "";
+    private SubscriptionPresenter mSubscriptionPresenter;
+    private Album mAlbum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,8 +146,20 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
                     //TODO 实现 recommend详情中 更多按钮点击逻辑
                     mIvMore.setOnClickListener(v -> ToastUtils.show("功能正在开发中..."));
 
-                    //TODO 实现 recommend详情中 订阅按钮点击逻辑
-                    mBtnSubscription.setOnClickListener(v -> ToastUtils.show("功能正在开发中..."));
+                    //recommend详情中 订阅按钮点击实现订阅功能
+                    mBtnSubscription.setOnClickListener(v -> {
+                        boolean isSubscription = mSubscriptionPresenter.isSubscription((int) mAlbum.getId());
+
+                        if (isSubscription) {
+                            // 取消订阅
+                            if (mSubscriptionPresenter != null) {
+                                mSubscriptionPresenter.deleteSubscription((int) mAlbum.getId());
+                            }
+                        } else {
+                            // 添加订阅
+                            mSubscriptionPresenter.addSubscription(mAlbum);
+                        }
+                    });
 
                     // 创建和设置适配器
                     mTrackListAdapter = new TrackListAdapter();
@@ -168,13 +184,6 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
                         // 下拉刷新
                         @Override
                         public void onRefresh(@NonNull RefreshLayout refreshlayout) {
-                            // BaseApplication.getHandler().postDelayed(new Runnable() {
-                            //     @Override
-                            //     public void run() {
-                            //         ToastUtils.show("下拉刷新成功~");
-                            //         refreshlayout.finishRefresh();//传入false表示刷新失败
-                            //     }
-                            // }, 2000);
                             if (mAlbumDetailPresenter != null) {
                                 mAlbumDetailPresenter.refresh(refreshlayout);
                             }
@@ -188,14 +197,6 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
                             if (mAlbumDetailPresenter != null) {
                                 mAlbumDetailPresenter.loadMore(refreshlayout);
                             }
-
-                            // BaseApplication.getHandler().postDelayed(new Runnable() {
-                            //     @Override
-                            //     public void run() {
-                            //         ToastUtils.show("上拉加载成功~");
-                            //         refreshlayout.finishLoadMore();//传入false表示加载失败
-                            //     }
-                            // }, 2000);
                         }
                     });
                     return viewItem;
@@ -220,25 +221,29 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
         // 获取逻辑层控制器和注册监听
         mAlbumDetailPresenter = AlbumDetailPresenter.getInstance();
         mPlayerPresenter = PlayerPresenter.getInstance();
+        mSubscriptionPresenter = SubscriptionPresenter.getInstance();
 
         mAlbumDetailPresenter.registerViewController(this);
         mPlayerPresenter.registerViewController(this);
+        mSubscriptionPresenter.registerViewController(this);
 
+        // 当前专辑需要知道有没有被订阅过 先查询列表
+        mSubscriptionPresenter.querySubscriptionList();
+        // 查询该专辑 有没有被订阅过
+        boolean isSubscription = mSubscriptionPresenter.isSubscription((int) mAlbum.getId());
+        mBtnSubscription.setText(isSubscription ? "取消订阅" : "+ 订阅");
 
         // 播放与暂停控制
-        mLlAlbumDetailCheckPlayMode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mPlayerPresenter != null) {
-                    if (mPlayerPresenter.hasPlayList()) {
-                        if (mPlayerPresenter.isPlaying()) {
-                            mPlayerPresenter.pause();
-                        } else {
-                            mPlayerPresenter.play();
-                        }
+        mLlAlbumDetailCheckPlayMode.setOnClickListener(v -> {
+            if (mPlayerPresenter != null) {
+                if (mPlayerPresenter.hasPlayList()) {
+                    if (mPlayerPresenter.isPlaying()) {
+                        mPlayerPresenter.pause();
                     } else {
-                        mPlayerPresenter.setPlayList(mTrack, 0);
+                        mPlayerPresenter.play();
                     }
+                } else {
+                    mPlayerPresenter.setPlayList(mTrack, 0);
                 }
             }
         });
@@ -255,6 +260,8 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
 
     @Override
     public void onLoadedDetail(Album album) {
+        this.mAlbum = album;
+
         if (this.mAlbumName == null || this.mAlbumName.length() == 0) {
             this.mAlbumName = album.getAlbumTitle();
         }
@@ -311,7 +318,14 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
         super.onDestroy();
         if (mAlbumDetailPresenter != null) {
             mAlbumDetailPresenter.unRegisterViewController(this);
+        }
+
+        if (mPlayerPresenter != null) {
             mPlayerPresenter.unRegisterViewController(this);
+        }
+
+        if (mSubscriptionPresenter != null) {
+            mSubscriptionPresenter.unRegisterViewController(this);
         }
     }
 
@@ -400,5 +414,28 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
         if (mPlayerPresenter != null) {
             setPlayModeTextAndIcon(mPlayerPresenter.isPlaying());
         }
+    }
+
+    @Override
+    public void onAddSubscriptionResult(boolean isSuccess) {
+        LogUtil.d(TAG, "OnAddSubscriptionResult", "订阅结果" + isSuccess);
+        if (isSuccess) {
+            ToastUtils.show("订阅成功");
+            mBtnSubscription.setText("取消订阅");
+        }
+    }
+
+    @Override
+    public void onDeleteSubscriptionResult(boolean isSuccess) {
+        LogUtil.d(TAG, "OnAddSubscriptionResult", "取消订阅结果" + isSuccess);
+        if (isSuccess) {
+            ToastUtils.show("取消订阅");
+            mBtnSubscription.setText("+ 订阅");
+        }
+    }
+
+    @Override
+    public void OnSubscriptionListLoaded(List<Album> albumList) {
+
     }
 }

@@ -164,7 +164,7 @@
                 android:layout_marginRight="10dp"
                 android:background="@drawable/shape_btn_subscription"
                 android:gravity="center"
-                android:text="+ 订阅"
+                android:text=""
                 android:textColor="@color/white"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -207,12 +207,12 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="点击播放"
-                android:singleLine="true"
                 android:ellipsize="marquee"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:marqueeRepeatLimit="-1"
+                android:singleLine="true"
+                android:text="点击播放"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
         </LinearLayout>

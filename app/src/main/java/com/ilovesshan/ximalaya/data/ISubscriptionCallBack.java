@@ -1,4 +1,4 @@
-package com.ilovesshan.ximalaya.interfaces;
+package com.ilovesshan.ximalaya.data;
 
 import com.ximalaya.ting.android.opensdk.model.album.Album;
 
@@ -11,14 +11,13 @@ import java.util.List;
  * @date: 2022/6/11
  * @description:
  */
-
-public interface ISubscriptionViewController {
+public interface ISubscriptionCallBack {
     /**
      * 添加订阅结果
      *
      * @param isSuccess 是否成功
      */
-    void onAddSubscriptionResult(boolean isSuccess);
+    void OnAddSubscriptionResult(boolean isSuccess);
 
 
     /**
@@ -26,13 +25,14 @@ public interface ISubscriptionViewController {
      *
      * @param isSuccess 是否成功
      */
-    void onDeleteSubscriptionResult(boolean isSuccess);
+    void OnDeleteSubscriptionResult(boolean isSuccess);
 
 
     /**
      * 查询订阅列表
      *
      * @param albumList 专辑列表
+     * @param isSuccess 是否成功
      */
-    void OnSubscriptionListLoaded(List<Album> albumList);
+    void OnSubscriptionListLoaded(List<Album> albumList,boolean isSuccess);
 }

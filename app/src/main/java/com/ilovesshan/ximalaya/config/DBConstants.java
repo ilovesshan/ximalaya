@@ -26,4 +26,6 @@ public class DBConstants {
     public static final String DB_SUBSCRIPTION_ALBUM_IMAGE_COVER = "image_cover";
     public static final String DB_SUBSCRIPTION_ALBUM_PLAY_COUNT = "play_count";
     public static final String DB_SUBSCRIPTION_ALBUM_SUBSCRIPTION_COUNT = "subscription_count";
+    public static final String DB_SUBSCRIPTION_ALBUM_AUTHOR_IMAGE_COVER = "author_image_cover ";
+    public static final String DB_SUBSCRIPTION_ALBUM_AUTHOR_NICK_NAME = "author_nick_name ";
 }

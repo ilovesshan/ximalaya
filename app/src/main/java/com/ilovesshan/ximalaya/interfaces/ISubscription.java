@@ -24,13 +24,21 @@ public interface ISubscription extends IBasePresenter<ISubscriptionViewControlle
      *
      * @param id 专辑ID
      */
-    void deleteSubscription(long id);
+    void deleteSubscription(int id);
 
 
     /**
      * 查询订阅列表
-     *
      */
     void querySubscriptionList();
+
+
+    /**
+     * 是否 已经订阅过专辑
+     *
+     * @param id 专辑ID
+     * @return
+     */
+    boolean isSubscription(int id);
 
 }

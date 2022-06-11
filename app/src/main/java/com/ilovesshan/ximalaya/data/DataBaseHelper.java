@@ -27,9 +27,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         LogUtil.d(TAG, "onCreate", "创建数据库" + DBConstants.DB_NAME);
         String createTableSql = "CREATE TABLE " + DBConstants.DB_SUBSCRIPTION_TABLE_NAME + " (" +
-                DBConstants.DB_SUBSCRIPTION_ID + " INTEGER (100)," +
+                DBConstants.DB_SUBSCRIPTION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 DBConstants.DB_SUBSCRIPTION_ALBUM_ID + " INTEGER (100)," +
                 DBConstants.DB_SUBSCRIPTION_ALBUM_TITLE + " VARCHAR (100)," +
+                DBConstants.DB_SUBSCRIPTION_ALBUM_AUTHOR_IMAGE_COVER + " VARCHAR (50)," +
+                DBConstants.DB_SUBSCRIPTION_ALBUM_AUTHOR_NICK_NAME + " VARCHAR (30)," +
                 DBConstants.DB_SUBSCRIPTION_ALBUM_DESCRIBE + " VARCHAR (255)," +
                 DBConstants.DB_SUBSCRIPTION_ALBUM_SCORE + " INTEGER (100)," +
                 DBConstants.DB_SUBSCRIPTION_ALBUM_IMAGE_COVER + " VARCHAR (50)," +
