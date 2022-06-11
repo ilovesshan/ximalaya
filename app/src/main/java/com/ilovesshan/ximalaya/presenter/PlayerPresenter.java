@@ -169,6 +169,7 @@ public class PlayerPresenter implements IPlayer {
 
     @Override
     public void registerViewController(IPlayerViewController iPlayerViewController) {
+        iPlayerViewController.onLoadedPlayList(mXmPlayerManager.getPlayList());
         if (!mIPlayerViewControllers.contains(iPlayerViewController)) {
             mIPlayerViewControllers.add(iPlayerViewController);
         }
@@ -184,9 +185,9 @@ public class PlayerPresenter implements IPlayer {
                 iPlayerViewController.onPlayPause();
             }
 
-            for (IPlayerViewController playerViewController : mIPlayerViewControllers) {
-                playerViewController.onPlayProgressUpdate(mCurrPosition, mTotalDuration);
-            }
+        }
+        for (IPlayerViewController playerViewController : mIPlayerViewControllers) {
+            playerViewController.onPlayProgressUpdate(mCurrPosition, mTotalDuration);
         }
     }
 
