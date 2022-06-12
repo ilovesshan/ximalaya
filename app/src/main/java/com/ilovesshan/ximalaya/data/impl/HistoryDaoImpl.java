@@ -25,7 +25,7 @@ import java.util.ArrayList;
  */
 
 @SuppressLint("Range")
-public class HistoryImpl implements IHistoryDao {
+public class HistoryDaoImpl implements IHistoryDao {
 
     private static final String TAG = "HistoryImpl";
 
@@ -33,18 +33,18 @@ public class HistoryImpl implements IHistoryDao {
 
     private IHistoryCallBack IHistoryCallBack = null;
 
-    private HistoryImpl() {
+    private HistoryDaoImpl() {
         // 创建 数据库Helper
         mDataBaseHelper = new DataBaseHelper(BaseApplication.getBaseCtx());
     }
 
-    private static HistoryImpl sHistory = null;
+    private static HistoryDaoImpl sHistory = null;
 
-    public static HistoryImpl getInstance() {
+    public static HistoryDaoImpl getInstance() {
         if (sHistory == null) {
-            synchronized (HistoryImpl.class) {
+            synchronized (HistoryDaoImpl.class) {
                 if (sHistory == null) {
-                    sHistory = new HistoryImpl();
+                    sHistory = new HistoryDaoImpl();
                 }
             }
         }
@@ -206,7 +206,7 @@ public class HistoryImpl implements IHistoryDao {
         }
     }
 
-    void setIHistoryCallBack(IHistoryCallBack callBack) {
+    public  void setIHistoryCallBack(IHistoryCallBack callBack) {
         this.IHistoryCallBack = callBack;
     }
 }
