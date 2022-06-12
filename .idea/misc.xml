@@ -18,6 +18,7 @@
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/drawable/selector_flow_text.xml" value="0.174" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/drawable/shape_btn_subscription.xml" value="0.148" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/drawable/shape_confirm_dialog.xml" value="0.159" />
+        <entry key="..\:/workspace/android/ximalaya/app/src/main/res/drawable/shape_item_history.xml" value="0.193" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/drawable/shape_item_recommend.xml" value="0.167" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/drawable/shape_player_list.xml" value="0.1375" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/drawable/shape_search_border.xml" value="0.174" />
@@ -35,6 +36,7 @@
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/fragment_history.xml" value="0.2171875" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/fragment_recommend.xml" value="0.128515625" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/fragment_subscription.xml" value="0.101953125" />
+        <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/item_history.xml" value="0.138671875" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/item_player_list.xml" value="0.158984375" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/item_player_samll_cover.xml" value="0.161328125" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/item_player_track_list.xml" value="0.130859375" />
@@ -44,6 +46,7 @@
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/item_search_result_list.xml" value="0.161328125" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/item_text.xml" value="0.14258675078864352" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/item_tracks.xml" value="0.152734375" />
+        <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/itemsubscription.xml" value="0.165234375" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.111" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.111" />
       </map>

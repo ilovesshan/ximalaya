@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.hjq.toast.ToastUtils;
 import com.ilovesshan.ximalaya.AlbumDetailActivity;
 import com.ilovesshan.ximalaya.R;
-import com.ilovesshan.ximalaya.adapter.AlbumListAdapter;
+import com.ilovesshan.ximalaya.adapter.HistoryListAdapter;
 import com.ilovesshan.ximalaya.base.BaseApplication;
 import com.ilovesshan.ximalaya.base.BaseFragment;
 import com.ilovesshan.ximalaya.interfaces.IHistoryViewController;
@@ -43,7 +43,7 @@ public class HistoryFragment extends BaseFragment implements ISubscriptionViewCo
     private RecyclerView mRecyclerView;
     private SmartRefreshLayout mRefreshLayout;
 
-    private AlbumListAdapter mAdapter;
+    private HistoryListAdapter mAdapter;
     private AlbumDetailPresenter mAlbumDetailPresenter;
     private SubscriptionPresenter mSubscriptionPresenter;
     private HistoryPresenter mHistoryPresenter;
@@ -57,7 +57,7 @@ public class HistoryFragment extends BaseFragment implements ISubscriptionViewCo
             mRefreshLayout = mViewItem.findViewById(R.id.main_refresh_layout);
 
             // 获取适配器
-            mAdapter = new AlbumListAdapter();
+            mAdapter = new HistoryListAdapter();
 
             // 获取 Presenter
             mAlbumDetailPresenter = AlbumDetailPresenter.getInstance();
