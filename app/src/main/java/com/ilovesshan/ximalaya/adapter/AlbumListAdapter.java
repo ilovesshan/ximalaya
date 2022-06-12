@@ -31,9 +31,10 @@ import java.util.List;
 @SuppressLint({"SetTextI18n", "NotifyDataSetChanged"})
 
 public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.InnerHolder> {
-    List<Album> mList = new ArrayList<>();
+    private List<Album> mList = new ArrayList<>();
 
-    OnItemClickListener mOnItemClickListener = null;
+    private OnItemClickListener mOnItemClickListener = null;
+    private OnItemLongClickListener mOnItemLongClickListener = null;
 
     @NonNull
     @Override
@@ -57,6 +58,16 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.Inne
                 mOnItemClickListener.onClick(index, mList.get(index));
             }
         });
+
+        // 长按事件
+        itemView.setOnLongClickListener((v) -> {
+            if (mOnItemLongClickListener != null) {
+                int index = (int) v.getTag();
+                mOnItemLongClickListener.onLongClick(index, mList.get(index));
+            }
+            return true;
+        });
+
 
         // 专辑封面小
         ImageView ivRecommendItemCoverUrlSmall = itemView.findViewById(R.id.iv_recommend_item_cover_url_small);
@@ -100,11 +111,21 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.Inne
     }
 
 
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.mOnItemClickListener = listener;
+    public void setOnItemClickListener(OnItemClickListener clickListener) {
+        this.mOnItemClickListener = clickListener;
     }
 
-    public interface OnItemClickListener {
-        public void onClick(int index, Album album);
+    public void setOnItemLongClickListener(OnItemLongClickListener longClickListener) {
+        this.mOnItemLongClickListener = longClickListener;
     }
+
+
+    public interface OnItemClickListener {
+        void onClick(int index, Album album);
+    }
+
+    public interface OnItemLongClickListener {
+        void onLongClick(int index, Album album);
+    }
+
 }

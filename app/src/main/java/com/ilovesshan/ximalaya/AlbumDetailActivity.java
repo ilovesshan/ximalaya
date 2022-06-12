@@ -19,7 +19,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.hjq.toast.ToastUtils;
 import com.ilovesshan.ximalaya.adapter.TrackListAdapter;
-import com.ilovesshan.ximalaya.base.BaseApplication;
 import com.ilovesshan.ximalaya.interfaces.IAlbumDetailViewController;
 import com.ilovesshan.ximalaya.interfaces.IPlayerViewController;
 import com.ilovesshan.ximalaya.interfaces.ISubscriptionViewController;
@@ -423,8 +422,6 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
         if (isSuccess) {
             ToastUtils.show("订阅成功");
             mBtnSubscription.setText("取消订阅");
-            // 同步数据
-            querySubscriptionList();
         }
     }
 
@@ -434,20 +431,9 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
         if (isSuccess) {
             ToastUtils.show("取消订阅");
             mBtnSubscription.setText("+ 订阅");
-            // 同步数据
-            querySubscriptionList();
         }
     }
 
-
-    private void querySubscriptionList() {
-        BaseApplication.getHandler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mSubscriptionPresenter.querySubscriptionList();
-            }
-        }, 500);
-    }
 
     @Override
     public void onSubscriptionListLoaded(List<Album> albumList) {

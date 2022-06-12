@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.hjq.toast.ToastUtils;
+import com.ilovesshan.ximalaya.AlbumDetailActivity;
 import com.ilovesshan.ximalaya.R;
 import com.ilovesshan.ximalaya.adapter.AlbumListAdapter;
 import com.ilovesshan.ximalaya.base.BaseApplication;
@@ -16,7 +18,7 @@ import com.ilovesshan.ximalaya.interfaces.ISubscriptionViewController;
 import com.ilovesshan.ximalaya.presenter.AlbumDetailPresenter;
 import com.ilovesshan.ximalaya.presenter.SubscriptionPresenter;
 import com.ilovesshan.ximalaya.utils.LogUtil;
-import com.ilovesshan.ximalaya.AlbumDetailActivity;
+import com.ilovesshan.ximalaya.views.ConfirmDialog;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
@@ -67,6 +69,29 @@ public class SubscriptionFragment extends BaseFragment implements ISubscriptionV
                 mAlbumDetailPresenter.setAlbum(album);
                 startActivity(new Intent(getContext(), AlbumDetailActivity.class));
                 LogUtil.d(TAG, "onClick", "index = " + index + "album =" + album);
+            });
+
+            // 专辑列表被长按
+            mAdapter.setOnItemLongClickListener((index, album) -> {
+                ConfirmDialog confirmDialog = new ConfirmDialog(getActivity());
+                confirmDialog.setOnDialogActionClickListener(new ConfirmDialog.OnDialogActionClickListener() {
+                    // dialog 取消按钮 被点击
+                    @Override
+                    public void onCancelClick() {
+                        confirmDialog.dismiss();
+                    }
+
+                    // dialog 确定按钮 被点击
+                    @Override
+                    public void onSureClick() {
+                        mSubscriptionPresenter.deleteSubscription((int) album.getId());
+                        ToastUtils.show("取消成功");
+                        confirmDialog.dismiss();
+                    }
+                });
+
+                // 显示 dialog
+                confirmDialog.show();
             });
 
             mRefreshLayout.setRefreshHeader(new ClassicsHeader(BaseApplication.getBaseCtx()));

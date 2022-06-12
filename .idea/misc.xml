@@ -17,6 +17,7 @@
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/drawable/radius_item_recommend.xml" value="0.164" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/drawable/selector_flow_text.xml" value="0.174" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/drawable/shape_btn_subscription.xml" value="0.148" />
+        <entry key="..\:/workspace/android/ximalaya/app/src/main/res/drawable/shape_confirm_dialog.xml" value="0.159" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/drawable/shape_item_recommend.xml" value="0.167" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/drawable/shape_player_list.xml" value="0.1375" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/drawable/shape_search_border.xml" value="0.174" />
@@ -30,6 +31,7 @@
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/activity_search.xml" value="0.11944444444444445" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/activity_splash.xml" value="0.24739583333333334" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/animation_pop.xml" value="0.18828125" />
+        <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/confirm_dialog.xml" value="0.18828125" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/fragment_history.xml" value="0.2171875" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/fragment_recommend.xml" value="0.128515625" />
         <entry key="..\:/workspace/android/ximalaya/app/src/main/res/layout/fragment_subscription.xml" value="0.101953125" />

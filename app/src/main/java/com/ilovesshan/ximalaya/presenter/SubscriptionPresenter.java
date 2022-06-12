@@ -1,5 +1,6 @@
 package com.ilovesshan.ximalaya.presenter;
 
+import com.ilovesshan.ximalaya.base.BaseApplication;
 import com.ilovesshan.ximalaya.data.ISubscriptionCallBack;
 import com.ilovesshan.ximalaya.data.impl.SubscriptionDaoImpl;
 import com.ilovesshan.ximalaya.interfaces.ISubscription;
@@ -79,6 +80,7 @@ public class SubscriptionPresenter implements ISubscription, ISubscriptionCallBa
         for (ISubscriptionViewController iSubscriptionViewController : mISubscriptionViewControllers) {
             iSubscriptionViewController.onAddSubscriptionResult(isSuccess);
         }
+        refreshList();
     }
 
     // 删除专辑结果回调
@@ -87,7 +89,9 @@ public class SubscriptionPresenter implements ISubscription, ISubscriptionCallBa
         for (ISubscriptionViewController iSubscriptionViewController : mISubscriptionViewControllers) {
             iSubscriptionViewController.onDeleteSubscriptionResult(isSuccess);
         }
+        refreshList();
     }
+
 
     // 订阅专辑列表结果回调
     @Override
@@ -120,5 +124,16 @@ public class SubscriptionPresenter implements ISubscription, ISubscriptionCallBa
     @Override
     public void unRegisterViewController(ISubscriptionViewController controller) {
         mISubscriptionViewControllers.remove(controller);
+    }
+
+
+    // 删除/添加 之后 通知界面更新(查一次数据)
+    public void refreshList() {
+        BaseApplication.getHandler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                querySubscriptionList();
+            }
+        }, 500);
     }
 }
