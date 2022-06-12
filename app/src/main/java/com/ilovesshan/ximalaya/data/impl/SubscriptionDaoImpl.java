@@ -61,7 +61,7 @@ public class SubscriptionDaoImpl implements ISubscriptionDao {
             values.put(DBConstants.DB_SUBSCRIPTION_ALBUM_ID, album.getId());
             values.put(DBConstants.DB_SUBSCRIPTION_ALBUM_TITLE, album.getAlbumTitle());
             values.put(DBConstants.DB_SUBSCRIPTION_ALBUM_SCORE, album.getAlbumScore());
-            values.put(DBConstants.DB_SUBSCRIPTION_ALBUM_DESCRIBE, album.describeContents());
+            values.put(DBConstants.DB_SUBSCRIPTION_ALBUM_DESCRIBE, album.getAlbumIntro());
             values.put(DBConstants.DB_SUBSCRIPTION_ALBUM_IMAGE_COVER, album.getCoverUrlSmall());
             values.put(DBConstants.DB_SUBSCRIPTION_ALBUM_PLAY_COUNT, album.getPlayCount());
             values.put(DBConstants.DB_SUBSCRIPTION_ALBUM_SUBSCRIPTION_COUNT, album.getSubscribeCount());
