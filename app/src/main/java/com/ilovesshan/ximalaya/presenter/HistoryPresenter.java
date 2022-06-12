@@ -1,5 +1,6 @@
 package com.ilovesshan.ximalaya.presenter;
 
+import com.ilovesshan.ximalaya.base.BaseApplication;
 import com.ilovesshan.ximalaya.data.IHistoryCallBack;
 import com.ilovesshan.ximalaya.data.impl.HistoryDaoImpl;
 import com.ilovesshan.ximalaya.interfaces.IHistory;
@@ -82,9 +83,8 @@ public class HistoryPresenter implements IHistory, IHistoryCallBack {
 
     @Override
     public boolean isAdded(int id) {
-        return mAlbumHashMap.get(id) == null;
+        return mAlbumHashMap.get(id) != null;
     }
-
 
     @Override
     public void onAddAlbumResult(boolean isSuccess) {
@@ -92,6 +92,7 @@ public class HistoryPresenter implements IHistory, IHistoryCallBack {
         for (IHistoryViewController iHistoryViewController : mIHistoryViewControllers) {
             iHistoryViewController.onAddAlbumResult(isSuccess);
         }
+        refreshList();
     }
 
     @Override
@@ -99,6 +100,7 @@ public class HistoryPresenter implements IHistory, IHistoryCallBack {
         LogUtil.d(TAG, "onAddAlbumResult", "历史记录查询结果:" + albumList.size());
         mAlbumHashMap.clear();
         for (Album album : albumList) {
+            LogUtil.d(TAG, "onQueryAlbumListResult" ,"" + album.getAlbumTitle());
             mAlbumHashMap.put((int) album.getId(), album);
         }
         for (IHistoryViewController iHistoryViewController : mIHistoryViewControllers) {
@@ -112,6 +114,7 @@ public class HistoryPresenter implements IHistory, IHistoryCallBack {
         for (IHistoryViewController iHistoryViewController : mIHistoryViewControllers) {
             iHistoryViewController.onDeleteAlbumByIdResult(isSuccess);
         }
+        refreshList();
     }
 
     @Override
@@ -120,6 +123,7 @@ public class HistoryPresenter implements IHistory, IHistoryCallBack {
         for (IHistoryViewController iHistoryViewController : mIHistoryViewControllers) {
             iHistoryViewController.onDeleteAllAlbumResult(isSuccess);
         }
+        refreshList();
     }
 
 
@@ -133,5 +137,16 @@ public class HistoryPresenter implements IHistory, IHistoryCallBack {
     @Override
     public void unRegisterViewController(IHistoryViewController iHistoryViewController) {
         mIHistoryViewControllers.remove(iHistoryViewController);
+    }
+
+
+    // 删除/添加 之后 通知界面更新(查一次数据)
+    public void refreshList() {
+        BaseApplication.getHandler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                queryAlbumList();
+            }
+        }, 500);
     }
 }

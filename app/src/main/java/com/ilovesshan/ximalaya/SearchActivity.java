@@ -26,6 +26,7 @@ import com.ilovesshan.ximalaya.adapter.SearchRecommendWordListAdapter;
 import com.ilovesshan.ximalaya.base.BaseApplication;
 import com.ilovesshan.ximalaya.interfaces.ISearchViewController;
 import com.ilovesshan.ximalaya.presenter.AlbumDetailPresenter;
+import com.ilovesshan.ximalaya.presenter.HistoryPresenter;
 import com.ilovesshan.ximalaya.presenter.SearchPresenter;
 import com.ilovesshan.ximalaya.utils.LogUtil;
 import com.ilovesshan.ximalaya.views.FlowTextLayout;
@@ -57,6 +58,7 @@ public class SearchActivity extends AppCompatActivity implements ISearchViewCont
     private String mKeyWord = "";
     private SearchRecommendWordListAdapter mSearchRecommendWordListAdapter;
     private AlbumDetailPresenter mAlbumDetailPresenter;
+    private HistoryPresenter mHistoryPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +104,10 @@ public class SearchActivity extends AppCompatActivity implements ISearchViewCont
                     mAlbumListAdapter.setOnItemClickListener(new AlbumListAdapter.OnItemClickListener() {
                         @Override
                         public void onClick(int index, Album album) {
+                            // 记录一次历史记录
+                            mHistoryPresenter = HistoryPresenter.getInstance();
+                            mHistoryPresenter.addAlbum(album);
+
                             mAlbumDetailPresenter = AlbumDetailPresenter.getInstance();
                             mAlbumDetailPresenter.setAlbum(album);
                             startActivity(new Intent(SearchActivity.this, AlbumDetailActivity.class));

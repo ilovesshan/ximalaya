@@ -11,15 +11,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hjq.toast.ToastUtils;
+import com.ilovesshan.ximalaya.AlbumDetailActivity;
 import com.ilovesshan.ximalaya.R;
 import com.ilovesshan.ximalaya.adapter.AlbumListAdapter;
 import com.ilovesshan.ximalaya.base.BaseApplication;
 import com.ilovesshan.ximalaya.base.BaseFragment;
 import com.ilovesshan.ximalaya.interfaces.IRecommendViewController;
 import com.ilovesshan.ximalaya.presenter.AlbumDetailPresenter;
+import com.ilovesshan.ximalaya.presenter.HistoryPresenter;
 import com.ilovesshan.ximalaya.presenter.RecommendPresenter;
 import com.ilovesshan.ximalaya.utils.LogUtil;
-import com.ilovesshan.ximalaya.AlbumDetailActivity;
 import com.ilovesshan.ximalaya.views.UILoader;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
@@ -50,6 +51,7 @@ public class RecommendFragment extends BaseFragment implements IRecommendViewCon
     private UILoader mUiLoader;
     private AlbumDetailPresenter mAlbumDetailPresenter;
     private SmartRefreshLayout mRefreshLayout;
+    private HistoryPresenter mHistoryPresenter;
 
 
     @Override
@@ -65,6 +67,10 @@ public class RecommendFragment extends BaseFragment implements IRecommendViewCon
                     mAdapter.setOnItemClickListener(new AlbumListAdapter.OnItemClickListener() {
                         @Override
                         public void onClick(int index, Album album) {
+                            // 记录一次历史记录
+                            mHistoryPresenter = HistoryPresenter.getInstance();
+                            mHistoryPresenter.addAlbum(album);
+
                             mAlbumDetailPresenter = AlbumDetailPresenter.getInstance();
                             mAlbumDetailPresenter.setAlbum(album);
                             startActivity(new Intent(getContext(), AlbumDetailActivity.class));

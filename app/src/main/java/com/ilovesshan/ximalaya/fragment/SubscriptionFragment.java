@@ -16,6 +16,7 @@ import com.ilovesshan.ximalaya.base.BaseApplication;
 import com.ilovesshan.ximalaya.base.BaseFragment;
 import com.ilovesshan.ximalaya.interfaces.ISubscriptionViewController;
 import com.ilovesshan.ximalaya.presenter.AlbumDetailPresenter;
+import com.ilovesshan.ximalaya.presenter.HistoryPresenter;
 import com.ilovesshan.ximalaya.presenter.SubscriptionPresenter;
 import com.ilovesshan.ximalaya.utils.LogUtil;
 import com.ilovesshan.ximalaya.views.ConfirmDialog;
@@ -43,6 +44,7 @@ public class SubscriptionFragment extends BaseFragment implements ISubscriptionV
     private SmartRefreshLayout mRefreshLayout;
     private SubscriptionPresenter mSubscriptionPresenter;
     private RecyclerView mRecyclerView;
+    private HistoryPresenter mHistoryPresenter;
 
     @Override
     protected View getSubViewItem(LayoutInflater inflater, ViewGroup container) {
@@ -66,6 +68,10 @@ public class SubscriptionFragment extends BaseFragment implements ISubscriptionV
 
             // 专辑列表被点击
             mAdapter.setOnItemClickListener((index, album) -> {
+                // 记录一次历史记录
+                mHistoryPresenter = HistoryPresenter.getInstance();
+                mHistoryPresenter.addAlbum(album);
+
                 mAlbumDetailPresenter.setAlbum(album);
                 startActivity(new Intent(getContext(), AlbumDetailActivity.class));
                 LogUtil.d(TAG, "onClick", "index = " + index + "album =" + album);

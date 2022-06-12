@@ -31,7 +31,7 @@ public class DBConstants {
 
 
     // 历史表
-    public static final String DB_HISTORY_TABLE_NAME = "subscription";
+    public static final String DB_HISTORY_TABLE_NAME = "history";
 
     // 历史表 字段
     public static final String DB_HISTORY_ID = "id";
