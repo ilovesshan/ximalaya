@@ -70,6 +70,9 @@ public class HistoryDaoImpl implements IHistoryDao {
             values.put(DBConstants.DB_HISTORY_ALBUM_AUTHOR_IMAGE_COVER, album.getAnnouncer().getAvatarUrl());
             values.put(DBConstants.DB_HISTORY_ALBUM_AUTHOR_NICK_NAME, album.getAnnouncer().getNickname());
 
+            // 添加之前先删除掉(暂未考虑有没有存在)
+            database.delete(DBConstants.DB_HISTORY_TABLE_NAME, DBConstants.DB_HISTORY_ALBUM_ID + "= ?", new String[]{album.getId() + ""});
+
             long row = database.insert(DBConstants.DB_HISTORY_TABLE_NAME, null, values);
             LogUtil.d(TAG, "addSubscription", "添加专辑到历史记录结果：" + row);
 
@@ -206,7 +209,7 @@ public class HistoryDaoImpl implements IHistoryDao {
         }
     }
 
-    public  void setIHistoryCallBack(IHistoryCallBack callBack) {
+    public void setIHistoryCallBack(IHistoryCallBack callBack) {
         this.IHistoryCallBack = callBack;
     }
 }

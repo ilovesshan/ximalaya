@@ -52,16 +52,7 @@ public class HistoryPresenter implements IHistory, IHistoryCallBack {
 
     @Override
     public void addAlbum(Album album) {
-        // 判断是否已经添加过了
-        boolean added = isAdded((int) album.getId());
-        if (added) {
-            //TODO 添加历史记录时 暂未处理已经添过的记录在数据库中排序问题
-
-            // 已经添加过了
-        } else {
-            // 未添加
-            mHistoryDao.addAlbum(album);
-        }
+        mHistoryDao.addAlbum(album);
     }
 
     @Override
