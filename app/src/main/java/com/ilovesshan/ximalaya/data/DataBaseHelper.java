@@ -26,7 +26,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         LogUtil.d(TAG, "onCreate", "创建数据库" + DBConstants.DB_NAME);
-        String createTableSql = "CREATE TABLE " + DBConstants.DB_SUBSCRIPTION_TABLE_NAME + " (" +
+
+        // 创建 订阅表
+        String createSubscriptionTableSql = "CREATE TABLE " + DBConstants.DB_SUBSCRIPTION_TABLE_NAME + " (" +
                 DBConstants.DB_SUBSCRIPTION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 DBConstants.DB_SUBSCRIPTION_ALBUM_ID + " INTEGER (100)," +
                 DBConstants.DB_SUBSCRIPTION_ALBUM_TITLE + " VARCHAR (100)," +
@@ -38,8 +40,25 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 DBConstants.DB_SUBSCRIPTION_ALBUM_PLAY_COUNT + " INTEGER (100)," +
                 DBConstants.DB_SUBSCRIPTION_ALBUM_SUBSCRIPTION_COUNT + " INTEGER (100)" +
                 ")";
+        db.execSQL(createSubscriptionTableSql);
 
-        db.execSQL(createTableSql);
+
+        // 创建 历史表
+        String createHistoryTableSql = "CREATE TABLE " + DBConstants.DB_HISTORY_TABLE_NAME + " (" +
+                DBConstants.DB_HISTORY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                DBConstants.DB_HISTORY_ALBUM_ID + " INTEGER (100)," +
+                DBConstants.DB_HISTORY_ALBUM_TITLE + " VARCHAR (100)," +
+                DBConstants.DB_HISTORY_ALBUM_AUTHOR_IMAGE_COVER + " VARCHAR (50)," +
+                DBConstants.DB_HISTORY_ALBUM_AUTHOR_NICK_NAME + " VARCHAR (30)," +
+                DBConstants.DB_HISTORY_ALBUM_DESCRIBE + " VARCHAR (255)," +
+                DBConstants.DB_HISTORY_ALBUM_SCORE + " INTEGER (100)," +
+                DBConstants.DB_HISTORY_ALBUM_IMAGE_COVER + " VARCHAR (50)," +
+                DBConstants.DB_HISTORY_ALBUM_PLAY_COUNT + " INTEGER (100)," +
+                DBConstants.DB_HISTORY_ALBUM_SUBSCRIPTION_COUNT + " INTEGER (100)" +
+                ")";
+        db.execSQL(createHistoryTableSql);
+
+
         LogUtil.d(TAG, "onCreate", "数据库创建ok");
 
         // 添加测试数据
