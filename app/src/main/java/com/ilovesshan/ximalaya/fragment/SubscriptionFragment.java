@@ -80,6 +80,10 @@ public class SubscriptionFragment extends BaseFragment implements ISubscriptionV
             // 专辑列表被长按
             mAdapter.setOnItemLongClickListener((index, album) -> {
                 ConfirmDialog confirmDialog = new ConfirmDialog(getActivity());
+                confirmDialog.setDialogTitle("确定取消订阅吗?");
+                confirmDialog.setDialogSureText("删除");
+                confirmDialog.setDialogCancelText("再想想");
+
                 confirmDialog.setOnDialogActionClickListener(new ConfirmDialog.OnDialogActionClickListener() {
                     // dialog 取消按钮 被点击
                     @Override

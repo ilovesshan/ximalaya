@@ -38,7 +38,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="确定取消"
+                android:text="确定"
                 android:textSize="16sp" />
 
             <TextView
