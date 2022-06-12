@@ -1,16 +1,13 @@
-package com.ilovesshan.ximalaya.views;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.ilovesshan.ximalaya;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 
-import com.ilovesshan.ximalaya.MainActivity;
-import com.ilovesshan.ximalaya.R;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.ilovesshan.ximalaya.utils.ViewUtils;
 
 public class SplashActivity extends AppCompatActivity {

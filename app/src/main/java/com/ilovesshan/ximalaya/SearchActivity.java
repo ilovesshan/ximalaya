@@ -1,4 +1,4 @@
-package com.ilovesshan.ximalaya.views;
+package com.ilovesshan.ximalaya;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,7 +21,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hjq.toast.ToastUtils;
-import com.ilovesshan.ximalaya.R;
 import com.ilovesshan.ximalaya.adapter.AlbumListAdapter;
 import com.ilovesshan.ximalaya.adapter.SearchRecommendWordListAdapter;
 import com.ilovesshan.ximalaya.base.BaseApplication;
@@ -29,6 +28,8 @@ import com.ilovesshan.ximalaya.interfaces.ISearchViewController;
 import com.ilovesshan.ximalaya.presenter.AlbumDetailPresenter;
 import com.ilovesshan.ximalaya.presenter.SearchPresenter;
 import com.ilovesshan.ximalaya.utils.LogUtil;
+import com.ilovesshan.ximalaya.views.FlowTextLayout;
+import com.ilovesshan.ximalaya.views.UILoader;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
 import com.ximalaya.ting.android.opensdk.model.word.HotWord;
 import com.ximalaya.ting.android.opensdk.model.word.QueryResult;

@@ -17,10 +17,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Ximalaya">
         <activity
-            android:name=".views.SearchActivity"
+            android:name=".SearchActivity"
             android:exported="false" />
         <activity
-            android:name=".views.SplashActivity"
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,10 +29,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".views.PlayerActivity"
+            android:name=".PlayerActivity"
             android:exported="false" />
         <activity
-            android:name=".views.AlbumDetailActivity"
+            android:name=".AlbumDetailActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

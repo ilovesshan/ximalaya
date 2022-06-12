@@ -1,4 +1,4 @@
-package com.ilovesshan.ximalaya.views;
+package com.ilovesshan.ximalaya;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.hjq.toast.ToastUtils;
-import com.ilovesshan.ximalaya.R;
 import com.ilovesshan.ximalaya.adapter.TrackListAdapter;
 import com.ilovesshan.ximalaya.base.BaseApplication;
 import com.ilovesshan.ximalaya.interfaces.IAlbumDetailViewController;
@@ -30,6 +29,7 @@ import com.ilovesshan.ximalaya.presenter.SubscriptionPresenter;
 import com.ilovesshan.ximalaya.utils.LogUtil;
 import com.ilovesshan.ximalaya.utils.NumberUtils;
 import com.ilovesshan.ximalaya.utils.ViewUtils;
+import com.ilovesshan.ximalaya.views.UILoader;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;

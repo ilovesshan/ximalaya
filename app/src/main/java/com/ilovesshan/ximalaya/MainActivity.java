@@ -24,8 +24,6 @@ import com.ilovesshan.ximalaya.presenter.AlbumDetailPresenter;
 import com.ilovesshan.ximalaya.presenter.PlayerPresenter;
 import com.ilovesshan.ximalaya.presenter.RecommendPresenter;
 import com.ilovesshan.ximalaya.utils.ViewUtils;
-import com.ilovesshan.ximalaya.views.PlayerActivity;
-import com.ilovesshan.ximalaya.views.SearchActivity;
 import com.ximalaya.ting.android.opensdk.model.advertis.Advertis;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
 import com.ximalaya.ting.android.opensdk.model.track.Track;

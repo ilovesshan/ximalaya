@@ -19,7 +19,7 @@ import com.ilovesshan.ximalaya.interfaces.IRecommendViewController;
 import com.ilovesshan.ximalaya.presenter.AlbumDetailPresenter;
 import com.ilovesshan.ximalaya.presenter.RecommendPresenter;
 import com.ilovesshan.ximalaya.utils.LogUtil;
-import com.ilovesshan.ximalaya.views.AlbumDetailActivity;
+import com.ilovesshan.ximalaya.AlbumDetailActivity;
 import com.ilovesshan.ximalaya.views.UILoader;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;

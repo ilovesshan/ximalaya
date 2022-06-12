@@ -1,4 +1,4 @@
-package com.ilovesshan.ximalaya.views;
+package com.ilovesshan.ximalaya;
 
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
@@ -22,6 +22,7 @@ import com.ilovesshan.ximalaya.presenter.PlayerPresenter;
 import com.ilovesshan.ximalaya.utils.LogUtil;
 import com.ilovesshan.ximalaya.utils.TimeUtils;
 import com.ilovesshan.ximalaya.utils.ViewUtils;
+import com.ilovesshan.ximalaya.views.BottomSheet;
 import com.ximalaya.ting.android.opensdk.model.advertis.Advertis;
 import com.ximalaya.ting.android.opensdk.model.track.Track;
 import com.ximalaya.ting.android.opensdk.player.service.XmPlayListControl;

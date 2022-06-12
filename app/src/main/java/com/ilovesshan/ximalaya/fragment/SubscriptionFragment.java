@@ -16,7 +16,7 @@ import com.ilovesshan.ximalaya.interfaces.ISubscriptionViewController;
 import com.ilovesshan.ximalaya.presenter.AlbumDetailPresenter;
 import com.ilovesshan.ximalaya.presenter.SubscriptionPresenter;
 import com.ilovesshan.ximalaya.utils.LogUtil;
-import com.ilovesshan.ximalaya.views.AlbumDetailActivity;
+import com.ilovesshan.ximalaya.AlbumDetailActivity;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
