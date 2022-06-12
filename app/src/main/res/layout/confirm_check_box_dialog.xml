@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="280dp"
+        android:layout_height="160dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/shape_confirm_dialog">
+
+        <TextView
+            android:id="@+id/tv_dialog_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:text="确定移除历史记录吗?"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:id="@+id/ll_check_box_container"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_below="@+id/tv_dialog_title"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/cb_clean_all_history"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="-10dp"
+                android:gravity="center"
+                android:text="移除全部记录"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tc_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/ll_check_box_container"
+            android:background="@color/recommend_background" />
+
+        <LinearLayout
+            android:id="@+id/ll_dialog_btns"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:layout_below="@+id/tc_divider">
+
+            <TextView
+                android:id="@+id/tv_dialog_sure"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="确定"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/recommend_background" />
+
+            <TextView
+                android:id="@+id/tv_dialog_cancel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="再想想"
+                android:textColor="@color/app_primary"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

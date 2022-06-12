@@ -20,7 +20,7 @@ import com.ilovesshan.ximalaya.presenter.AlbumDetailPresenter;
 import com.ilovesshan.ximalaya.presenter.HistoryPresenter;
 import com.ilovesshan.ximalaya.presenter.SubscriptionPresenter;
 import com.ilovesshan.ximalaya.utils.LogUtil;
-import com.ilovesshan.ximalaya.views.ConfirmDialog;
+import com.ilovesshan.ximalaya.views.ConfirmCheckBoxDialog;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
@@ -43,11 +43,13 @@ public class HistoryFragment extends BaseFragment implements ISubscriptionViewCo
     private RecyclerView mRecyclerView;
     private SmartRefreshLayout mRefreshLayout;
 
+
     private HistoryListAdapter mAdapter;
     private AlbumDetailPresenter mAlbumDetailPresenter;
     private SubscriptionPresenter mSubscriptionPresenter;
     private HistoryPresenter mHistoryPresenter;
     private HistoryPresenter mMHistoryPresenter;
+
 
     @Override
     protected View getSubViewItem(LayoutInflater inflater, ViewGroup container) {
@@ -86,25 +88,29 @@ public class HistoryFragment extends BaseFragment implements ISubscriptionViewCo
 
             // 专辑列表被长按
             mAdapter.setOnItemLongClickListener((index, album) -> {
-                ConfirmDialog confirmDialog = new ConfirmDialog(getActivity());
+                ConfirmCheckBoxDialog confirmDialog = new ConfirmCheckBoxDialog(getActivity());
                 confirmDialog.setDialogTitle("确定移除历史记录吗?");
                 confirmDialog.setDialogSureText("删除");
                 confirmDialog.setDialogCancelText("再想想");
-                confirmDialog.setOnDialogActionClickListener(new ConfirmDialog.OnDialogActionClickListener() {
-                    // dialog 取消按钮 被点击
+                confirmDialog.setOnDialogActionClickListener(new ConfirmCheckBoxDialog.OnDialogActionClickListener() {
                     @Override
                     public void onCancelClick() {
                         confirmDialog.dismiss();
                     }
 
-                    // dialog 确定按钮 被点击
                     @Override
-                    public void onSureClick() {
-                        mMHistoryPresenter.deleteAlbumById((int) album.getId());
+                    public void onSureClick(boolean isCleanAll) {
+                        // 看看有没有选中清空历史记录
+                        if (isCleanAll) {
+                            // 清空历史记录
+                            mMHistoryPresenter.deleteAllAlbum();
+                        } else {
+                            // 清空当前记录
+                            mMHistoryPresenter.deleteAlbumById((int) album.getId());
+                        }
                         confirmDialog.dismiss();
                     }
                 });
-
                 // 显示 dialog
                 confirmDialog.show();
             });
