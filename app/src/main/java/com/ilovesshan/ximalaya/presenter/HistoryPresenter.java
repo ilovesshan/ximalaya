@@ -33,8 +33,6 @@ public class HistoryPresenter implements IHistory, IHistoryCallBack {
         mHistoryDao = HistoryDaoImpl.getInstance();
         mHistoryDao.setIHistoryCallBack(this);
         mHistoryDao.queryAlbumList();
-
-
     }
 
     private static HistoryPresenter sHistoryPresenter = null;
