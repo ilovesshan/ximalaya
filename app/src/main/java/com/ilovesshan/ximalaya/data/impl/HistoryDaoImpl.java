@@ -62,7 +62,7 @@ public class HistoryDaoImpl implements IHistoryDao {
             ContentValues values = new ContentValues();
             values.put(DBConstants.DB_HISTORY_ALBUM_ID, album.getId());
             values.put(DBConstants.DB_HISTORY_ALBUM_TITLE, album.getAlbumTitle());
-            values.put(DBConstants.DB_HISTORY_ALBUM_SCORE, album.getAlbumScore());
+            values.put(DBConstants.DB_HISTORY_ALBUM_SCORE, album.getAlbumScore() == null ? 0 + "" : album.getAlbumScore());
             values.put(DBConstants.DB_HISTORY_ALBUM_DESCRIBE, album.getAlbumIntro());
             values.put(DBConstants.DB_HISTORY_ALBUM_IMAGE_COVER, album.getCoverUrlSmall());
             values.put(DBConstants.DB_HISTORY_ALBUM_PLAY_COUNT, album.getPlayCount());

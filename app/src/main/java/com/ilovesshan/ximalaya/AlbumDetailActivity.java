@@ -282,7 +282,7 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
         mTvAlbumTitle.setText(album.getAlbumTitle());
         Glide.with(mIvAlbumAuthorAvatar).load(album.getAnnouncer().getAvatarUrl()).apply(borderRadius).into(mIvAlbumAuthorAvatar);
         mIvAlbumAuthorName.setText(album.getAnnouncer().getNickname());
-        mTvScoreValue.setText(album.getAlbumScore());
+        mTvScoreValue.setText(album.getAlbumScore() == null ? "0.0" : album.getAlbumScore());
         mTvPlayAmountValue.setText(NumberUtils.number2CountingUnit(album.getPlayCount()));
         mTvSubscriptionAmountValue.setText(NumberUtils.number2CountingUnit(album.getSubscribeCount()));
 
